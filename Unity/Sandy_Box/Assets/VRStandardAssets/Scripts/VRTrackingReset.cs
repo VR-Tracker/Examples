@@ -8,7 +8,7 @@ namespace VRStandardAssets.Utils
     {
         private void OnApplicationPause(bool pauseStatus)
         {
-            UnityEngine.XR.InputTracking.Recenter();
+            UnityEngine.VR.InputTracking.Recenter();
         }
     }
 }

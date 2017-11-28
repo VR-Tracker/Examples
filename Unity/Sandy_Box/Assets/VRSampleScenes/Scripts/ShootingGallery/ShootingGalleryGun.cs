@@ -50,7 +50,7 @@ namespace VRStandardAssets.ShootingGallery
         private void Update()
         {
             // Smoothly interpolate this gameobject's rotation towards that of the user/camera.
-            transform.rotation = Quaternion.Slerp(transform.rotation, UnityEngine.XR.InputTracking.GetLocalRotation(UnityEngine.XR.XRNode.Head),
+            transform.rotation = Quaternion.Slerp(transform.rotation, UnityEngine.VR.InputTracking.GetLocalRotation(UnityEngine.VR.VRNode.Head),
                 m_Damping * (1 - Mathf.Exp(k_DampingCoef * Time.deltaTime)));
             
             // Move this gameobject to the camera.

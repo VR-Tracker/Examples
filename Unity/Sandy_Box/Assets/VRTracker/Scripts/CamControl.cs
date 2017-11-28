@@ -12,7 +12,7 @@ public class CamControl : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (!UnityEngine.XR.XRSettings.isDeviceActive)
+        if (!UnityEngine.VR.VRSettings.isDeviceActive)
         {
             float sensitivity = 0.05f;
             Vector3 vp = mycam.ScreenToViewportPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, mycam.nearClipPlane));

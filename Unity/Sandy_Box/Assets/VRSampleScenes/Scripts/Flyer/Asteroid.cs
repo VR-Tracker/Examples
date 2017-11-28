@@ -17,7 +17,7 @@ namespace VRStandardAssets.Flyer
         [SerializeField] private float m_MinSpeed = 0f;             // The minimum speed the asteroid will move towards the camera.
         [SerializeField] private float m_MaxSpeed = 10f;            // The maximum speed the asteroid will move towards the camera.
         [SerializeField] private float m_MinRotationSpeed = 100f;   // The minimum speed the asteroid will rotate at.
-        [SerializeField] private float m_MaxRotationSpeed = 140f;   // The maximum speed the asteroid will rotate at.
+        [SerializeField] private float m_MaVRotationSpeed = 140f;   // The maximum speed the asteroid will rotate at.
         [SerializeField] private int m_PlayerDamage = 20;           // The amount of damage the asteroid will do to the ship if it hits.
         [SerializeField] private int m_Score = 10;                  // The amount added to the score when the asteroid hits either the ship or a laser.
 
@@ -62,7 +62,7 @@ namespace VRStandardAssets.Flyer
 
             // Setup a random spin for the asteroid.
             m_RotationAxis = Random.insideUnitSphere;
-            m_RotationSpeed = Random.Range (m_MinRotationSpeed, m_MaxRotationSpeed);
+            m_RotationSpeed = Random.Range (m_MinRotationSpeed, m_MaVRotationSpeed);
         }
 
 

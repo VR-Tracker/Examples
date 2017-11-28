@@ -7,7 +7,7 @@ public class DisablePositionOculus : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        UnityEngine.XR.InputTracking.disablePositionalTracking = true;
+        UnityEngine.VR.InputTracking.disablePositionalTracking = true;
 	}
 	
 	// Update is called once per frame

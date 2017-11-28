@@ -171,9 +171,9 @@ public class VRTrackerTag : MonoBehaviour {
 		else
 			this.orientationBegin.y = this.orientation_.y;
 
-		if (UnityEngine.XR.XRSettings.isDeviceActive)
+		if (UnityEngine.VR.VRSettings.isDeviceActive)
 		{
-			UnityEngine.XR.InputTracking.Recenter();
+			UnityEngine.VR.InputTracking.Recenter();
 		}
 	}
 
