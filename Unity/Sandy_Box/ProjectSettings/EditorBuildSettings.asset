@@ -4,4 +4,10 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/VRTracker/Scenes/IntroAssignation.unity
+    guid: 7556bf3b639914ae89c4ed608a25474e
+  - enabled: 1
+    path: Assets/VRTracker/Scenes/Sandy_Box.unity
+    guid: 73ade0db0f3eb4a9f8b3d6ec560dc233
