@@ -192,7 +192,7 @@ public class VRTrackerPickUpV2 : NetworkBehaviour {
         {
             if (obj != null)
             {
-                Vector3 pos = input.transform.parent.position + input.transform.parent.rotation * positionOffset;
+                Vector3 pos = input.transform.position + input.transform.rotation * positionOffset;
                 //Vector3 pos = this.transform.parent.position + positionOffset;
                 obj.transform.position = pos;
                 obj.transform.rotation = input.transform.rotation;
@@ -202,7 +202,7 @@ public class VRTrackerPickUpV2 : NetworkBehaviour {
         {
             if (obj != null)
             {
-                Vector3 pos = input.transform.parent.position + input.transform.parent.rotation * positionOffset;
+                Vector3 pos = input.transform.position + input.transform.rotation * positionOffset;
                 //Vector3 pos = this.transform.parent.position + positionOffset;
                 obj.transform.position = pos;
                 obj.transform.rotation = input.transform.rotation;
@@ -230,7 +230,7 @@ public class VRTrackerPickUpV2 : NetworkBehaviour {
         foreach (GameObject obj in currentCollisions)
         {
             
-            if (obj != null && GetComponent<NetworkIdentity>().isLocalPlayer)
+			if (obj != null && GetComponent<NetworkIdentity>().isLocalPlayer && hasAuthority)
             {
                 //positionOffset = obj.transform.position - transform.position;
                 Debug.Log ("Offset X: " + positionOffset.x + "   Y: "  +  positionOffset.y + "   Z: "  + positionOffset.z);
@@ -244,6 +244,7 @@ public class VRTrackerPickUpV2 : NetworkBehaviour {
 
                         //VRTrackerNetworking vn = input.transform.parent.parent.GetComponent<VRTrackerNetworking>();
                         //vn.disableGravity(obj);
+						CmdAssignLocalAuthority(obj);
                         CmdDisableGravity(obj);
                         selectedObjectsUsingGravity.Add(obj);
                     }
@@ -269,7 +270,7 @@ public class VRTrackerPickUpV2 : NetworkBehaviour {
         foreach (GameObject obj in selectedObjectsUsingGravity)
         {
             Debug.Log("OBR " + obj);
-            if (obj != null && input.transform.parent.parent.GetComponent<NetworkIdentity>().isLocalPlayer)
+			if (obj != null && input.transform.parent.parent.GetComponent<NetworkIdentity>().isLocalPlayer && hasAuthority)
             {
                 Debug.Log("Set Gravity Back, velocity : " + input.transform.parent.GetComponent<VRTrackerTag>().velocity.x + "  " + input.transform.parent.GetComponent<VRTrackerTag>().velocity.y + " " + input.transform.parent.GetComponent<VRTrackerTag>().velocity.z);
                 //obj.GetComponent<Rigidbody> ().useGravity = true;
@@ -277,7 +278,7 @@ public class VRTrackerPickUpV2 : NetworkBehaviour {
                 //VRTrackerNetworking vn = input.transform.parent.parent.GetComponent<VRTrackerNetworking>();
                 CmdEnableGravity(obj, input.transform.parent.GetComponent<VRTrackerTag>().velocity);
                 Debug.Log("Gravity has been enabled");
-
+				CmdRemoveLocalAuthority (obj);
                 //obj.GetComponent<Rigidbody> ().velocity = this.transform.parent.GetComponent<VRTrackerTag> ().velocity;
             }
         }
@@ -297,28 +298,22 @@ public class VRTrackerPickUpV2 : NetworkBehaviour {
         Debug.Log("Informing no gravity");
         if (obj != null)
         {
-            Debug.Log(GetComponent<NetworkIdentity>().GetType());
-            Debug.Log(GetComponent<NetworkIdentity>().connectionToClient);
-            Debug.Log(GetComponent<NetworkIdentity>().localPlayerAuthority);
-            NetworkIdentity localPlayer = GetComponent<NetworkIdentity>();
-            Debug.Log(localPlayer.localPlayerAuthority);
-            Debug.Log(this);
-            objNetId = obj.GetComponent<NetworkIdentity>();
+            //NetworkIdentity localPlayer = GetComponent<NetworkIdentity>();
+            //objNetId = obj.GetComponent<NetworkIdentity>();
             //localPlayer.localPlayerAuthority = true;
-            if (hasAuthority)
+            /*if (hasAuthority)
             {
                 Debug.LogWarning("Local player has authority");
-                obj.GetComponent<NetworkIdentity>().localPlayerAuthority = true;
 
                 obj.GetComponent<NetworkIdentity>().AssignClientAuthority(localPlayer.connectionToClient); //Assign network authority to the current player
                 Debug.LogWarning("Authority " + obj.GetComponent<NetworkIdentity>().clientAuthorityOwner);
-                RpcDisableGravity(obj);
             }
             else
             {
                 Debug.LogWarning("Local player has not authority");
 
-            }
+            }*/
+			RpcDisableGravity (obj);
 
             //objNetId.localPlayerAuthority = false;
             //obj.GetComponent<NetworkIdentity>().RemoveClientAuthority(localPlayer.connectionToClient); //Remove network authority after action done
@@ -332,6 +327,7 @@ public class VRTrackerPickUpV2 : NetworkBehaviour {
     public void RpcDisableGravity(GameObject obj)
     {
         obj.GetComponent<Rigidbody>().useGravity = false;
+
     }
 
     [Command]
@@ -340,31 +336,31 @@ public class VRTrackerPickUpV2 : NetworkBehaviour {
         Debug.Log("Informing gravity");
         if (obj != null)
         {
-            NetworkIdentity localPlayer = GetComponent<NetworkIdentity>();
+            /*NetworkIdentity localPlayer = GetComponent<NetworkIdentity>();
             Debug.Log(GetComponent<NetworkIdentity>().connectionToClient);
             NetworkIdentity ni = GetComponent<NetworkIdentity>();
             localPlayer.localPlayerAuthority = true;
-            objNetId = obj.GetComponent<NetworkIdentity>();
+            objNetId = obj.GetComponent<NetworkIdentity>();*/
             //objNetId.localPlayerAuthority = true;
             //objNetId.AssignClientAuthority(GetComponent<NetworkIdentity>().connectionToClient); //Assign network authority to the current player
             //localPlayer.localPlayerAuthority = true;
-            if (hasAuthority)
-            {
+            //if (hasAuthority)
+            //{
+
                 Debug.LogWarning(" EG Local player has authority");
                 //obj.GetComponent<NetworkIdentity>().localPlayerAuthority = true;
-                obj.GetComponent<NetworkIdentity>().localPlayerAuthority = false;
-
-                RpcEnableGravity(obj, velocity);
+				RpcEnableGravity (obj, velocity);
                 //obj.GetComponent<NetworkIdentity>().localPlayerAuthority = false;
                 Debug.LogWarning("Authority " + obj.GetComponent<NetworkIdentity>().clientAuthorityOwner);
+				//obj.GetComponent<NetworkIdentity>().RemoveClientAuthority(localPlayer.connectionToClient); //Remove network authority after action done
 
 
-            }
+            /*}
             else
             {
                 Debug.LogWarning("Local player has not authority");
 
-            }
+            }*/
 
             //objNetId.localPlayerAuthority = false;
         }
@@ -377,4 +373,37 @@ public class VRTrackerPickUpV2 : NetworkBehaviour {
         obj.GetComponent<Rigidbody>().velocity = velocity;
     }
 
+	[ClientRpc]
+	public void RpcEnableLocalPlayerAuthority(GameObject obj)
+	{
+		obj.GetComponent<NetworkIdentity> ().localPlayerAuthority = true;
+
+	}
+
+	[ClientRpc]
+	public void RpcDisableLocalPlayerAuthority(GameObject obj)
+	{
+		obj.GetComponent<NetworkIdentity> ().localPlayerAuthority = false;
+
+	}
+
+	[Command]
+	void CmdAssignLocalAuthority (GameObject obj) {
+		Debug.Log("Assigning authority");
+		//RpcEnableLocalPlayerAuthority (obj);
+		NetworkInstanceId nIns = obj.GetComponent<NetworkIdentity> ().netId;
+		GameObject client = NetworkServer.FindLocalObject (nIns);
+		NetworkIdentity ni = client.GetComponent<NetworkIdentity> ();
+		ni.AssignClientAuthority(connectionToClient);
+	}
+
+	[Command]
+	void CmdRemoveLocalAuthority (GameObject obj) {
+		Debug.Log("Removing authority");
+		NetworkInstanceId nIns = obj.GetComponent<NetworkIdentity> ().netId;
+		GameObject client = NetworkServer.FindLocalObject (nIns);
+		NetworkIdentity ni = client.GetComponent<NetworkIdentity> ();
+		ni.RemoveClientAuthority (ni.clientAuthorityOwner);
+		//RpcDisableLocalPlayerAuthority (obj);
+	}
 }

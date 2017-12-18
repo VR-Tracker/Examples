@@ -15,6 +15,7 @@ public class VRTrackerPickup : MonoBehaviour {
 
 	public Vector3 positionOffset = new Vector3 (0.3f, 0f, 0f);
 	private NetworkIdentity objNetId;
+	private VRTrackerPickUpV2 pickUp;
 
 	// Use this for initialization
 	void Start () {
@@ -23,6 +24,8 @@ public class VRTrackerPickup : MonoBehaviour {
 		}
 		this.transform.parent.GetComponent<VRTrackerTag> ().OnDown += OnButtonPressed;
 		this.transform.parent.GetComponent<VRTrackerTag> ().OnUp += OnButtonReleased;
+		pickUp = transform.parent.parent.gameObject.GetComponent<VRTrackerPickUpV2>();
+
 	}
 
 	// Update is called once per frame
@@ -47,20 +50,28 @@ public class VRTrackerPickup : MonoBehaviour {
 				obj.transform.rotation = this.transform.rotation;
 			}
 		}
+
 	}
 
 	void OnTriggerEnter (Collider col)
 	{
-        if (col.gameObject.name != "Body") {
+        /*if (col.gameObject.name != "Body") {
             //Debug.Log ("Collision with " + col.gameObject.name);
             currentCollisions.Add (col.gameObject);
+		}*/
+		if (col.gameObject.name != "Body" && transform.parent.parent.GetComponent<NetworkIdentity>().isLocalPlayer && col != null)
+		{
+			//Debug.Log ("Collision with " + col.gameObject.name);
+			pickUp.currentCollisions.Add(col.gameObject);
 		}
 	}
 
 	void OnTriggerExit (Collider col) {
 
         // TODO: Check that object is not being moved, if so unassigned transform parent
-        currentCollisions.Remove (col.gameObject);
+        //currentCollisions.Remove (col.gameObject);
+		if(transform.parent.parent.GetComponent<NetworkIdentity>().isLocalPlayer && col != null)
+			pickUp.currentCollisions.Remove(col.gameObject);
 	}
 
 	private void OnButtonPressed(){
@@ -79,7 +90,7 @@ public class VRTrackerPickup : MonoBehaviour {
 						Debug.Log (obj.GetComponent<NetworkIdentity> ());
 
 						VRTrackerNetworking vn = transform.parent.parent.GetComponent<VRTrackerNetworking> ();
-						vn.disableGravity(obj);
+						//vn.disableGravity(obj);
 						selectedObjectsUsingGravity.Add (obj);
 					} else {
 						selectedObjectsNotUsingGravity.Add (obj);
@@ -104,7 +115,7 @@ public class VRTrackerPickup : MonoBehaviour {
 				//obj.GetComponent<Rigidbody> ().useGravity = true;
 				//CmdEnableGravity(obj, this.transform.parent.GetComponent<VRTrackerTag> ().velocity);
 				VRTrackerNetworking vn = transform.parent.parent.GetComponent<VRTrackerNetworking> ();
-				vn.enableGravity (obj, this.transform.parent.GetComponent<VRTrackerTag> ().velocity);
+				//vn.enableGravity (obj, this.transform.parent.GetComponent<VRTrackerTag> ().velocity);
 				Debug.Log ("Gravity has been enabled");
 
 				//obj.GetComponent<Rigidbody> ().velocity = this.transform.parent.GetComponent<VRTrackerTag> ().velocity;

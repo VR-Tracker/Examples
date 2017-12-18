@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 using UnityEngine.Networking;
 
-public class VRTrackerPickUpV3 : NetworkBehaviour {
+public class VRTrackerPickUpV3 : MonoBehaviour {
 
     List<GameObject> currentCollisions = new List<GameObject>();
     List<GameObject> selectedObjectsUsingGravity = new List<GameObject>();
@@ -64,6 +64,9 @@ public class VRTrackerPickUpV3 : NetworkBehaviour {
                 GameObject netPlayer = transform.parent.parent.gameObject;
                 if (netPlayer.GetComponent<NetworkIdentity>().isLocalPlayer)
                 {
+					if (obj.GetComponent<Rigidbody> () == null) {
+						return;
+					}
                     if (obj.GetComponent<Rigidbody>().useGravity)
                     {
                         //obj.GetComponent<Rigidbody> ().useGravity = false;
@@ -73,7 +76,7 @@ public class VRTrackerPickUpV3 : NetworkBehaviour {
                         Debug.Log(obj.GetComponent<NetworkIdentity>());
 
                         VRTrackerNetworking vn = transform.parent.parent.GetComponent<VRTrackerNetworking>();
-                        vn.disableGravity(obj);
+                        //vn.disableGravity(obj);
                         selectedObjectsUsingGravity.Add(obj);
                     }
                     else
@@ -103,7 +106,7 @@ public class VRTrackerPickUpV3 : NetworkBehaviour {
                 //obj.GetComponent<Rigidbody> ().useGravity = true;
                 //CmdEnableGravity(obj, this.transform.parent.GetComponent<VRTrackerTag> ().velocity);
                 VRTrackerNetworking vn = transform.parent.parent.GetComponent<VRTrackerNetworking>();
-                vn.enableGravity(obj, this.transform.parent.GetComponent<VRTrackerTag>().velocity);
+               // vn.enableGravity(obj, this.transform.parent.GetComponent<VRTrackerTag>().velocity);
                 Debug.Log("Gravity has been enabled");
 
                 //obj.GetComponent<Rigidbody> ().velocity = this.transform.parent.GetComponent<VRTrackerTag> ().velocity;

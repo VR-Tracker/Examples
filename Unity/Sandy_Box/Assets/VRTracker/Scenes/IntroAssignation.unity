@@ -3310,16 +3310,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 6
       objectReference: {fileID: 0}
-    - target: {fileID: 224544795636214256, guid: 6b170089d89153a49a72a89f9502f1c7,
-        type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224544795636214256, guid: 6b170089d89153a49a72a89f9502f1c7,
-        type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6b170089d89153a49a72a89f9502f1c7, type: 2}
   m_IsPrefabParent: 0
@@ -4302,7 +4292,7 @@ Prefab:
         type: 2}
       propertyPath: m_PlayerPrefab
       value: 
-      objectReference: {fileID: 1247107059077088, guid: 659d064c0b86e45bcb1dbfd26d1be5f7,
+      objectReference: {fileID: 1052761640305138, guid: 6b170089d89153a49a72a89f9502f1c7,
         type: 2}
     - target: {fileID: 114514673923542662, guid: 71adf1c14cccb4819b3d892f30609c2c,
         type: 2}
@@ -4325,12 +4315,12 @@ Prefab:
     - target: {fileID: 114514673923542662, guid: 71adf1c14cccb4819b3d892f30609c2c,
         type: 2}
       propertyPath: m_ConnectionConfig.m_ConnectTimeout
-      value: 20000
+      value: 5000
       objectReference: {fileID: 0}
     - target: {fileID: 114514673923542662, guid: 71adf1c14cccb4819b3d892f30609c2c,
         type: 2}
       propertyPath: m_ConnectionConfig.m_DisconnectTimeout
-      value: 20000
+      value: 2000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 71adf1c14cccb4819b3d892f30609c2c, type: 2}

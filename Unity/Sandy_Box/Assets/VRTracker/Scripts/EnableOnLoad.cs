@@ -13,7 +13,6 @@ public class EnableOnLoad : MonoBehaviour {
 
 	protected virtual void Start () {
 
-		Debug.Log ("Level Finish");
 		if (transform.parent.GetComponent<NetworkIdentity>() != null && !transform.parent.GetComponent<NetworkIdentity>().isLocalPlayer) {
 			Debug.Log ("Disable Cam");
 			Camera[] cams = GetComponentsInChildren<Camera>();
@@ -25,13 +24,28 @@ public class EnableOnLoad : MonoBehaviour {
 			//Disable audio listener of other player
 			if(this.GetComponentInChildren<AudioListener>() != null)
 				this.GetComponentInChildren<AudioListener>().enabled = false;
-			GameObject[] bodyParts = GameObject.FindGameObjectsWithTag ("Body");
+			//GameObject[] bodyParts = GameObject.FindGameObjectsWithTag ("Body");
+			/*GameObject[] bodyParts = GetComponentInChildren<GameObject>();
 			foreach(GameObject bodyPart in bodyParts)
 			{
-				bodyPart.layer = 9; //See layer for the number
-				setLayerToChildren(bodyPart, 9);
+				if (bodyPart.transform.parent.gameObject != gameObject) {
+					Debug.Log ("Setting body part to buddybody");
+					bodyPart.layer = 9; //See layer for the number
+					setLayerToChildren (bodyPart, 9);
+				} else {
+					Debug.Log ("Same stuff buddy");
+				}
+
+			}*/
+			foreach(Transform child in transform)
+			{
+				//display all the component with tag buddy
+				if (child.tag == "Body") {
+					child.gameObject.layer = 9; //See layer for the number
+					setLayerToChildren (child.gameObject, 9);
+				}
+					
 			}
-			Debug.Log (bodyParts);
 		}
        else
         {
@@ -48,6 +62,15 @@ public class EnableOnLoad : MonoBehaviour {
             {
                 this.GetComponentInChildren<AudioListener>().enabled = true;
             }
+			foreach(Transform child in transform)
+			{
+				//hide all the component with for the player buddy
+				if (child.tag == "Body") {
+					child.gameObject.layer = 8; //See layer for the number
+					setLayerToChildren (child.gameObject, 8);
+				}
+
+			}
         }
     }
 

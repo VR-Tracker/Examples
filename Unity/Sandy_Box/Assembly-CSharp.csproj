@@ -123,6 +123,7 @@
      <Compile Include="Assets\VRTracker\Scripts\DoOnMainThread.cs" />
      <Compile Include="Assets\VRTracker\Scripts\EnableOnLoad.cs" />
      <Compile Include="Assets\VRTracker\Scripts\LoggingSystem.cs" />
+     <Compile Include="Assets\VRTracker\Scripts\PositionSynchronisation.cs" />
      <Compile Include="Assets\VRTracker\Scripts\StartMenu\LevelLoader.cs" />
      <Compile Include="Assets\VRTracker\Scripts\StartMenu\SliderGroup.cs" />
      <Compile Include="Assets\VRTracker\Scripts\VRTracker\Association\SimpleJSON.cs" />
