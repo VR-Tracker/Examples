@@ -79,19 +79,19 @@ public class VRTrackerTag : MonoBehaviour {
 
 	// Use this for initialization
 	protected virtual void Start () {
-		if (transform.parent != null &&  transform.parent.GetComponent<NetworkIdentity>() != null && !transform.parent.GetComponent<NetworkIdentity>().isLocalPlayer) {
+		if (transform.parent.GetComponent<NetworkIdentity>() != null && !transform.parent.GetComponent<NetworkIdentity>().isLocalPlayer) {
 			return;
 		}
-		Debug.Log ("Tag starts");
 		startTimestamp = System.DateTime.Now.Ticks / System.TimeSpan.TicksPerMillisecond;
 		lastLateUpateTimestamp = startTimestamp;
 
-		enablePrediction = false;
+		//enablePrediction = true;
 
 		speeds = new Vector3[2];
 		positions = new Queue<KeyValuePair<long, Vector3>>();
         VRTracker.instance.AddTag (this);
 		//Try to assign automatically the tag
+		tryAssignToPrefab ();
 
 
 		//Check if there is a camera
@@ -102,23 +102,21 @@ public class VRTrackerTag : MonoBehaviour {
 
 		if(UID != "Enter Your Tag UID")
 		{
-			assignTag (UID);
+			IDisAssigned = true;
 		}
-		else
-			tryAssignToPrefab ();
         
 	}
 
 	protected virtual void LateUpdate(){
-		if (transform.parent != null && transform.parent.GetComponent<NetworkIdentity>() != null && !transform.parent.GetComponent<NetworkIdentity>().isLocalPlayer) {
+		if (transform.parent.GetComponent<NetworkIdentity>() != null && !transform.parent.GetComponent<NetworkIdentity>().isLocalPlayer) {
 			return;
 		}
-	//	Debug.Log ("Tag Late update");
+
 		positionWasUpdatedSinceLastFrame = false;
 		long lateUpdateTimestamp = (System.DateTime.Now.Ticks / System.TimeSpan.TicksPerMillisecond) - startTimestamp;
 		//ANALYTICS
 
-
+		/*
 		// PREDICTIONS
 		long deltaTimeSinceLastFrame = lateUpdateTimestamp - lastLateUpateTimestamp; // Delay since last update frame
 		lastLateUpateTimestamp = lateUpdateTimestamp;
@@ -192,11 +190,11 @@ public class VRTrackerTag : MonoBehaviour {
 
 		String message =  deltaTimeSinceLastFrame + ";" + deltaTimeLateUpdateSinceLastPosition + ";" + counterSameMessageReception + ";" + isLerping + ";" + counterMessagesBetweenFrame + ";" + counterFrameWithSamePosition + ";" + positionReceived.x + ";" + positionReceived.y + ";" + positionReceived.z + ";" + predictedPosition.x + ";" + predictedPosition.y + ";" + predictedPosition.z  + ";" + finalSmoothedPosition.x + ";" + finalSmoothedPosition.y + ";" + finalSmoothedPosition.z + ";" + acceleration.x + ";" + acceleration.y + ";" + acceleration.z + ";" + speeds[0].x + ";" + speeds[0].y + ";" + speeds[0].z + ";" + delta;
 		//Debug.LogWarning (message);
-	//	GetComponent<LoggingSystem>().writeMessageWithTimestampToLog (message);
+		GetComponent<LoggingSystem>().writeMessageWithTimestampToLog (message);
 		lastFramePosition = positionReceived;
 		counterMessagesBetweenFrame = 0;
+		*/
 
-		
 		if (waitingForID)
 		{
 			currentTime -= Time.deltaTime;
@@ -210,14 +208,16 @@ public class VRTrackerTag : MonoBehaviour {
 		}
 
 		// Wait for ID assignement before enabling Tag orientation
-		if (IDisAssigned || UID != "Enter Your Tag UID") {
+		if (IDisAssigned) {
 			if (counter == 30) {
+				if (UID != "Enter Your Tag UID") {
 					if (displayLog)
 					{
 						Debug.LogWarning("Tag " + UID + " asks for orientation");
 					}
+					Debug.LogWarning("Tag " + UID + " asks for orientation");
 					VRTracker.instance.TagOrientation (UID, true);
-			
+				}
 				counter++;
 			} else if (counter < 30) {
 				counter++;
@@ -307,7 +307,7 @@ public class VRTrackerTag : MonoBehaviour {
 		KeyValuePair<long, Vector3>[] positionsArray = positions.ToArray();
 		deltaTimeBetweenTwoLastPositions = positionsArray[positionsArray.Length - 1].Key - positionsArray [positionsArray.Length - 2].Key;
 
-        Debug.Log(deltaTimeBetweenTwoLastPositions);
+        //Debug.Log(deltaTimeBetweenTwoLastPositions);
 
         if (positions.Count > 1) {
 			speeds[1] = 1000*((positionsArray[positionsArray.Length - 3].Value - positionsArray[positionsArray.Length - 5].Value) / (positionsArray[positionsArray.Length - 3].Key - positionsArray[positionsArray.Length - 5].Key));
@@ -405,7 +405,6 @@ public class VRTrackerTag : MonoBehaviour {
 	}
 
 	public void tryAssignToPrefab(){
-		Debug.Log ("Add tag to vr tracker instance");
 		//Add tag to the singleton VR Tracker
 		GameObject parent = transform.parent.gameObject;
 		if (parent != null) {
