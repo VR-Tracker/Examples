@@ -22,7 +22,7 @@ namespace TornadoBanditsStudio.LowPolyFreePack
 	   
 	    private Vector3[] baseHeight;
 	    private Vector3[] vertices;
-	    private List<float> perVertexRandoms = new List<float>();
+	    private List<float> perVerteVRandoms = new List<float>();
 	    private Mesh mesh;
 	   
 	    void Awake() 
@@ -36,7 +36,7 @@ namespace TornadoBanditsStudio.LowPolyFreePack
 	 
 	        for(int i=0; i < baseHeight.Length; i++) 
 			{
-	            perVertexRandoms.Add(Random.value * randomHeight);
+	            perVerteVRandoms.Add(Random.value * randomHeight);
 	        }
 	    }
 	   

@@ -149,7 +149,6 @@ public class VRTrackerTagAssociation : MonoBehaviour {
 		else
 		{
 			Debug.LogWarning("Cannot load json file!");
-
 		}
 	}
 

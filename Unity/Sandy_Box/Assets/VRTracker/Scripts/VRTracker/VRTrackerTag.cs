@@ -21,14 +21,14 @@ public class VRTrackerTag : MonoBehaviour {
 	public Vector3 orientationOffset; // Offset to apply
 	public Vector3 EyeTagOffset; // Difference between tag and eye position in real world
 	public bool orientationEnabled = true;
-    //public List<GameObject> rotatingObject; // Store the game object that will move
-    private bool isHead = false;
-    private bool uniformRotation = true;
+	//public List<GameObject> rotatingObject; // Store the game object that will move
+	private bool isHead = false;
+	private bool uniformRotation = true;
 	public string status;   
 	public int battery;
 	[System.NonSerialized]public bool waitingForID = false;                           // if the tag is Waiting for its ID
 	[System.NonSerialized]public bool IDisAssigned = false;
-	protected Vector3 position;
+	protected Vector3 positionReceived;
 
 	private float currentTime;
 
@@ -40,7 +40,7 @@ public class VRTrackerTag : MonoBehaviour {
 	public event Action OnUp;    // Called when Fire is released.
 
 	public string UID = "Enter Your Tag UID";
-    public bool displayLog = false;
+	public bool displayLog = false;
 
 	protected Boolean commandReceived = false;
 	protected String command;
@@ -48,33 +48,155 @@ public class VRTrackerTag : MonoBehaviour {
 	private Vector3 previousPosition;
 	public Vector3 velocity;
 
+	// ANALYTICS
+	private float messageReceptionTimestamp = 0;
+	private long lastLateUpateTimestamp = 0;
+	private int counterSameMessageReception = 0;
+	private int counterMessagesBetweenFrame = 0;
+	private int counterFrameWithSamePosition = 0;
+	private Vector3 lastFramePosition;
+
+	// PREDICTION
+	private long startTimestamp;
+	private long lastMessagePositionTimestamp;
+	private Vector3 predictedPosition; // Based on last received position
+	private Vector3 lerpingPosition; // Based on position predicted in late update when new position received
+	private Vector3 finalSmoothedPosition; 
+	private Vector3 lerpingOrigin; // Based on position predicted in late update when new position received
+	private Vector3 acceleration;
+	private Vector3[] speeds;
+	private Queue<KeyValuePair<long, Vector3>> positions;
+	private float delta = 0;
+	private bool positionWasUpdatedSinceLastFrame = false;
+	private long deltaTimeLateUpdateSinceLastPosition = 0;
+	private long deltaTimeBetweenTwoLastPositions = 0;
+	private long lerpingDuration = 0;
+	private long lerpingTimestamp = 0;
+	private bool isLerping = false;
+	private long maxPredictionDuration = 500; // 500ms
+
+	public bool enablePrediction = false;
+
 	// Use this for initialization
 	protected virtual void Start () {
-		if (transform.parent.GetComponent<NetworkIdentity>() != null && !transform.parent.GetComponent<NetworkIdentity>().isLocalPlayer) {
+		if (transform.parent != null &&  transform.parent.GetComponent<NetworkIdentity>() != null && !transform.parent.GetComponent<NetworkIdentity>().isLocalPlayer) {
 			return;
 		}
+		Debug.Log ("Tag starts");
+		startTimestamp = System.DateTime.Now.Ticks / System.TimeSpan.TicksPerMillisecond;
+		lastLateUpateTimestamp = startTimestamp;
+
+		enablePrediction = false;
+
+		speeds = new Vector3[2];
+		positions = new Queue<KeyValuePair<long, Vector3>>();
         VRTracker.instance.AddTag (this);
 		//Try to assign automatically the tag
-		tryAssignToPrefab ();
 
 
-        //Check if there is a camera
-        if(gameObject.GetComponentsInChildren<Camera>().Length > 0)
-        {
-            isHead = true;
-        }
-
-		if(UID != "Enter Your Tag UID")
-        {
-            IDisAssigned = true;
-        }
-    }
-
-	protected virtual void Update(){
-		if (transform.parent.GetComponent<NetworkIdentity>() != null && !transform.parent.GetComponent<NetworkIdentity>().isLocalPlayer) {
-			return;
+		//Check if there is a camera
+		if(gameObject.GetComponentsInChildren<Camera>().Length > 0)
+		{
+			isHead = true;
 		}
 
+		if(UID != "Enter Your Tag UID")
+		{
+			assignTag (UID);
+		}
+		else
+			tryAssignToPrefab ();
+        
+	}
+
+	protected virtual void LateUpdate(){
+		if (transform.parent != null && transform.parent.GetComponent<NetworkIdentity>() != null && !transform.parent.GetComponent<NetworkIdentity>().isLocalPlayer) {
+			return;
+		}
+	//	Debug.Log ("Tag Late update");
+		positionWasUpdatedSinceLastFrame = false;
+		long lateUpdateTimestamp = (System.DateTime.Now.Ticks / System.TimeSpan.TicksPerMillisecond) - startTimestamp;
+		//ANALYTICS
+
+
+		// PREDICTIONS
+		long deltaTimeSinceLastFrame = lateUpdateTimestamp - lastLateUpateTimestamp; // Delay since last update frame
+		lastLateUpateTimestamp = lateUpdateTimestamp;
+
+		// Check if the position changed since last frame, and if the prediction needs to stop because a new position was received
+		bool stopPredictionStartLerp = false;
+		if (lastFramePosition.x == positionReceived.x && lastFramePosition.y == positionReceived.y && lastFramePosition.z == positionReceived.z) {
+			counterFrameWithSamePosition++;
+		} else {
+			if (counterFrameWithSamePosition > 2){ //TODO: Try to start lerping only if more than X frame had the same position
+				stopPredictionStartLerp = true;
+
+			}
+			counterFrameWithSamePosition = 0;
+		}
+
+		if (positions.Count > 2) {
+			KeyValuePair<long, Vector3>[] positionsArray = positions.ToArray();
+			deltaTimeLateUpdateSinceLastPosition = (lateUpdateTimestamp - positionsArray[positionsArray.Length - 1].Key); // Delay since last position received
+		
+			// Save Lerp duration (the duration is equal to the prediction duration), lerp origin position
+			if (stopPredictionStartLerp) {
+				
+				lerpingDuration = deltaTimeBetweenTwoLastPositions; // Lerp Duration
+				lerpingTimestamp = lateUpdateTimestamp - deltaTimeSinceLastFrame; // Time at which Lerp starts (previous LateUpdate frame)
+				isLerping = true;
+				lerpingOrigin = this.transform.position; // The Lerping origin is the last frame position at LateUpdate
+				Debug.Log("Start Lerp at " + lerpingOrigin.x + "  " + lerpingOrigin.y + "  " + lerpingOrigin.z + "  for: " + lerpingDuration);
+			}
+
+			// Check if still Lerping
+			if (isLerping) {
+				if(lateUpdateTimestamp - lerpingTimestamp > lerpingDuration)
+					isLerping = false;
+			}
+				
+		//	Debug.Log ("Drop:" + (100*deltaTimeLateUpdateSinceLastPosition/maxPredictionDuration) + "%");
+			Vector3 accelerationDropedOverTime = Vector3.Slerp (acceleration, Vector3.zero, deltaTimeLateUpdateSinceLastPosition/maxPredictionDuration);
+			Vector3 speedDropedOverTime = Vector3.Slerp (speeds [0], Vector3.zero, deltaTimeLateUpdateSinceLastPosition/maxPredictionDuration);
+
+
+			long delta = 0;
+			Vector3 origin;
+			if (counterFrameWithSamePosition == 0) {
+				delta = deltaTimeLateUpdateSinceLastPosition;
+				origin = positionsArray [positionsArray.Length - 1].Value;
+			} else {
+				delta = deltaTimeSinceLastFrame;
+				origin = predictedPosition;
+			}
+
+			// Debug.Log ("Delta : " + delta*1000 + "  Millis : " + lateUpdateTimestamp);
+			float accOP = (float)(0.5 * delta * delta / 1000000);
+			predictedPosition = origin + accOP * accelerationDropedOverTime + speedDropedOverTime * delta / 1000;
+			//predictedPosition = positionReceived + speeds[0] * delta;
+
+
+			if (isLerping) {
+				long lerpDelta = (lateUpdateTimestamp - lerpingTimestamp);
+				//Debug.Log ("Lerp delta = " + lerpDelta);
+
+				float accOP2 = (float)(0.5 * lerpDelta * lerpDelta)/1000000;
+				lerpingPosition = lerpingPosition + accOP2 * accelerationDropedOverTime + speedDropedOverTime * lerpDelta /1000; 
+				finalSmoothedPosition = Vector3.Lerp (lerpingPosition, predictedPosition, lerpDelta/lerpingDuration);
+			}
+			else
+				finalSmoothedPosition = predictedPosition;
+            
+		}
+
+
+		String message =  deltaTimeSinceLastFrame + ";" + deltaTimeLateUpdateSinceLastPosition + ";" + counterSameMessageReception + ";" + isLerping + ";" + counterMessagesBetweenFrame + ";" + counterFrameWithSamePosition + ";" + positionReceived.x + ";" + positionReceived.y + ";" + positionReceived.z + ";" + predictedPosition.x + ";" + predictedPosition.y + ";" + predictedPosition.z  + ";" + finalSmoothedPosition.x + ";" + finalSmoothedPosition.y + ";" + finalSmoothedPosition.z + ";" + acceleration.x + ";" + acceleration.y + ";" + acceleration.z + ";" + speeds[0].x + ";" + speeds[0].y + ";" + speeds[0].z + ";" + delta;
+		//Debug.LogWarning (message);
+	//	GetComponent<LoggingSystem>().writeMessageWithTimestampToLog (message);
+		lastFramePosition = positionReceived;
+		counterMessagesBetweenFrame = 0;
+
+		
 		if (waitingForID)
 		{
 			currentTime -= Time.deltaTime;
@@ -88,21 +210,20 @@ public class VRTrackerTag : MonoBehaviour {
 		}
 
 		// Wait for ID assignement before enabling Tag orientation
-		if (IDisAssigned) {
+		if (IDisAssigned || UID != "Enter Your Tag UID") {
 			if (counter == 30) {
-				if (UID != "Enter Your Tag UID") {
-                    if (displayLog)
-                    {
-                        Debug.LogWarning("Tag " + UID + " asks for orientation");
-                    }
-                    VRTracker.instance.TagOrientation (UID, true);
-				}
+					if (displayLog)
+					{
+						Debug.LogWarning("Tag " + UID + " asks for orientation");
+					}
+					VRTracker.instance.TagOrientation (UID, true);
+			
 				counter++;
 			} else if (counter < 30) {
 				counter++;
 			}
 		}
-			
+
 		Vector3 calcOffset = new Vector3(0f,0f,0f); // Position offset due to distance between eyes and tag position
 		// Setting Orientation for Tag V2
 		if (orientationUsesQuaternion) {
@@ -122,18 +243,21 @@ public class VRTrackerTag : MonoBehaviour {
 
 		// Assign tag orientation if enabled only. By default it's disabled for Camera, to use the VR Headset orientation instead
 		if (orientationEnabled) {
-            if (uniformRotation)
-            {
-                //Apply uniformely the rotation
-                this.transform.rotation = tagRotation;
-            }else
-            {
+			if (uniformRotation)
+			{
+				//Apply uniformely the rotation
+				this.transform.rotation = tagRotation;
+			}else
+			{
 				//Can apply to specific part of the body
-            }
-        }
+			}
+		}
 
-		this.transform.position = this.position+calcOffset; // Apply position offset due to orientation and difference between Tag position and point to track
-
+		if(enablePrediction)
+			this.transform.position = this.predictedPosition+calcOffset;
+		else
+			this.transform.position = this.positionReceived+calcOffset;
+		
 		if (commandReceived) {
 			commandReceived = false;
 			if (command.Contains("triggeron"))
@@ -146,11 +270,11 @@ public class VRTrackerTag : MonoBehaviour {
 			}
 			else if (command.Contains("buttonon"))
 			{
-                if (displayLog)
-                {
-                    Debug.Log("Update orentiation begin to : " + orientationBegin.y);
-                }
-                ResetOrientation();
+				if (displayLog)
+				{
+					Debug.Log("Update orentiation begin to : " + orientationBegin.y);
+				}
+				ResetOrientation();
 			}
 		}
 
@@ -158,9 +282,42 @@ public class VRTrackerTag : MonoBehaviour {
 		previousPosition = transform.position;
 	}
 
-	public void updatePosition(Vector3 position){
-		this.position = position;
-		//Debug.Log (position.x + " " + position.y + " " + position.z);
+        public void updatePosition(Vector3 position_, int timestamp)
+        {
+            
+            Debug.Log("Received timestamp " + timestamp);
+            updatePosition(position_);
+        }
+
+        public void updatePosition(Vector3 position_){
+
+		positionWasUpdatedSinceLastFrame = true;
+
+
+        // ANALYTICS
+		long milliseconds = (System.DateTime.Now.Ticks / System.TimeSpan.TicksPerMillisecond) - startTimestamp;
+		messageReceptionTimestamp = milliseconds;
+        counterMessagesBetweenFrame++;
+
+		// PREDICTION
+           // while (positions.Count >= 5)
+             //   positions.Dequeue();
+			
+		positions.Enqueue(new KeyValuePair<long, Vector3>(milliseconds, position_));
+		KeyValuePair<long, Vector3>[] positionsArray = positions.ToArray();
+		deltaTimeBetweenTwoLastPositions = positionsArray[positionsArray.Length - 1].Key - positionsArray [positionsArray.Length - 2].Key;
+
+        Debug.Log(deltaTimeBetweenTwoLastPositions);
+
+        if (positions.Count > 1) {
+			speeds[1] = 1000*((positionsArray[positionsArray.Length - 3].Value - positionsArray[positionsArray.Length - 5].Value) / (positionsArray[positionsArray.Length - 3].Key - positionsArray[positionsArray.Length - 5].Key));
+			speeds[0] = 1000*((positionsArray[positionsArray.Length - 1].Value - positionsArray[positionsArray.Length - 3].Value) / (positionsArray[positionsArray.Length - 1].Key - positionsArray[positionsArray.Length - 3].Key));
+            if (positions.Count > 2) {
+				acceleration = 1000*((speeds[0] - speeds[1]) / (positionsArray[positionsArray.Length - 2].Key - positionsArray[positionsArray.Length - 4].Key));
+            }
+        }
+
+        this.positionReceived = position_;
 	}
 
 	// Reset Headset orientation and Tag orientation offset
@@ -171,9 +328,9 @@ public class VRTrackerTag : MonoBehaviour {
 		else
 			this.orientationBegin.y = this.orientation_.y;
 
-		if (UnityEngine.VR.VRSettings.isDeviceActive)
+		if (UnityEngine.XR.XRSettings.isDeviceActive)
 		{
-			UnityEngine.VR.InputTracking.Recenter();
+			UnityEngine.XR.InputTracking.Recenter();
 		}
 	}
 
@@ -193,7 +350,7 @@ public class VRTrackerTag : MonoBehaviour {
 	}
 
 	public void onSpecialCommand(string data){
-		commandReceived = true;
+        commandReceived = true;
 		command = data;
 	}
 
@@ -208,7 +365,7 @@ public class VRTrackerTag : MonoBehaviour {
 
 	public Vector3 GetPosition()
 	{
-		return this.position;
+		return this.positionReceived;
 	}
 
 	public IEnumerator WaitForAssignation()
@@ -230,7 +387,7 @@ public class VRTrackerTag : MonoBehaviour {
 
 	public void OnTriggerUp()
 	{
-		if (OnUp != null)
+        if (OnUp != null)
 			OnUp();
 	}
 
@@ -244,10 +401,10 @@ public class VRTrackerTag : MonoBehaviour {
 		UID = tagID;
 		IDisAssigned = true;
 		waitingForID = false;
-        VRTracker.instance.assignTag(tagID);
-    }
+		VRTracker.instance.assignTag(tagID);
+	}
 
-    public void tryAssignToPrefab(){
+	public void tryAssignToPrefab(){
 		Debug.Log ("Add tag to vr tracker instance");
 		//Add tag to the singleton VR Tracker
 		GameObject parent = transform.parent.gameObject;
@@ -259,8 +416,8 @@ public class VRTrackerTag : MonoBehaviour {
 					string tagID = VRTrackerTagAssociation.instance.getAssociatedTagID (gameObject.name);
 					if (tagID != "") {
 						assignTag (tagID);
-                    }
-                    else {
+					}
+					else {
 						Debug.LogError ("ID not valid : " + tagID);
 					}
 				}

@@ -12,6 +12,7 @@ public class VRTracker : MonoBehaviour {
 	private WebSocket myws;
 	private Vector3 position;
 	private Vector3 orientation;
+    private int timestamp = 0;
 	protected Quaternion orientation_quat;
 
 	[System.NonSerialized]public List<VRTrackerTag> tags;
@@ -84,23 +85,24 @@ public class VRTracker : MonoBehaviour {
 
     private void OnErrorHandler(object sender, System.EventArgs e)
     {
-        Debug.LogWarning("VR Tracker : connection ERROR");
+    
     }
 
     // Handler for all messages from the Gateway
     private void OnMessageHandler(object sender, MessageEventArgs e) {
 
-		//Debug.Log (e.Data);
+		Debug.Log (e.Data);
 		if (e.Data.Contains("cmd=position"))
 		{
-			string[] datasbytag = e.Data.Split(new string[] { "&uid=" }, System.StringSplitOptions.RemoveEmptyEntries);
+			//Debug.Log (System.DateTime.Now.Millisecond + ", " + e.Data);
 
+			string[] datasbytag = e.Data.Split(new string[] { "&uid=" }, System.StringSplitOptions.RemoveEmptyEntries);
 			for (int i = 1; i < datasbytag.Length; i++)
 			{
 				bool positionUpdated = false;
 				bool orientationUpdated = false;
 				bool orientationQuaternion = false;
-
+                bool timestampUpdated = false;
 				string[] datas = datasbytag[i].Split('&');
 				string uid = datas[0];
 				foreach (string data in datas)
@@ -120,9 +122,14 @@ public class VRTracker : MonoBehaviour {
 					{
 						position.z = float.Parse(datasplit[1]);
 					}
+                    else if (datasplit[0] == "ts")
+                    {
+                        timestamp = int.Parse(datasplit[1]);
+                        timestampUpdated = true;
+                    }
 
-					// Orientation
-					else if (datasplit[0] == "ox")
+                    // Orientation
+                    else if (datasplit[0] == "ox")
 					{
 						orientationUpdated = true;
 						orientation.y = -float.Parse(datasplit[1]);
@@ -156,8 +163,12 @@ public class VRTracker : MonoBehaviour {
 						}
 						if (positionUpdated)
 						{
-							tag.updatePosition(position);
-						}
+                            if(!timestampUpdated)
+    							tag.updatePosition(position);
+                            else
+                                tag.updatePosition(position, timestamp);
+
+                        }
 					}
 				}
 			}
