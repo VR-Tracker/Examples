@@ -237,6 +237,10 @@ public class VRTrackerPickUpV2 : NetworkBehaviour {
                 GameObject netPlayer = input.transform.parent.parent.gameObject;
                 if (netPlayer.GetComponent<NetworkIdentity>().isLocalPlayer)
                 {
+                    if(obj.GetComponent<Rigidbody>() == null)
+                    {
+                        return;
+                    }
                     if (obj.GetComponent<Rigidbody>().useGravity)
                     {
                         //obj.GetComponent<Rigidbody> ().useGravity = false;

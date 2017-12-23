@@ -59,7 +59,7 @@ public class VRTrackerPickup : MonoBehaviour {
             //Debug.Log ("Collision with " + col.gameObject.name);
             currentCollisions.Add (col.gameObject);
 		}*/
-		if (col.gameObject.name != "Body" && transform.parent.parent.GetComponent<NetworkIdentity>().isLocalPlayer && col != null)
+		if (col.gameObject.name != "Body" && transform.parent.parent.GetComponent<NetworkIdentity>().isLocalPlayer && col != null && pickUp)
 		{
 			//Debug.Log ("Collision with " + col.gameObject.name);
 			pickUp.currentCollisions.Add(col.gameObject);
@@ -70,7 +70,7 @@ public class VRTrackerPickup : MonoBehaviour {
 
         // TODO: Check that object is not being moved, if so unassigned transform parent
         //currentCollisions.Remove (col.gameObject);
-		if(transform.parent.parent.GetComponent<NetworkIdentity>().isLocalPlayer && col != null)
+		if(transform.parent.parent.GetComponent<NetworkIdentity>().isLocalPlayer && col != null && pickUp)
 			pickUp.currentCollisions.Remove(col.gameObject);
 	}
 
