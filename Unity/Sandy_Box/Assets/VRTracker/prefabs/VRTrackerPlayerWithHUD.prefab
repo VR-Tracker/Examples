@@ -1429,16 +1429,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4b89a5f8b9c849b595b98387d4d31ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  magneticNorthOffset: 131
+  magneticNorthOffset: 0
   orientationOffset: {x: 0, y: 0, z: 0}
   EyeTagOffset: {x: 0, y: 0, z: 0}
-  orientationEnabled: 1
+  orientationEnabled: 0
   status: 
   battery: 0
   UID: Enter Your Tag UID
   displayLog: 0
   velocity: {x: 0, y: 0, z: 0}
-  DeadReckogningDelayMs: 40
+  DeadReckogningDelayMs: 100
+  smoothingIntensity: 0.9
   enablePositionSmoothing: 1
   enableOrientationSmoothing: 0
 --- !u!114 &114445687389405402
@@ -1912,14 +1913,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   magneticNorthOffset: 0
   orientationOffset: {x: 0, y: 0, z: 0}
-  EyeTagOffset: {x: 0, y: -0.18, z: -0.05}
+  EyeTagOffset: {x: 0, y: 0, z: 0}
   orientationEnabled: 0
   status: 
   battery: 0
   UID: Enter Your Tag UID
   displayLog: 0
   velocity: {x: 0, y: 0, z: 0}
-  DeadReckogningDelayMs: 40
+  DeadReckogningDelayMs: 100
+  smoothingIntensity: 0.9
   enablePositionSmoothing: 1
   enableOrientationSmoothing: 1
 --- !u!114 &114858496736495746

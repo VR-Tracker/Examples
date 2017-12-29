@@ -62,8 +62,9 @@ public class VRTrackerTag : MonoBehaviour {
 
 	private float delta = 0;
 	private long maxPredictionDuration = 400; // 500ms
-    public int DeadReckogningDelayMs = 40; // 40ms seems to be a good value, don't go up though
-	public bool enablePositionSmoothing = true;
+    public int DeadReckogningDelayMs = 80; // 40ms seems to be a good value, don't go up though
+    public float smoothingIntensity = 0.85f;
+    public bool enablePositionSmoothing = true;
 
 	private Queue<KeyValuePair<long, Vector3>> orientations;
 	private Vector3[] orientationSpeeds;
@@ -144,7 +145,7 @@ public class VRTrackerTag : MonoBehaviour {
 				Vector3 predictionFromLastUpdate = predictedPosition + accOperatorLastUpdate * accelerationDropedOverTime + speedDropedOverTime * deltaTimeSinceLastFrame / 1000;
 				Vector3 predictedPositionFromLastReception = positionsArray [positionsArray.Length - 1].Value + accOperator * accelerationDropedOverTime + speedDropedOverTime * (deltaTimeLateUpdateSinceLastPosition+ DeadReckogningDelayMs) / 1000; 
 				// And we give much more importance to the futur position based on last update, this avoids the shakes in the position
-				predictedPosition = Vector3.Lerp(predictedPositionFromLastReception, predictionFromLastUpdate, 0.9f);
+				predictedPosition = Vector3.Lerp(predictedPositionFromLastReception, predictionFromLastUpdate, Mathf.Clamp(smoothingIntensity, 0.0f, 1.0f));
 
 			} else {
 				float accOperatorLastUpdate = (float)(0.5 * deltaTimeSinceLastFrame * deltaTimeSinceLastFrame / 1000000);
@@ -253,7 +254,7 @@ public class VRTrackerTag : MonoBehaviour {
 				Vector3 predictionFromLastUpdate = predictedOrientation + accOperatorLastUpdate * accelerationDropedOverTime + speedDropedOverTime * deltaTimeSinceLastFrame / 1000;
 				Vector3 predictedOrientationFromLastReception = orientationsArray [orientationsArray.Length - 1].Value + accOperator * accelerationDropedOverTime + speedDropedOverTime * (deltaTimeLateUpdateSinceLastOrientation+ DeadReckogningDelayMs) / 1000; 
 				// And we give much more importance to the futur orientation based on last update, this avoids the shakes in the orientation
-				predictedOrientation = Vector3.Lerp (predictedOrientationFromLastReception, predictionFromLastUpdate, 0.9f);
+				predictedOrientation = Vector3.Lerp (predictedOrientationFromLastReception, predictionFromLastUpdate, Mathf.Clamp(smoothingIntensity, 0.0f, 1.0f));
 
 			} else {
 				float accOperatorLastUpdate = (float)(0.5 * deltaTimeSinceLastFrame * deltaTimeSinceLastFrame / 1000000);
