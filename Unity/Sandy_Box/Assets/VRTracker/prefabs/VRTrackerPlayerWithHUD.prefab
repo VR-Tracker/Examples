@@ -611,7 +611,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1088205828011392}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.35}
+  m_LocalPosition: {x: 0, y: 0, z: 0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4954739910459648}
@@ -1429,7 +1429,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4b89a5f8b9c849b595b98387d4d31ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  magneticNorthOffset: 0
+  magneticNorthOffset: 131
   orientationOffset: {x: 0, y: 0, z: 0}
   EyeTagOffset: {x: 0, y: 0, z: 0}
   orientationEnabled: 1
@@ -1438,7 +1438,9 @@ MonoBehaviour:
   UID: Enter Your Tag UID
   displayLog: 0
   velocity: {x: 0, y: 0, z: 0}
-  enablePrediction: 0
+  DeadReckogningDelayMs: 40
+  enablePositionSmoothing: 1
+  enableOrientationSmoothing: 0
 --- !u!114 &114445687389405402
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1917,7 +1919,9 @@ MonoBehaviour:
   UID: Enter Your Tag UID
   displayLog: 0
   velocity: {x: 0, y: 0, z: 0}
-  enablePrediction: 0
+  DeadReckogningDelayMs: 40
+  enablePositionSmoothing: 1
+  enableOrientationSmoothing: 1
 --- !u!114 &114858496736495746
 MonoBehaviour:
   m_ObjectHideFlags: 1

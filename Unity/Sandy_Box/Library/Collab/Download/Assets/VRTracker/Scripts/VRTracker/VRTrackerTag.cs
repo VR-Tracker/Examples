@@ -70,7 +70,7 @@ public class VRTrackerTag : MonoBehaviour {
 	private Vector3 orientationAcceleration;
 	private long orientationReceptionTime = 0;
 	private bool orientationMessageSaved = true; // to check if the message received was added to the Queue
-	public bool enableOrientationSmoothing = false;
+	public bool enableOrientationSmoothing = true;
 	private Vector3 predictedOrientation;
 	private int counterFrameWithSameOrientation = 0;
 	private Vector3 lastFrameOrientationReceived;
@@ -184,10 +184,19 @@ public class VRTrackerTag : MonoBehaviour {
 		}
 
 		Vector3 calcOffset = new Vector3(0f,0f,0f); // Position offset due to distance between eyes and tag position
+		// Setting Orientation for Tag V2
+		if (orientationUsesQuaternion) {
+			//tagRotation = Quaternion.Euler (orientationOffset - orientationBegin);
+			//this.transform.Rotate (0, -magneticNorthOffset, 0); //TODO what if orientation is disabled ?
+			//tagRotation *= imuOrientation_quat;
+			tagRotation = orientation_;
+		}
 
-		// Setting Orientation for Tag
-		tagRotation = orientation_ + orientationOffset - orientationBegin;
-		tagRotation.y -= magneticNorthOffset;
+		// Setting Orientation for Tag V1
+		else {
+			tagRotation = orientation_ + orientationOffset - orientationBegin;
+		}
+
 
 		// SMOOTH ORIENTATION
 
@@ -258,11 +267,10 @@ public class VRTrackerTag : MonoBehaviour {
 		// Assign tag orientation if enabled only. By default it's disabled for Camera, to use the VR Headset orientation instead
 		if (orientationEnabled) {
 				//Apply uniformely the rotation
-			if (enableOrientationSmoothing)
-				this.transform.rotation = Quaternion.Euler (predictedOrientation);
-			else {
-				this.transform.rotation = Quaternion.Euler (tagRotation);
-			}
+			if(enableOrientationSmoothing)
+				this.transform.rotation = Quaternion.Euler(predictedOrientation);
+			else
+				this.transform.rotation = Quaternion.Euler(tagRotation);
 		}
 
 		if(enablePositionSmoothing)
@@ -342,8 +350,13 @@ public class VRTrackerTag : MonoBehaviour {
 	// Update the Oriention from IMU For Tag V1
 	public void updateOrientation(Vector3 neworientation)
 	{
-		Vector3 flippedRotation = new Vector3(neworientation.z, neworientation.x, -neworientation.y);
-		orientation_ = flippedRotation;
+        Vector3 mrotation = Vector3.zero;
+        mrotation.z += neworientation.z;
+        mrotation.x -= neworientation.x;
+        mrotation.y -= neworientation.y;
+
+		//orientation_ = mrotation;
+		orientation_ = neworientation;
 
 		orientationUsesQuaternion = false;
 		orientationReceptionTime = (System.DateTime.Now.Ticks / System.TimeSpan.TicksPerMillisecond) - startTimestamp;
@@ -353,8 +366,17 @@ public class VRTrackerTag : MonoBehaviour {
 	// Update the Oriention from IMU For Tag V2
 	public void updateOrientationQuat(Quaternion neworientation)
 	{
+		Debug.Log("Update orentiation Quat : ");
 		orientationUsesQuaternion = true;
 		this.orientation_ = neworientation.eulerAngles;
+
+       Vector3 mrotation = Vector3.zero;
+        mrotation.z -= neworientation.z;
+        mrotation.y+= neworientation.x;
+        mrotation.x -= neworientation.y;
+       
+
+		//orientation_ = mrotation;
 		this.imuOrientation_quat = neworientation;
 		orientationReceptionTime = (System.DateTime.Now.Ticks / System.TimeSpan.TicksPerMillisecond) - startTimestamp;
 		orientationMessageSaved = false;

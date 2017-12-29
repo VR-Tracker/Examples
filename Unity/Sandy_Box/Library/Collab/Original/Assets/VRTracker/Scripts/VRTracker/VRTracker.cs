@@ -288,15 +288,6 @@ public class VRTracker : MonoBehaviour {
 					VRTrackerTagAssociation.instance.addAvailableTag(datasplit[1]);
 				}
 			}
-			if (VRTrackerTagAssociation.instance.isAllTagAvailable())
-			{
-				//If the tags are available, ask for direct assignment
-				Debug.Log("Direct Assignemnet");
-			}
-			else
-			{
-				Debug.Log("Some Tag not available");
-			}
 		}
 		else if (e.Data.Contains("cmd=reoriente")){
 			string uid = null;
@@ -472,16 +463,16 @@ public class VRTracker : MonoBehaviour {
 	}
 
 	public void sendServerIP(string ip){
-		Debug.Log ("cmd=specialdata&function=address&ip=" + ip);
+		//Debug.Log ("cmd=specialdata&function=address&ip=" + ip);
 		myws.SendAsync("cmd=specialdata&function=address&ip=" + ip, OnSendComplete);
 	}
 
 	// The server IP was sent to us by another user (typically the server)
 	private void receiveServerIP(string ip){
-		Debug.Log ("Server IP received: " + ip);
+		//Debug.Log ("Server IP received: " + ip);
 
 		if(!serverIpReceived){
-			Debug.Log ("Receiving first IP: " + ip);
+			//Debug.Log ("Receiving first IP: " + ip);
 			serverIp = ip;
 			serverIpReceived = true;
 		}
@@ -575,7 +566,6 @@ public class VRTracker : MonoBehaviour {
 
 	public void AddTag(VRTrackerTag tag)
 	{
-		Debug.Log ("Add Tag " + tag.gameObject.name);
 		tags.Add(tag);
 	}
 

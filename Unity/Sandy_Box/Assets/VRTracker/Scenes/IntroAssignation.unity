@@ -3271,48 +3271,6 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!1001 &881905127
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4637833157889832, guid: 6b170089d89153a49a72a89f9502f1c7, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: -5.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4637833157889832, guid: 6b170089d89153a49a72a89f9502f1c7, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: -0.41206515
-      objectReference: {fileID: 0}
-    - target: {fileID: 4637833157889832, guid: 6b170089d89153a49a72a89f9502f1c7, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 10.68
-      objectReference: {fileID: 0}
-    - target: {fileID: 4637833157889832, guid: 6b170089d89153a49a72a89f9502f1c7, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4637833157889832, guid: 6b170089d89153a49a72a89f9502f1c7, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4637833157889832, guid: 6b170089d89153a49a72a89f9502f1c7, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4637833157889832, guid: 6b170089d89153a49a72a89f9502f1c7, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4637833157889832, guid: 6b170089d89153a49a72a89f9502f1c7, type: 2}
-      propertyPath: m_RootOrder
-      value: 6
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: 6b170089d89153a49a72a89f9502f1c7, type: 2}
-  m_IsPrefabParent: 0
 --- !u!1 &886327886
 GameObject:
   m_ObjectHideFlags: 0
@@ -4292,7 +4250,7 @@ Prefab:
         type: 2}
       propertyPath: m_PlayerPrefab
       value: 
-      objectReference: {fileID: 1052761640305138, guid: 6b170089d89153a49a72a89f9502f1c7,
+      objectReference: {fileID: 1247107059077088, guid: 659d064c0b86e45bcb1dbfd26d1be5f7,
         type: 2}
     - target: {fileID: 114514673923542662, guid: 71adf1c14cccb4819b3d892f30609c2c,
         type: 2}

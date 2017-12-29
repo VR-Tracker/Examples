@@ -6,6 +6,11 @@
 [Bb]uild
 /[Bb]uilds/
 /[Ll]ibrary/
+Unity/Sandy_Box/[Tt]emp/
+Unity/Sandy_Box/[Oo]bj/
+Unity/Sandy_Box/[Bb]uild
+Unity/Sandy_Box/[Bb]uilds/
+Unity/Sandy_Box/[Ll]ibrary/
 sysinfo.txt
 *.stackdump
 /Assets/AssetStoreTools*

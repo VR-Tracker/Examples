@@ -133,12 +133,12 @@ public class VRTracker : MonoBehaviour {
 					{
 						orientationUpdated = true;
 						orientation.y = -float.Parse(datasplit[1]);
-						orientation_quat.y = orientation.y;
+						orientation_quat.x = -orientation.y;
 					}
 					else if (datasplit[0] == "oy")
 					{
 						orientation.x = -float.Parse(datasplit[1]);
-						orientation_quat.x = -orientation.x;
+						orientation_quat.y = -orientation.x;
 					}
 					else if (datasplit[0] == "oz")
 					{
