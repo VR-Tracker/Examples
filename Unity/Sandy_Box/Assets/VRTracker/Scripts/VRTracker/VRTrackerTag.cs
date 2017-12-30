@@ -216,7 +216,7 @@ public class VRTrackerTag : MonoBehaviour {
 			{
 				Vector3 orientationsOffset1 = orientationsArray[orientationsArray.Length - 4].Value - orientationsArray[orientationsArray.Length - 7].Value;
 				Vector3 orientationsOffset0 = orientationsArray[orientationsArray.Length - 1].Value - orientationsArray[orientationsArray.Length - 4].Value;
-				orientationsOffset1.x = orientationsOffset1.x > 250 ? orientationsOffset1.x - 360 : orientationsOffset1.x;
+				orientationsOffset1.x = orientationsOffset1.x > 250 ?  orientationsOffset1.x - 360 : orientationsOffset1.x;
 				orientationsOffset1.x = orientationsOffset1.x < -250 ? orientationsOffset1.x + 360 : orientationsOffset1.x;
 				orientationsOffset1.y = orientationsOffset1.y > 250 ? orientationsOffset1.y - 360 : orientationsOffset1.y;
 				orientationsOffset1.y = orientationsOffset1.y < -250 ? orientationsOffset1.y + 360 : orientationsOffset1.y;
@@ -228,6 +228,9 @@ public class VRTrackerTag : MonoBehaviour {
 				orientationsOffset0.y = orientationsOffset0.y < -250 ? orientationsOffset0.y + 360 : orientationsOffset0.y;
 				orientationsOffset0.z = orientationsOffset0.z > 250 ? orientationsOffset0.z - 360 : orientationsOffset0.z;
 				orientationsOffset0.z = orientationsOffset0.z < -250 ? orientationsOffset0.z + 360 : orientationsOffset0.z;
+
+				//Debug.Log ("orientationsOffset0 " + orientationsOffset0.ToString ());
+				//Debug.Log ("orientationsOffset1 " + orientationsOffset1.ToString ());
 
 				orientationSpeeds[1] = 1000 * ((orientationsOffset1) / (orientationsArray[orientationsArray.Length - 4].Key - orientationsArray[orientationsArray.Length - 7].Key));
 				orientationSpeeds[0] = 1000 * ((orientationsOffset0) / (orientationsArray[orientationsArray.Length - 1].Key - orientationsArray[orientationsArray.Length - 4].Key));
@@ -254,9 +257,25 @@ public class VRTrackerTag : MonoBehaviour {
 				Vector3 predictionFromLastUpdate = predictedOrientation + accOperatorLastUpdate * accelerationDropedOverTime + speedDropedOverTime * deltaTimeSinceLastFrame / 1000;
 				Vector3 predictedOrientationFromLastReception = orientationsArray [orientationsArray.Length - 1].Value + accOperator * accelerationDropedOverTime + speedDropedOverTime * (deltaTimeLateUpdateSinceLastOrientation+ DeadReckogningDelayMs) / 1000; 
 				// And we give much more importance to the futur orientation based on last update, this avoids the shakes in the orientation
-				predictedOrientation = Vector3.Lerp (predictedOrientationFromLastReception, predictionFromLastUpdate, Mathf.Clamp(smoothingIntensity, 0.0f, 1.0f));
 
-			} else {
+
+				predictionFromLastUpdate.x = ((predictionFromLastUpdate.x+180)%360)-180;
+				predictionFromLastUpdate.y = ((predictionFromLastUpdate.y+180)%360)-180;
+				predictionFromLastUpdate.z = ((predictionFromLastUpdate.z+180)%360)-180;
+				predictionFromLastUpdate.x = predictionFromLastUpdate.x - predictedOrientationFromLastReception.x > 250 ? predictionFromLastUpdate.x - 360 : predictionFromLastUpdate.x;
+				predictionFromLastUpdate.x = predictionFromLastUpdate.x - predictedOrientationFromLastReception.x < -250 ? predictionFromLastUpdate.x + 360 : predictionFromLastUpdate.x;
+				predictionFromLastUpdate.y = predictionFromLastUpdate.y - predictedOrientationFromLastReception.y > 250 ? predictionFromLastUpdate.y - 360 : predictionFromLastUpdate.y;
+				predictionFromLastUpdate.y = predictionFromLastUpdate.y - predictedOrientationFromLastReception.y < -250 ? predictionFromLastUpdate.y + 360 : predictionFromLastUpdate.y;
+
+				predictionFromLastUpdate.z = predictionFromLastUpdate.z - predictedOrientationFromLastReception.z > 250 ? predictionFromLastUpdate.z - 360 : predictionFromLastUpdate.z;
+				predictionFromLastUpdate.z = predictionFromLastUpdate.z - predictedOrientationFromLastReception.z < -250 ? predictionFromLastUpdate.z + 360 : predictionFromLastUpdate.z;
+
+				predictedOrientation = Vector3.Lerp (predictedOrientationFromLastReception, predictionFromLastUpdate, Mathf.Clamp(smoothingIntensity, 0.0f, 0.95f));
+
+
+				// Debug.Log ("predictedOrientation : " + predictedOrientation.ToString() + "predictionFromLastUpdate  : " + predictionFromLastUpdate.ToString () + "   predictedOrientationFromLastReception   : " + predictedOrientationFromLastReception.ToString ());
+			} 
+			else {
 				float accOperatorLastUpdate = (float)(0.5 * deltaTimeSinceLastFrame * deltaTimeSinceLastFrame / 1000000);
 				predictedOrientation = predictedOrientation + accOperatorLastUpdate * accelerationDropedOverTime + speedDropedOverTime * deltaTimeSinceLastFrame / 1000;
 			}

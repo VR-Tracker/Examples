@@ -720,8 +720,9 @@ MonoBehaviour:
   displayLog: 0
   velocity: {x: 0, y: 0, z: 0}
   DeadReckogningDelayMs: 40
+  smoothingIntensity: 0.85
   enablePositionSmoothing: 1
-  enableOrientationSmoothing: 0
+  enableOrientationSmoothing: 1
 --- !u!114 &114743059592530554
 MonoBehaviour:
   m_ObjectHideFlags: 1
