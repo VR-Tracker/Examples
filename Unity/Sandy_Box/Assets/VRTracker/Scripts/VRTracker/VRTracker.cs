@@ -91,7 +91,7 @@ public class VRTracker : MonoBehaviour {
     // Handler for all messages from the Gateway
     private void OnMessageHandler(object sender, MessageEventArgs e) {
 
-		Debug.Log (e.Data);
+		//Debug.Log (e.Data);
 		if (e.Data.Contains("cmd=position"))
 		{
 			//Debug.Log (System.DateTime.Now.Millisecond + ", " + e.Data);
@@ -132,12 +132,14 @@ public class VRTracker : MonoBehaviour {
                     else if (datasplit[0] == "ox")
 					{
 						orientationUpdated = true;
-						orientation.x = float.Parse(datasplit[1]);
+						//orientation.x = float.Parse(datasplit[1]);
+						orientation.y = -float.Parse(datasplit[1]);
 						orientation_quat.x = -orientation.y;
 					}
 					else if (datasplit[0] == "oy")
 					{
-						orientation.y = float.Parse(datasplit[1]);
+						//orientation.y = float.Parse(datasplit[1]);
+						orientation.x = -float.Parse(datasplit[1]);
 						orientation_quat.y = -orientation.x;
 					}
 					else if (datasplit[0] == "oz")
