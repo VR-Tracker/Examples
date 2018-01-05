@@ -10,11 +10,15 @@ namespace VRStandardAssets.Utils
 	// This script should be generally be placed on the camera.
 	public class VRTrackerRaycaster : MonoBehaviour
 	{
+
+		private NetworkIdentity netId;
+
 		public event Action<RaycastHit> OnRaycasthit;                   // This event is called every frame that the user's gaze is over a collider.
 
 
 		[SerializeField] private LayerMask m_ExclusionLayers;           // Layers to exclude from the raycast.
 		[SerializeField] private VRInput m_VrInput;                     // Used to call input based events on the current VRInteractiveItem.
+		[SerializeField] private VRTrackerTag m_VrtrackerTag;
 		[SerializeField] private bool m_ShowDebugRay;                   // Optionally show the debug ray.
 		[SerializeField] private float m_DebugRayLength = 5f;           // Debug ray length.
 		[SerializeField] private float m_DebugRayDuration = 1f;         // How long the Debug ray will remain visible.
@@ -31,34 +35,47 @@ namespace VRStandardAssets.Utils
 			get { return m_CurrentInteractible; }
 		}
 
+		void Start () {
+			netId = transform.GetComponentInParent<NetworkIdentity> ();
+		}
 
 		private void OnEnable()
 		{
-			if (transform.parent.parent.gameObject.GetComponent<NetworkIdentity>() != null && !transform.parent.parent.GetComponent<NetworkIdentity>().isLocalPlayer) {
-				return;
+			if (netId != null && netId.isServer) {
+				
 			}
 			m_VrInput.OnClick += HandleClick;
 			m_VrInput.OnDoubleClick += HandleDoubleClick;
 			m_VrInput.OnUp += HandleUp;
 			m_VrInput.OnDown += HandleDown;
+
+			if (m_VrtrackerTag) {
+				m_VrtrackerTag.OnUp += HandleUp;
+				m_VrtrackerTag.OnDown += HandleDown;
+			}
 		}
 
 
 		private void OnDisable ()
 		{
-			if (transform.parent.parent.GetComponent<NetworkIdentity>() != null && !transform.parent.parent.GetComponent<NetworkIdentity>().isLocalPlayer) {
+			if (transform.GetComponentInParent<NetworkIdentity> () != null && !transform.GetComponentInParent<NetworkIdentity> ().isLocalPlayer) {
 				return;
 			}
 			m_VrInput.OnClick -= HandleClick;
 			m_VrInput.OnDoubleClick -= HandleDoubleClick;
 			m_VrInput.OnUp -= HandleUp;
 			m_VrInput.OnDown -= HandleDown;
+
+			if (m_VrtrackerTag) {
+				m_VrtrackerTag.OnUp -= HandleUp;
+				m_VrtrackerTag.OnDown -= HandleDown;
+			}
 		}
 
 
 		private void Update()
 		{
-			if (transform.parent.parent.GetComponent<NetworkIdentity>() != null && !transform.parent.parent.GetComponent<NetworkIdentity>().isLocalPlayer) {
+			if (transform.GetComponentInParent<NetworkIdentity> () != null && !transform.GetComponentInParent<NetworkIdentity> ().isLocalPlayer) {
 				return;
 			}
 

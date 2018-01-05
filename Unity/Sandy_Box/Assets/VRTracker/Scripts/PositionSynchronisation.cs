@@ -1,9 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-using UnityEngine;
-using System.Collections;
 using UnityEngine.Networking;
 
 public class PositionSynchronisation : NetworkBehaviour {
@@ -18,6 +15,14 @@ public class PositionSynchronisation : NetworkBehaviour {
 
 
 	void Start () {
+
+		if (Network.isServer) {
+			transform.position = new Vector3(0,0,0);
+			Debug.Log ("NPC is Server");
+		}
+		else
+			Debug.Log ("NPC is Client");
+		
 		myTransform = GetComponent<Transform> ();
 		syncPos = GetComponent<Transform>().position;
 	}
@@ -46,4 +51,6 @@ public class PositionSynchronisation : NetworkBehaviour {
 			lastPos = myTransform.position;
 		}
 	}
+
+
 }

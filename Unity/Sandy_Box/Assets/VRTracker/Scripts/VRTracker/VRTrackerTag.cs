@@ -76,11 +76,15 @@ public class VRTrackerTag : MonoBehaviour {
 	private int counterFrameWithSameOrientation = 0;
 	private Vector3 lastFrameOrientationReceived;
 
+	private NetworkIdentity netId;
+
 	// Use this for initialization
 	protected virtual void Start () {
-		if (transform.parent.GetComponent<NetworkIdentity>() != null && !transform.parent.GetComponent<NetworkIdentity>().isLocalPlayer) {
+		netId = transform.GetComponentInParent<NetworkIdentity> ();
+		if (netId != null && !netId.isLocalPlayer) {
 			return;
 		}
+		
 		startTimestamp = System.DateTime.Now.Ticks / System.TimeSpan.TicksPerMillisecond;
 		lastLateUpateTimestamp = startTimestamp;
 
@@ -111,7 +115,7 @@ public class VRTrackerTag : MonoBehaviour {
 	}
 
 	protected virtual void LateUpdate(){
-		if (transform.parent.GetComponent<NetworkIdentity>() != null && !transform.parent.GetComponent<NetworkIdentity>().isLocalPlayer) {
+		if (netId != null && !netId.isLocalPlayer) {
 			return;
 		}
 
@@ -377,7 +381,7 @@ public class VRTrackerTag : MonoBehaviour {
 	// Update the Oriention from IMU For Tag V1
 	public void updateOrientation(Vector3 neworientation)
 	{
-		Vector3 flippedRotation = new Vector3(neworientation.z, neworientation.x, -neworientation.y);
+		Vector3 flippedRotation = neworientation;//new Vector3(neworientation.z, neworientation.x, -neworientation.y);
 		orientation_ = flippedRotation;
 
 		orientationUsesQuaternion = false;

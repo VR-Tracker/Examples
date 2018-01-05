@@ -124,10 +124,12 @@ namespace VRStandardAssets.Intro
 
                 if (VRTracker.instance.isSpectator)
                 {
+					Debug.Log ("Starting as Server");
                     NetworkManager.singleton.StartServer();
                 }
                 else
                 {
+					Debug.Log ("Starting as Host");
                     NetworkManager.singleton.StartHost();
                 }
             } else {

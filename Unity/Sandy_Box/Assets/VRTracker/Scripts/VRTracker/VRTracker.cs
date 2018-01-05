@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System;
 using WebSocketSharp;
 using System.Text.RegularExpressions;
-
+using UnityEngine.Networking;
 
 public class VRTracker : MonoBehaviour {
 
@@ -177,7 +177,7 @@ public class VRTracker : MonoBehaviour {
 		}
 		else if (e.Data.Contains("cmd=specialcmd"))
 		{
-			Debug.Log (e.Data);
+			//Debug.Log (e.Data);
 			string[] datas = e.Data.Split('&');
 			string uid = null;
 			string command = null;
@@ -315,7 +315,7 @@ public class VRTracker : MonoBehaviour {
 		}
 		else
 		{
-			Debug.Log("VR Tracker : Unknown data received : " + e.Data);
+		//	Debug.Log("VR Tracker : Unknown data received : " + e.Data);
 		}
 	}
 
