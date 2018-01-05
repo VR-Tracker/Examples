@@ -26,7 +26,6 @@ public class VRTracker : MonoBehaviour {
 	[System.NonSerialized]public bool assignationComplete = false;
 	[System.NonSerialized]public string serverIp = "";
 	private bool serverIpReceived = false;
-	private bool isWaitingForIp = false;
     [System.NonSerialized]
     public bool isSpectator = false;
 
@@ -648,7 +647,6 @@ public class VRTracker : MonoBehaviour {
 	}
 
 	public void askForServer(){
-		isWaitingForIp = true;
 		askServerIP ();
 	}
 

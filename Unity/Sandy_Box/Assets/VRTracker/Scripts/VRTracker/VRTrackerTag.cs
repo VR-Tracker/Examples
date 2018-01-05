@@ -21,8 +21,6 @@ public class VRTrackerTag : MonoBehaviour {
 	public Vector3 orientationOffset; // Offset to apply
 	public Vector3 EyeTagOffset; // Difference between tag and eye position in real world
 	public bool orientationEnabled = true;
-	//public List<GameObject> rotatingObject; // Store the game object that will move
-	private bool isHead = false;
 	public string status;   
 	public int battery;
 	[System.NonSerialized]public bool waitingForID = false;                           // if the tag is Waiting for its ID
@@ -60,7 +58,6 @@ public class VRTrackerTag : MonoBehaviour {
 	private Vector3[] positionSpeeds;
 	private Vector3 positionAcceleration;
 
-	private float delta = 0;
 	private long maxPredictionDuration = 400; // 500ms
     public int DeadReckogningDelayMs = 80; // 40ms seems to be a good value, don't go up though
     public float smoothingIntensity = 0.85f;
@@ -99,13 +96,6 @@ public class VRTrackerTag : MonoBehaviour {
         VRTracker.instance.AddTag (this);
 		//Try to assign automatically the tag
 		tryAssignToPrefab ();
-
-
-		//Check if there is a camera
-		if(gameObject.GetComponentsInChildren<Camera>().Length > 0)
-		{
-			isHead = true;
-		}
 
 		if(UID != "Enter Your Tag UID")
 		{
@@ -402,7 +392,6 @@ public class VRTrackerTag : MonoBehaviour {
 	public void onSpecialCommand(string data){
         commandReceived = true;
 		command = data;
-		long receveidTime = (System.DateTime.Now.Ticks / System.TimeSpan.TicksPerMillisecond) - startTimestamp;
 	}
 
 

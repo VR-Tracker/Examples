@@ -41,9 +41,9 @@ namespace VRStandardAssets.Utils
 
 		private void OnEnable()
 		{
-			if (netId != null && netId.isServer) {
-				
-			}
+			if (netId != null && !netId.isServer)
+				return;
+			
 			m_VrInput.OnClick += HandleClick;
 			m_VrInput.OnDoubleClick += HandleDoubleClick;
 			m_VrInput.OnUp += HandleUp;
@@ -58,9 +58,9 @@ namespace VRStandardAssets.Utils
 
 		private void OnDisable ()
 		{
-			if (transform.GetComponentInParent<NetworkIdentity> () != null && !transform.GetComponentInParent<NetworkIdentity> ().isLocalPlayer) {
+			if (netId != null && !netId.isServer)
 				return;
-			}
+			
 			m_VrInput.OnClick -= HandleClick;
 			m_VrInput.OnDoubleClick -= HandleDoubleClick;
 			m_VrInput.OnUp -= HandleUp;
@@ -75,9 +75,8 @@ namespace VRStandardAssets.Utils
 
 		private void Update()
 		{
-			if (transform.GetComponentInParent<NetworkIdentity> () != null && !transform.GetComponentInParent<NetworkIdentity> ().isLocalPlayer) {
+			if (netId != null && !netId.isServer)
 				return;
-			}
 
 			EyeRaycast();
 		}

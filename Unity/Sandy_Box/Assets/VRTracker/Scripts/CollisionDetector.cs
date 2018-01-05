@@ -19,7 +19,7 @@ public class CollisionDetector : MonoBehaviour {
 			return;
 		
 		// Trigger Collision detection in Server only
-		if (netId == null || !netId.isServer)
+		if (netId != null && !netId.isServer)
 			return;
 		
 		if (col.gameObject.name != "Body" && col != null) {
@@ -34,7 +34,7 @@ public class CollisionDetector : MonoBehaviour {
 			return;
 
 		// Trigger Collision detection in Server only
-		if (netId == null || !netId.isServer)
+		if (netId != null && !netId.isServer)
 			return;
 
 		if(col != null)
