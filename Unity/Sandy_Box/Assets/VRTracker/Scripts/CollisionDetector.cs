@@ -36,9 +36,8 @@ public class CollisionDetector : MonoBehaviour {
 		// Trigger Collision detection in Server only
 		if (netId == null || !netId.isServer)
 			return;
-		}
 
-		if (col != null)
+		if(col != null)
 			pickupScript.collisionsArray.Remove (col.gameObject);
 	}
 
