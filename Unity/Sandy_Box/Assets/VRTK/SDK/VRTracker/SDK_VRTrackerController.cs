@@ -40,27 +40,6 @@ namespace VRTK
         protected float[] hairTriggerLimit = new float[2];
         protected float[] hairGripLimit = new float[2];
 
-       /* protected OVRHapticsClip hapticsProceduralClipLeft;
-        protected OVRHapticsClip hapticsProceduralClipRight;
-		*/
-        /// <summary>
-        /// This method is called just after loading the <see cref="VRTK_SDKSetup"/> that's using this SDK.
-        /// </summary>
-        /// <param name="setup">The SDK Setup which is using this SDK.</param>
-        public override void OnAfterSetupLoad(VRTK_SDKSetup setup)
-        {
-            base.OnAfterSetupLoad(setup);
-
-            if (hapticsProceduralClipLeft != null || hapticsProceduralClipRight != null)
-            {
-                return;
-            }
-
-            OVRHaptics.Config.Load();
-            hapticsProceduralClipLeft = new OVRHapticsClip();
-            hapticsProceduralClipRight = new OVRHapticsClip();
-        }
-
         /// <summary>
         /// The ProcessUpdate method enables an SDK to run logic for every Unity Update
         /// </summary>
@@ -68,9 +47,7 @@ namespace VRTK
         /// <param name="options">A dictionary of generic options that can be used to within the update.</param>
         public override void ProcessUpdate(VRTK_ControllerReference controllerReference, Dictionary<string, object> options)
         {
-#if VRTK_DEFINE_OCULUS_UTILITIES_1_11_0_OR_OLDER
-            CalculateAngularVelocity(controllerReference);
-#endif
+
         }
 
         /// <summary>
@@ -80,9 +57,7 @@ namespace VRTK
         /// <param name="options">A dictionary of generic options that can be used to within the fixed update.</param>
         public override void ProcessFixedUpdate(VRTK_ControllerReference controllerReference, Dictionary<string, object> options)
         {
-#if VRTK_DEFINE_OCULUS_UTILITIES_1_12_0_OR_NEWER
-            CalculateAngularVelocity(controllerReference);
-#endif
+
         }
 
         /// <summary>
@@ -220,7 +195,7 @@ namespace VRTK
             GameObject controller = GetSDKManagerControllerLeftHand(actual);
             if (controller == null && actual)
             {
-                controller = VRTK_SharedMethods.FindEvenInactiveGameObject<OVRCameraRig>("TrackingSpace/LeftHandAnchor");
+               //TODO: Change here controller = VRTK_SharedMethods.FindEvenInactiveGameObject<OVRCameraRig>("TrackingSpace/LeftHandAnchor");
             }
             return controller;
         }
@@ -235,7 +210,7 @@ namespace VRTK
             GameObject controller = GetSDKManagerControllerRightHand(actual);
             if (controller == null && actual)
             {
-                controller = VRTK_SharedMethods.FindEvenInactiveGameObject<OVRCameraRig>("TrackingSpace/RightHandAnchor");
+				//TODO: Change here controller = VRTK_SharedMethods.FindEvenInactiveGameObject<OVRCameraRig>("TrackingSpace/RightHandAnchor");
             }
             return controller;
         }
@@ -363,7 +338,7 @@ namespace VRTK
             {
                 uint index = VRTK_ControllerReference.GetRealIndex(controllerReference);
                 GameObject controller = GetControllerByIndex(index);
-
+				/*
                 if (IsControllerLeftHand(controller))
                 {
                     hapticsProceduralClipLeft.Reset();
@@ -375,7 +350,7 @@ namespace VRTK
                     hapticsProceduralClipRight.Reset();
                     hapticsProceduralClipRight.WriteSample((byte)(strength * byte.MaxValue));
                     OVRHaptics.RightChannel.Preempt(hapticsProceduralClipRight);
-                }
+                }*/
             }
         }
 
@@ -390,7 +365,7 @@ namespace VRTK
             {
                 uint index = VRTK_ControllerReference.GetRealIndex(controllerReference);
                 GameObject controller = GetControllerByIndex(index);
-
+				/*
                 if (IsControllerLeftHand(controller))
                 {
                     OVRHaptics.LeftChannel.Preempt(new OVRHapticsClip(clip));
@@ -398,7 +373,7 @@ namespace VRTK
                 else if (IsControllerRightHand(controller))
                 {
                     OVRHaptics.RightChannel.Preempt(new OVRHapticsClip(clip));
-                }
+                }*/
             }
             return true;
         }
@@ -426,8 +401,8 @@ namespace VRTK
             {
                 return Vector3.zero;
             }
-            VRTK_TrackedController device = GetTrackedObject(controllerReference.actual);
-            return OVRInput.GetLocalControllerVelocity(touchControllers[device.index]);
+            //TODO: get Tag current velocity VRTK_TrackedController device = GetTrackedObject(controllerReference.actual);
+		return Vector3.zero; //TODO: edit
         }
 
         /// <summary>
@@ -477,12 +452,13 @@ namespace VRTK
             {
                 switch (buttonType)
                 {
-                    case ButtonTypes.Touchpad:
-                        return OVRInput.Get(touchpads[index], touchControllers[index]);
-                    case ButtonTypes.Trigger:
+					case ButtonTypes.Touchpad:
+                     //TODO: set touchpad data here   return OVRInput.Get(touchpads[index], touchControllers[index]);
+						break;
+                  /*  case ButtonTypes.Trigger:
                         return new Vector2(OVRInput.Get(triggers[index], touchControllers[index]), 0f);
                     case ButtonTypes.Grip:
-                        return new Vector2(OVRInput.Get(grips[index], touchControllers[index]), 0f);
+                        return new Vector2(OVRInput.Get(grips[index], touchControllers[index]), 0f);*/
                 }
             }
             return Vector2.zero;
@@ -518,102 +494,46 @@ namespace VRTK
             switch (buttonType)
             {
                 case ButtonTypes.Trigger:
-                    switch (pressType)
-                    {
-                        case ButtonPressTypes.Press:
-                        case ButtonPressTypes.PressDown:
-                        case ButtonPressTypes.PressUp:
-                            return IsButtonPressed(index, pressType, OVRInput.Button.PrimaryIndexTrigger);
-                        case ButtonPressTypes.Touch:
-                        case ButtonPressTypes.TouchDown:
-                        case ButtonPressTypes.TouchUp:
-                            return IsButtonPressed(index, pressType, OVRInput.Touch.PrimaryIndexTrigger);
-                    }
-                    break;
+				/*	switch (pressType)
+					{
+					case ButtonPressTypes.Press:
+					return GvrController.ClickButton;
+					case ButtonPressTypes.PressDown:
+					return GvrController.ClickButtonDown;
+					case ButtonPressTypes.PressUp:
+					return GvrController.ClickButtonUp;
+					case ButtonPressTypes.Touch:
+					return GvrController.IsTouching;
+					case ButtonPressTypes.TouchDown:
+					return GvrController.TouchDown;
+					case ButtonPressTypes.TouchUp:
+					return GvrController.TouchUp;
+					}
+				*/
+					break;
                 case ButtonTypes.TriggerHairline:
-                    if (pressType == ButtonPressTypes.PressDown)
-                    {
-                        return (currentHairTriggerState[index] && !previousHairTriggerState[index]);
-                    }
-                    else if (pressType == ButtonPressTypes.PressUp)
-                    {
-                        return (!currentHairTriggerState[index] && previousHairTriggerState[index]);
-                    }
+                    
                     break;
-                case ButtonTypes.Grip:
-                    return IsButtonPressed(index, pressType, OVRInput.Button.PrimaryHandTrigger);
+				case ButtonTypes.Grip:
+					
+					break;
                 case ButtonTypes.GripHairline:
-                    if (pressType == ButtonPressTypes.PressDown)
-                    {
-                        return (currentHairGripState[index] && !previousHairGripState[index]);
-                    }
-                    else if (pressType == ButtonPressTypes.PressUp)
-                    {
-                        return (!currentHairGripState[index] && previousHairGripState[index]);
-                    }
+                    
                     break;
                 case ButtonTypes.Touchpad:
-                    switch (pressType)
-                    {
-                        case ButtonPressTypes.Press:
-                        case ButtonPressTypes.PressDown:
-                        case ButtonPressTypes.PressUp:
-                            return IsButtonPressed(index, pressType, OVRInput.Button.PrimaryThumbstick);
-                        case ButtonPressTypes.Touch:
-                        case ButtonPressTypes.TouchDown:
-                        case ButtonPressTypes.TouchUp:
-                            return IsButtonPressed(index, pressType, OVRInput.Touch.PrimaryThumbstick);
-                    }
+                    
                     break;
                 case ButtonTypes.ButtonOne:
-                    switch (pressType)
-                    {
-                        case ButtonPressTypes.Press:
-                        case ButtonPressTypes.PressDown:
-                        case ButtonPressTypes.PressUp:
-                            return IsButtonPressed(index, pressType, OVRInput.Button.One);
-                        case ButtonPressTypes.Touch:
-                        case ButtonPressTypes.TouchDown:
-                        case ButtonPressTypes.TouchUp:
-                            return IsButtonPressed(index, pressType, OVRInput.Touch.One);
-                    }
+                    
                     break;
                 case ButtonTypes.ButtonTwo:
-                    switch (pressType)
-                    {
-                        case ButtonPressTypes.Press:
-                        case ButtonPressTypes.PressDown:
-                        case ButtonPressTypes.PressUp:
-                            return IsButtonPressed(index, pressType, OVRInput.Button.Two);
-                        case ButtonPressTypes.Touch:
-                        case ButtonPressTypes.TouchDown:
-                        case ButtonPressTypes.TouchUp:
-                            return IsButtonPressed(index, pressType, OVRInput.Touch.Two);
-                    }
+                    
                     break;
-                case ButtonTypes.StartMenu:
-                    return IsButtonPressed(index, pressType, OVRInput.Button.Start);
+				case ButtonTypes.StartMenu:
+					
+					break;
             }
             return false;
-        }
-
-        protected virtual void CalculateAngularVelocity(VRTK_ControllerReference controllerReference)
-        {
-            if (VRTK_ControllerReference.IsValid(controllerReference))
-            {
-                uint index = VRTK_ControllerReference.GetRealIndex(controllerReference);
-                VRTK_TrackedController device = GetTrackedObject(controllerReference.actual);
-                if (device == null)
-                {
-                    return;
-                }
-
-                previousControllerRotations[index] = currentControllerRotations[index];
-                currentControllerRotations[index] = device.transform.rotation;
-
-                UpdateHairValues(index, GetButtonAxis(ButtonTypes.Trigger, controllerReference).x, GetButtonHairlineDelta(ButtonTypes.Trigger, controllerReference), ref previousHairTriggerState[index], ref currentHairTriggerState[index], ref hairTriggerLimit[index]);
-                UpdateHairValues(index, GetButtonAxis(ButtonTypes.Grip, controllerReference).x, GetButtonHairlineDelta(ButtonTypes.Grip, controllerReference), ref previousHairGripState[index], ref currentHairGripState[index], ref hairGripLimit[index]);
-            }
         }
 
         protected virtual void SetTrackedControllerCaches(bool forceRefresh = false)
@@ -660,56 +580,6 @@ namespace VRTK
                 trackedObject = cachedRightController;
             }
             return trackedObject;
-        }
-
-        protected virtual bool IsButtonPressed(uint index, ButtonPressTypes type, OVRInput.Button button)
-        {
-            if (index >= uint.MaxValue)
-            {
-                return false;
-            }
-
-            VRTK_TrackedController device = GetTrackedObject(GetControllerByIndex(index));
-            if (device != null)
-            {
-                OVRInput.Controller controller = touchControllers[index];
-                switch (type)
-                {
-                    case ButtonPressTypes.Press:
-                        return OVRInput.Get(button, controller);
-                    case ButtonPressTypes.PressDown:
-                        return OVRInput.GetDown(button, controller);
-                    case ButtonPressTypes.PressUp:
-                        return OVRInput.GetUp(button, controller);
-                }
-            }
-
-            return false;
-        }
-
-        protected virtual bool IsButtonPressed(uint index, ButtonPressTypes type, OVRInput.Touch button)
-        {
-            if (index >= uint.MaxValue)
-            {
-                return false;
-            }
-
-            VRTK_TrackedController device = GetTrackedObject(GetControllerByIndex(index));
-            if (device != null)
-            {
-                OVRInput.Controller controller = touchControllers[index];
-                switch (type)
-                {
-                    case ButtonPressTypes.Touch:
-                        return OVRInput.Get(button, controller);
-                    case ButtonPressTypes.TouchDown:
-                        return OVRInput.GetDown(button, controller);
-                    case ButtonPressTypes.TouchUp:
-                        return OVRInput.GetUp(button, controller);
-                }
-            }
-
-            return false;
         }
 
         protected virtual void UpdateHairValues(uint index, float axisValue, float hairDelta, ref bool previousState, ref bool currentState, ref float hairLimit)

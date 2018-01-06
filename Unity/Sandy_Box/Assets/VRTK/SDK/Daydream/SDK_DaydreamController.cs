@@ -1,5 +1,5 @@
 ﻿// Daydream Controller|SDK_Daydream|004
-#define VRTK_DEFINE_SDK_DAYDREAM
+//#define VRTK_DEFINE_SDK_DAYDREAM
 namespace VRTK
 {
 #if VRTK_DEFINE_SDK_DAYDREAM

@@ -1,5 +1,5 @@
 ﻿// VRTracker Headset|SDK_VRTracker|003
-#define VRTK_DEFINE_SDK_VRTRACKER //TODO : delete this line, just to un-grey the code
+//#define VRTK_DEFINE_SDK_VRTRACKER //TODO : delete this line, just to un-grey the code
 namespace VRTK
 {
 #if VRTK_DEFINE_SDK_VRTRACKER
@@ -49,7 +49,7 @@ namespace VRTK
             cachedHeadset = GetSDKManagerHeadset();
             if (cachedHeadset == null)
             {
-                cachedHeadset = VRTK_SharedMethods.FindEvenInactiveGameObject<OVRCameraRig>("TrackingSpace/CenterEyeAnchor").transform;
+               //TODO: get headset transform cachedHeadset = VRTK_SharedMethods.FindEvenInactiveGameObject<OVRCameraRig>("TrackingSpace/CenterEyeAnchor").transform;
             }
             return cachedHeadset;
         }

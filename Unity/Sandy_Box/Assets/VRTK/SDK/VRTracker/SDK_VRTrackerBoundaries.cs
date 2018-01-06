@@ -36,11 +36,13 @@ namespace VRTK
             cachedPlayArea = GetSDKManagerPlayArea();
             if (cachedPlayArea == null)
             {
-                var ovrManager = VRTK_SharedMethods.FindEvenInactiveComponent<OVRManager>();
+				//TODO: get the player area
+               /* var ovrManager = VRTK_SharedMethods.FindEvenInactiveComponent<OVRManager>();
                 if (ovrManager)
                 {
                     cachedPlayArea = ovrManager.transform;
                 }
+                */
             }
 
             return cachedPlayArea;
@@ -52,7 +54,8 @@ namespace VRTK
         /// <returns>A Vector3 array of the points in the scene that represent the play area boundaries.</returns>
         public override Vector3[] GetPlayAreaVertices()
         {
-            var area = new OVRBoundary();
+			//TODO: get boundaries
+            /*var area = new OVRBoundary();
             if (area.GetConfigured())
             {
                 var outerBoundary = area.GetDimensions(OVRBoundary.BoundaryType.OuterBoundary);
@@ -71,7 +74,7 @@ namespace VRTK
                 vertices[7] = new Vector3(outerBoundary.x, 0f, 0f);
 
                 return vertices;
-            }
+            }*/
             return null;
         }
 
