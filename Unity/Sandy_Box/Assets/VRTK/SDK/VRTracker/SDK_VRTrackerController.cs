@@ -23,11 +23,11 @@ namespace VRTK
         protected SDK_OculusBoundaries cachedBoundariesSDK;
         protected VRTK_TrackedController cachedLeftController;
         protected VRTK_TrackedController cachedRightController;
-        protected OVRInput.Controller[] touchControllers = new OVRInput.Controller[] { OVRInput.Controller.LTouch, OVRInput.Controller.RTouch };
+        /*protected OVRInput.Controller[] touchControllers = new OVRInput.Controller[] { OVRInput.Controller.LTouch, OVRInput.Controller.RTouch };
         protected OVRInput.RawAxis2D[] touchpads = new OVRInput.RawAxis2D[] { OVRInput.RawAxis2D.LThumbstick, OVRInput.RawAxis2D.RThumbstick };
         protected OVRInput.RawAxis1D[] triggers = new OVRInput.RawAxis1D[] { OVRInput.RawAxis1D.LIndexTrigger, OVRInput.RawAxis1D.RIndexTrigger };
         protected OVRInput.RawAxis1D[] grips = new OVRInput.RawAxis1D[] { OVRInput.RawAxis1D.LHandTrigger, OVRInput.RawAxis1D.RHandTrigger };
-
+		*/
         protected Quaternion[] previousControllerRotations = new Quaternion[2];
         protected Quaternion[] currentControllerRotations = new Quaternion[2];
 
@@ -40,9 +40,9 @@ namespace VRTK
         protected float[] hairTriggerLimit = new float[2];
         protected float[] hairGripLimit = new float[2];
 
-        protected OVRHapticsClip hapticsProceduralClipLeft;
+       /* protected OVRHapticsClip hapticsProceduralClipLeft;
         protected OVRHapticsClip hapticsProceduralClipRight;
-
+		*/
         /// <summary>
         /// This method is called just after loading the <see cref="VRTK_SDKSetup"/> that's using this SDK.
         /// </summary>
