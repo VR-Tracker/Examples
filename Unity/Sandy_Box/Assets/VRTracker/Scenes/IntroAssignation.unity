@@ -4234,8 +4234,7 @@ Prefab:
         type: 2}
       propertyPath: m_SpawnPrefabs.Array.data[0]
       value: 
-      objectReference: {fileID: 1557721116638464, guid: 52d1f69a7dc844245a1e607b7f7aaff0,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 114514673923542662, guid: 71adf1c14cccb4819b3d892f30609c2c,
         type: 2}
       propertyPath: m_CustomConfig
@@ -4250,26 +4249,23 @@ Prefab:
         type: 2}
       propertyPath: m_PlayerPrefab
       value: 
-      objectReference: {fileID: 1052761640305138, guid: 6b170089d89153a49a72a89f9502f1c7,
+      objectReference: {fileID: 1247107059077088, guid: 659d064c0b86e45bcb1dbfd26d1be5f7,
         type: 2}
     - target: {fileID: 114514673923542662, guid: 71adf1c14cccb4819b3d892f30609c2c,
         type: 2}
       propertyPath: m_SpawnPrefabs.Array.data[1]
       value: 
-      objectReference: {fileID: 1368668805169238, guid: 5c22a286dfba0054eaba480b7d9f58f3,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 114514673923542662, guid: 71adf1c14cccb4819b3d892f30609c2c,
         type: 2}
       propertyPath: m_SpawnPrefabs.Array.data[2]
       value: 
-      objectReference: {fileID: 1764870188555556, guid: 1aaed0a5668241942aa89aacc1433e99,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 114514673923542662, guid: 71adf1c14cccb4819b3d892f30609c2c,
         type: 2}
       propertyPath: m_SpawnPrefabs.Array.data[3]
       value: 
-      objectReference: {fileID: 1341302959395864, guid: bb24d96e1d67c374cbfc76e560214aaf,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 114514673923542662, guid: 71adf1c14cccb4819b3d892f30609c2c,
         type: 2}
       propertyPath: m_ConnectionConfig.m_ConnectTimeout
