@@ -719,10 +719,10 @@ MonoBehaviour:
   UID: Enter Your Tag UID
   displayLog: 0
   velocity: {x: 0, y: 0, z: 0}
-  DeadReckogningDelayMs: 40
-  smoothingIntensity: 0.85
+  DeadReckogningDelayMs: 80
+  smoothingIntensity: 0.9
   enablePositionSmoothing: 1
-  enableOrientationSmoothing: 1
+  enableOrientationSmoothing: 0
 --- !u!114 &114743059592530554
 MonoBehaviour:
   m_ObjectHideFlags: 1
