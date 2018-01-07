@@ -145,7 +145,7 @@ namespace VRTK
         /// </remarks>
         public static float CurrentRenderScale
         {
-            get { return UnityEngine.XR.XRSettings.eyeTextureResolutionScale * UnityEngine.XR.XRSettings.renderViewportScale; }
+            get { return VRSettings.renderScale * VRSettings.renderViewportScale; }
         }
 
         /// <summary>
@@ -210,8 +210,8 @@ namespace VRTK
         /// </returns>
         public static Vector2 RenderTargetResolutionForRenderScale(float renderScale)
         {
-            return new Vector2((int)(UnityEngine.XR.XRSettings.eyeTextureWidth / UnityEngine.XR.XRSettings.eyeTextureResolutionScale * renderScale),
-                               (int)(UnityEngine.XR.XRSettings.eyeTextureHeight / UnityEngine.XR.XRSettings.eyeTextureResolutionScale * renderScale));
+            return new Vector2((int)(VRSettings.eyeTextureWidth / VRSettings.renderScale * renderScale),
+                               (int)(VRSettings.eyeTextureHeight / VRSettings.renderScale * renderScale));
         }
 
         /// <summary>
@@ -223,15 +223,15 @@ namespace VRTK
         /// </returns>
         public float BiggestAllowedMaximumRenderScale()
         {
-            if (UnityEngine.XR.XRSettings.eyeTextureWidth == 0 || UnityEngine.XR.XRSettings.eyeTextureHeight == 0)
+            if (VRSettings.eyeTextureWidth == 0 || VRSettings.eyeTextureHeight == 0)
             {
                 return maximumRenderScale;
             }
 
-            float maximumHorizontalRenderScale = maximumRenderTargetDimension * UnityEngine.XR.XRSettings.eyeTextureResolutionScale
-                                                 / UnityEngine.XR.XRSettings.eyeTextureWidth;
-            float maximumVerticalRenderScale = maximumRenderTargetDimension * UnityEngine.XR.XRSettings.eyeTextureResolutionScale
-                                               / UnityEngine.XR.XRSettings.eyeTextureHeight;
+            float maximumHorizontalRenderScale = maximumRenderTargetDimension * VRSettings.renderScale
+                                                 / VRSettings.eyeTextureWidth;
+            float maximumVerticalRenderScale = maximumRenderTargetDimension * VRSettings.renderScale
+                                               / VRSettings.eyeTextureHeight;
             return Mathf.Min(maximumHorizontalRenderScale, maximumVerticalRenderScale);
         }
 
@@ -300,8 +300,8 @@ namespace VRTK
             Camera.onPreCull += OnCameraPreCull;
 
             hmdDisplayIsOnDesktop = VRTK_SDK_Bridge.IsDisplayOnDesktop();
-            singleFrameDurationInMilliseconds = UnityEngine.XR.XRDevice.refreshRate > 0.0f
-                                                ? 1000.0f / UnityEngine.XR.XRDevice.refreshRate
+            singleFrameDurationInMilliseconds = VRDevice.refreshRate > 0.0f
+                                                ? 1000.0f / VRDevice.refreshRate
                                                 : DefaultFrameDurationInMilliseconds;
 
             HandleCommandLineArguments();
@@ -644,13 +644,13 @@ namespace VRTK
 
         private static void SetRenderScale(float renderScale, float renderViewportScale)
         {
-            if (Mathf.Abs(UnityEngine.XR.XRSettings.eyeTextureResolutionScale - renderScale) > float.Epsilon)
+            if (Mathf.Abs(VRSettings.renderScale - renderScale) > float.Epsilon)
             {
-                UnityEngine.XR.XRSettings.eyeTextureResolutionScale = renderScale;
+                VRSettings.renderScale = renderScale;
             }
-            if (Mathf.Abs(UnityEngine.XR.XRSettings.renderViewportScale - renderViewportScale) > float.Epsilon)
+            if (Mathf.Abs(VRSettings.renderViewportScale - renderViewportScale) > float.Epsilon)
             {
-                UnityEngine.XR.XRSettings.renderViewportScale = renderViewportScale;
+                VRSettings.renderViewportScale = renderViewportScale;
             }
         }
 

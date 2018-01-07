@@ -411,8 +411,8 @@ namespace VRTK
             for (int i = 0; i < makeRendererVisible.Count; i++)
             {
                 ToggleRendererVisibility(makeRendererVisible[i], true);
-                makeRendererVisible.Remove(makeRendererVisible[i]);
             }
+            makeRendererVisible.Clear();
         }
 
         protected virtual void ToggleRendererVisibility(GameObject givenObject, bool state)
@@ -549,7 +549,7 @@ namespace VRTK
         {
             if (objectInteractor != null)
             {
-                VRTK_SharedMethods.SetGlobalScale(transform, scaleAmount);
+                VRTK_SharedMethods.SetGlobalScale(objectInteractor.transform, scaleAmount);
             }
         }
 
