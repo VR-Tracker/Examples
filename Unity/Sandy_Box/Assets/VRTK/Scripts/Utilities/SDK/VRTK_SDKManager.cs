@@ -438,13 +438,13 @@ namespace VRTK
                         })
                 );
             }
-            else if (VRSettings.enabled)
+            else if (UnityEngine.XR.XRSettings.enabled)
             {
                 // Use the SDK Setup for the current VR Device if it's working already
                 // (may be due to command line argument '-vrmode')
                 index = Array.FindIndex(
                     setups,
-                    setup => setup.usedVRDeviceNames.Contains(VRSettings.loadedDeviceName)
+                    setup => setup.usedVRDeviceNames.Contains(UnityEngine.XR.XRSettings.loadedDeviceName)
                 );
             }
             else
@@ -452,7 +452,7 @@ namespace VRTK
                 // If '-vrmode none' was used try to load the respective SDK Setup
                 string[] commandLineArgs = Environment.GetCommandLineArgs();
                 int commandLineArgIndex = Array.IndexOf(commandLineArgs, "-vrmode", 1);
-                if (VRSettings.loadedDeviceName == "None"
+                if (UnityEngine.XR.XRSettings.loadedDeviceName == "None"
                     || (commandLineArgIndex != -1
                         && commandLineArgIndex + 1 < commandLineArgs.Length
                         && commandLineArgs[commandLineArgIndex + 1].ToLowerInvariant() == "none"))
@@ -514,25 +514,25 @@ namespace VRTK
                 previousLoadedSetup.OnUnloaded(this);
             }
 
-            string loadedDeviceName = string.IsNullOrEmpty(VRSettings.loadedDeviceName) ? "None" : VRSettings.loadedDeviceName;
+            string loadedDeviceName = string.IsNullOrEmpty(UnityEngine.XR.XRSettings.loadedDeviceName) ? "None" : UnityEngine.XR.XRSettings.loadedDeviceName;
             bool isDeviceAlreadyLoaded = sdkSetups[0].usedVRDeviceNames.Contains(loadedDeviceName);
             if (!isDeviceAlreadyLoaded)
             {
-                if (!tryToReinitialize && !VRSettings.enabled && loadedDeviceName != "None")
+                if (!tryToReinitialize && !UnityEngine.XR.XRSettings.enabled && loadedDeviceName != "None")
                 {
                     sdkSetups = sdkSetups.Where(setup => !setup.usedVRDeviceNames.Contains(loadedDeviceName))
                                          .ToArray();
                 }
 
                 VRTK_SDKSetup[] missingVRDeviceSetups = sdkSetups
-                    .Where(setup => setup.usedVRDeviceNames.Except(VRSettings.supportedDevices.Concat(new[] { "None" })).Any())
+                    .Where(setup => setup.usedVRDeviceNames.Except(UnityEngine.XR.XRSettings.supportedDevices.Concat(new[] { "None" })).Any())
                     .ToArray();
                 foreach (VRTK_SDKSetup missingVRDeviceSetup in missingVRDeviceSetups)
                 {
                     string missingVRDevicesText = string.Join(
                         ", ",
                         missingVRDeviceSetup.usedVRDeviceNames
-                                            .Except(VRSettings.supportedDevices)
+                                            .Except(UnityEngine.XR.XRSettings.supportedDevices)
                                             .ToArray()
                     );
                     VRTK_Logger.Warn(string.Format("Ignoring SDK Setup '{0}' because the following VR device names are missing from the PlayerSettings:\n{1}",
@@ -546,7 +546,7 @@ namespace VRTK
                     .Distinct()
                     .Concat(new[] { "None" }) // Add "None" to the end to fall back to
                     .ToArray();
-                VRSettings.LoadDeviceByName(vrDeviceNames);
+                UnityEngine.XR.XRSettings.LoadDeviceByName(vrDeviceNames);
             }
 
             StartCoroutine(FinishSDKSetupLoading(sdkSetups, previousLoadedSetup));
@@ -593,8 +593,8 @@ namespace VRTK
 
             if (disableVR)
             {
-                VRSettings.LoadDeviceByName("None");
-                VRSettings.enabled = false;
+                UnityEngine.XR.XRSettings.LoadDeviceByName("None");
+                UnityEngine.XR.XRSettings.enabled = false;
             }
 
             if (previousLoadedSetup != null)
@@ -683,7 +683,7 @@ namespace VRTK
         {
             yield return null;
 
-            string loadedDeviceName = string.IsNullOrEmpty(VRSettings.loadedDeviceName) ? "None" : VRSettings.loadedDeviceName;
+            string loadedDeviceName = string.IsNullOrEmpty(UnityEngine.XR.XRSettings.loadedDeviceName) ? "None" : UnityEngine.XR.XRSettings.loadedDeviceName;
             loadedSetup = sdkSetups.FirstOrDefault(setup => setup.usedVRDeviceNames.Contains(loadedDeviceName));
 
             if (loadedSetup == null)
@@ -701,9 +701,9 @@ namespace VRTK
             if (loadedSetup.usedVRDeviceNames.Except(new[] { "None" }).Any())
             {
                 // The loaded VR Device is actually a VR Device
-                VRSettings.enabled = true;
+                UnityEngine.XR.XRSettings.enabled = true;
 
-                if (!VRDevice.isPresent)
+                if (!UnityEngine.XR.XRDevice.isPresent)
                 {
                     // Despite being loaded, the loaded VR Device isn't working correctly
                     int nextSetupIndex = Array.IndexOf(sdkSetups, loadedSetup) + 1;
