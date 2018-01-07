@@ -22,9 +22,7 @@ namespace VRTK
         /// </summary>
         public override void InitBoundaries()
         {
-#if VRTK_DEFINE_SDK_VRTRACKER_AVATAR
-            GetAvatar();
-#endif
+
         }
 
         /// <summary>
@@ -36,13 +34,12 @@ namespace VRTK
             cachedPlayArea = GetSDKManagerPlayArea();
             if (cachedPlayArea == null)
             {
-				//TODO: get the player area
-               /* var ovrManager = VRTK_SharedMethods.FindEvenInactiveComponent<OVRManager>();
-                if (ovrManager)
+				var vrtrackerPlayArea = VRTK_SharedMethods.FindEvenInactiveComponent<VRTrackerVRTKPlayArea>();
+				if (vrtrackerPlayArea)
                 {
-                    cachedPlayArea = ovrManager.transform;
+					cachedPlayArea = vrtrackerPlayArea.transform;
                 }
-                */
+
             }
 
             return cachedPlayArea;
@@ -54,27 +51,23 @@ namespace VRTK
         /// <returns>A Vector3 array of the points in the scene that represent the play area boundaries.</returns>
         public override Vector3[] GetPlayAreaVertices()
         {
-			//TODO: get boundaries
-            /*var area = new OVRBoundary();
-            if (area.GetConfigured())
-            {
-                var outerBoundary = area.GetDimensions(OVRBoundary.BoundaryType.OuterBoundary);
-                var thickness = 0.1f;
+			var vrtrackerPlayArea = VRTK_SharedMethods.FindEvenInactiveComponent<VRTrackerVRTKPlayArea>();
+			if (vrtrackerPlayArea)
+			{
+				var vertices = new Vector3[8];
 
-                var vertices = new Vector3[8];
+				vertices[0] = new Vector3(vrtrackerPlayArea.right_x - vrtrackerPlayArea.thickness, 0f, vrtrackerPlayArea.front_z - vrtrackerPlayArea.thickness);
+				vertices[1] = new Vector3(vrtrackerPlayArea.left_x + vrtrackerPlayArea.thickness, 0f, vrtrackerPlayArea.front_z - vrtrackerPlayArea.thickness);
+				vertices[2] = new Vector3(vrtrackerPlayArea.left_x + vrtrackerPlayArea.thickness, 0f, vrtrackerPlayArea.back_z + vrtrackerPlayArea.thickness);
+				vertices[3] = new Vector3(vrtrackerPlayArea.right_x - vrtrackerPlayArea.thickness, 0f, vrtrackerPlayArea.back_z + vrtrackerPlayArea.thickness);
 
-                vertices[0] = new Vector3(outerBoundary.x - thickness, 0f, outerBoundary.z - thickness);
-                vertices[1] = new Vector3(0f + thickness, 0f, outerBoundary.z - thickness);
-                vertices[2] = new Vector3(0f + thickness, 0f, 0f + thickness);
-                vertices[3] = new Vector3(outerBoundary.x - thickness, 0f, 0f + thickness);
+				vertices[4] = new Vector3(vrtrackerPlayArea.right_x, 0f, vrtrackerPlayArea.front_z);
+				vertices[5] = new Vector3(vrtrackerPlayArea.left_x, 0f, vrtrackerPlayArea.front_z);
+				vertices[6] = new Vector3(vrtrackerPlayArea.left_x, 0f, vrtrackerPlayArea.back_z);
+				vertices[7] = new Vector3(vrtrackerPlayArea.right_x, 0f, vrtrackerPlayArea.back_z);
 
-                vertices[4] = new Vector3(outerBoundary.x, 0f, outerBoundary.z);
-                vertices[5] = new Vector3(0f, 0f, outerBoundary.z);
-                vertices[6] = new Vector3(0f, 0f, 0f);
-                vertices[7] = new Vector3(outerBoundary.x, 0f, 0f);
-
-                return vertices;
-            }*/
+				return vertices;
+            }
             return null;
         }
 

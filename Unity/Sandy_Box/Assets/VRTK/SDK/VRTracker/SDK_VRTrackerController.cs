@@ -1,5 +1,4 @@
 ﻿// VRTracker Controller|SDK_VRTracker|004
-#define VRTK_DEFINE_SDK_VRTRACKER //TODO : delete this line, just to un-grey the code
 namespace VRTK
 {
 #if VRTK_DEFINE_SDK_VRTRACKER
@@ -8,7 +7,7 @@ namespace VRTK
 #endif
 
     /// <summary>
-    /// The Oculus Controller SDK script provides a bridge to SDK methods that deal with the input devices.
+    /// The VRTracker Controller SDK script provides a bridge to SDK methods that deal with the input devices.
     /// </summary>
     [SDK_Description(typeof(SDK_VRTrackerSystem))]
     public class SDK_VRTrackerController
@@ -20,7 +19,7 @@ namespace VRTK
     {
 
 #if VRTK_DEFINE_SDK_VRTRACKER
-        protected SDK_OculusBoundaries cachedBoundariesSDK;
+        protected SDK_VRTrackerBoundaries cachedBoundariesSDK;
         protected VRTK_TrackedController cachedLeftController;
         protected VRTK_TrackedController cachedRightController;
         /*protected OVRInput.Controller[] touchControllers = new OVRInput.Controller[] { OVRInput.Controller.LTouch, OVRInput.Controller.RTouch };
@@ -66,7 +65,7 @@ namespace VRTK
         /// <returns>The ControllerType based on the SDK and headset being used.</returns>
         public override ControllerType GetCurrentControllerType()
         {
-            return ControllerType.Oculus_OculusTouch;
+			return ControllerType.VRTracker_Controller;
         }
 
         /// <summary>
@@ -76,12 +75,22 @@ namespace VRTK
         /// <returns>A path to the resource that contains the collider GameObject.</returns>
         public override string GetControllerDefaultColliderPath(ControllerHand hand)
         {
-            if (HasAvatar())
-            {
-                return "ControllerColliders/OculusTouch_" + hand.ToString();
-            }
+			return "ControllerColliders/VRTracker_" + hand.ToString();
 
-            return "ControllerColliders/Fallback";
+			//TODO: Use this to use Oculus or Steam controllers
+			/*
+			string returnCollider = "ControllerColliders/Fallback";
+			switch (VRTK_DeviceFinder.GetHeadsetType(true))
+			{
+			case VRTK_DeviceFinder.Headsets.OculusRift:
+				returnCollider = (hand == ControllerHand.Left ? "ControllerColliders/SteamVROculusTouch_Left" : "ControllerColliders/SteamVROculusTouch_Right");
+				break;
+			case VRTK_DeviceFinder.Headsets.Vive:
+				returnCollider = "ControllerColliders/HTCVive";
+				break;
+			}
+			return returnCollider;
+			*/
         }
 
         /// <summary>
@@ -93,7 +102,7 @@ namespace VRTK
         /// <returns>A string containing the path to the game object that the controller element resides in.</returns>
         public override string GetControllerElementPath(ControllerElements element, ControllerHand hand, bool fullPath = false)
         {
-            if (GetAvatar() != null)
+            if (false) //TODO: Create a controller model with elements
             {
                 string suffix = (fullPath ? "" : "");
                 string parent = "controller_" + (hand == ControllerHand.Left ? "left" : "right") + "_renderPart_0";
@@ -195,7 +204,7 @@ namespace VRTK
             GameObject controller = GetSDKManagerControllerLeftHand(actual);
             if (controller == null && actual)
             {
-               //TODO: Change here controller = VRTK_SharedMethods.FindEvenInactiveGameObject<OVRCameraRig>("TrackingSpace/LeftHandAnchor");
+				controller = VRTK_SharedMethods.FindEvenInactiveGameObject<VRTrackerVRTKCameraRig>("ControllerLeft");
             }
             return controller;
         }
@@ -210,7 +219,7 @@ namespace VRTK
             GameObject controller = GetSDKManagerControllerRightHand(actual);
             if (controller == null && actual)
             {
-				//TODO: Change here controller = VRTK_SharedMethods.FindEvenInactiveGameObject<OVRCameraRig>("TrackingSpace/RightHandAnchor");
+				controller = VRTK_SharedMethods.FindEvenInactiveGameObject<VRTrackerVRTKCameraRig>("ControllerRight");
             }
             return controller;
         }
@@ -274,37 +283,28 @@ namespace VRTK
         /// <returns>The GameObject that has the model alias within it.</returns>
         public override GameObject GetControllerModel(ControllerHand hand)
         {
-            GameObject model = GetSDKManagerControllerModelForHand(hand);
-            if (model == null)
-            {
-                GameObject avatarObject = GetAvatar();
-                switch (hand)
-                {
-                    case ControllerHand.Left:
-                        if (avatarObject != null)
-                        {
-                            model = avatarObject.transform.Find("controller_left").gameObject;
-                        }
-                        else
-                        {
-                            model = GetControllerLeftHand(true);
-                            model = (model != null && model.transform.childCount > 0 ? model.transform.GetChild(0).gameObject : null);
-                        }
-                        break;
-                    case ControllerHand.Right:
-                        if (avatarObject != null)
-                        {
-                            model = avatarObject.transform.Find("controller_right").gameObject;
-                        }
-                        else
-                        {
-                            model = GetControllerRightHand(true);
-                            model = (model != null && model.transform.childCount > 0 ? model.transform.GetChild(0).gameObject : null);
-                        }
-                        break;
-                }
-            }
-            return model;
+
+			GameObject model = GetSDKManagerControllerModelForHand(hand);
+			if (model == null)
+			{
+				GameObject controller = null;
+				switch (hand)
+				{
+				case ControllerHand.Left:
+					controller = GetControllerLeftHand(true);
+					break;
+				case ControllerHand.Right:
+					controller = GetControllerRightHand(true);
+					break;
+				}
+
+				if (controller != null)
+				{
+					Transform foundModel = controller.transform.Find("Model");
+					model = (foundModel != null ? foundModel.gameObject : null);
+				}
+			}
+			return model;
         }
 
         /// <summary>
@@ -485,6 +485,7 @@ namespace VRTK
         /// <returns>Returns true if the given button is in the state of the given press type on the given controller reference.</returns>
         public override bool GetControllerButtonState(ButtonTypes buttonType, ButtonPressTypes pressType, VRTK_ControllerReference controllerReference)
         {
+			//TODO: add controls
             if (!VRTK_ControllerReference.IsValid(controllerReference))
             {
                 return false;
@@ -604,43 +605,14 @@ namespace VRTK
             hairLimit = (currentState ? Mathf.Max(hairLimit, value) : Mathf.Min(hairLimit, value));
         }
 
-        protected virtual SDK_OculusBoundaries GetBoundariesSDK()
+        protected virtual SDK_VRTrackerBoundaries GetBoundariesSDK()
         {
             if (cachedBoundariesSDK == null)
             {
-                cachedBoundariesSDK = (VRTK_SDKManager.instance ? VRTK_SDKManager.instance.loadedSetup.boundariesSDK : CreateInstance<SDK_OculusBoundaries>()) as SDK_OculusBoundaries;
+				cachedBoundariesSDK = (VRTK_SDKManager.instance ? VRTK_SDKManager.instance.loadedSetup.boundariesSDK : CreateInstance<SDK_VRTrackerBoundaries>()) as SDK_VRTrackerBoundaries;
             }
 
             return cachedBoundariesSDK;
-        }
-
-        protected virtual bool HasAvatar(bool controllersAreVisible = true)
-        {
-            GetBoundariesSDK();
-#if VRTK_DEFINE_SDK_VRTRACKER_AVATAR
-            if (cachedBoundariesSDK != null)
-            {
-                OvrAvatar avatar = cachedBoundariesSDK.GetAvatar();
-                return (avatar && controllersAreVisible && avatar.StartWithControllers);
-            }
-#endif
-            return false;
-        }
-
-        protected virtual GameObject GetAvatar()
-        {
-            GetBoundariesSDK();
-#if VRTK_DEFINE_SDK_VRTRACKER_AVATAR
-            if (cachedBoundariesSDK != null)
-            {
-                OvrAvatar avatar = cachedBoundariesSDK.GetAvatar();
-                if (avatar != null)
-                {
-                    return avatar.gameObject;
-                }
-            }
-#endif
-            return null;
         }
 #endif
     }

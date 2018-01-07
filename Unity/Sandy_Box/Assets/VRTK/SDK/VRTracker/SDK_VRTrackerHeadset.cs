@@ -1,5 +1,4 @@
 ﻿// VRTracker Headset|SDK_VRTracker|003
-//#define VRTK_DEFINE_SDK_VRTRACKER //TODO : delete this line, just to un-grey the code
 namespace VRTK
 {
 #if VRTK_DEFINE_SDK_VRTRACKER
@@ -8,7 +7,7 @@ namespace VRTK
 #endif
 
     /// <summary>
-    /// The Oculus Headset SDK script provides a bridge to the Oculus SDK.
+    /// The VR Tracker Headset SDK script provides a bridge to the Oculus SDK.
     /// </summary>
     [SDK_Description(typeof(SDK_VRTrackerSystem))]
 	public class SDK_VRTrackerHeadset
@@ -49,7 +48,7 @@ namespace VRTK
             cachedHeadset = GetSDKManagerHeadset();
             if (cachedHeadset == null)
             {
-               //TODO: get headset transform cachedHeadset = VRTK_SharedMethods.FindEvenInactiveGameObject<OVRCameraRig>("TrackingSpace/CenterEyeAnchor").transform;
+				cachedHeadset = VRTK_SharedMethods.FindEvenInactiveGameObject<VRTrackerVRTKCameraRig>("VRTrackerCamera").transform;
             }
             return cachedHeadset;
         }
@@ -60,7 +59,12 @@ namespace VRTK
         /// <returns>A transform of the object holding the headset camera in the scene.</returns>
         public override Transform GetHeadsetCamera()
 		{
-			return Camera.main.transform.parent.transform; //TODO: Maybe return the Camera not the parent 
+			cachedHeadsetCamera = GetSDKManagerHeadset();
+			if (cachedHeadsetCamera == null)
+			{
+				cachedHeadsetCamera = GetHeadset(); //TODO: est ce qu'il faudrait pas renvoyer le sous object Camera de VRTrackerCamera plutôt ?
+			}
+			return cachedHeadsetCamera;
         }
 
         /// <summary>
