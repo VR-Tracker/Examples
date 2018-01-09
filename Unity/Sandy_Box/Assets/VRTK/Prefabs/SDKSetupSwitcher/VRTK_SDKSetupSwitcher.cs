@@ -86,6 +86,8 @@ namespace VRTK
             if (playareaSync && currentPlayarea != null)
             {
                 Transform newPlayarea = VRTK_DeviceFinder.PlayAreaTransform();
+				if (newPlayarea == null)
+					Debug.Log ("newPlayarea is null");
                 newPlayarea.transform.position = currentPlayarea.transform.position;
                 newPlayarea.transform.rotation = currentPlayarea.transform.rotation;
                 VRTK_SharedMethods.SetGlobalScale(newPlayarea, currentPlayarea.transform.lossyScale);

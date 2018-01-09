@@ -68,7 +68,7 @@ namespace VRTK
         /// The GetCurrentControllerType method returns the current used ControllerType based on the SDK and headset being used.
         /// </summary>
         /// <returns>The ControllerType based on the SDK and headset being used.</returns>
-        public override ControllerType GetCurrentControllerType()
+		public override ControllerType GetCurrentControllerType(VRTK_ControllerReference controllerReference = null)
         {
 			return ControllerType.VRTracker_Controller;
         }
@@ -194,7 +194,8 @@ namespace VRTK
         /// </summary>
         /// <param name="parent">The GameObject that the origin will become parent of. If it is a controller then it will also be used to determine the hand if required.</param>
         /// <returns>A generated Transform that contains the custom pointer origin.</returns>
-        public override Transform GenerateControllerPointerOrigin(GameObject parent)
+		[System.Obsolete("GenerateControllerPointerOrigin has been deprecated and will be removed in a future version of VRTK.")]
+		public override Transform GenerateControllerPointerOrigin(GameObject parent)
         {
             return null;
         }
@@ -270,6 +271,17 @@ namespace VRTK
         {
             return CheckControllerRightHand(controller, actual);
         }
+
+
+		/// <summary>
+		/// The WaitForControllerModel method determines whether the controller model for the given hand requires waiting to load in on scene start.
+		/// </summary>
+		/// <param name="hand">The hand to determine if the controller model will be ready for.</param>
+		/// <returns>Returns true if the controller model requires loading in at runtime and therefore needs waiting for. Returns false if the controller model will be available at start.</returns>
+		public override bool WaitForControllerModel(ControllerHand hand)
+		{
+			return false;
+		}
 
         /// <summary>
         /// The GetControllerModel method returns the model alias for the given GameObject.
@@ -468,6 +480,17 @@ namespace VRTK
             }
             return Vector2.zero;
         }
+
+		/// <summary>
+		/// The GetButtonSenseAxis method retrieves the current sense axis value for the given button type on the given controller reference.
+		/// </summary>
+		/// <param name="buttonType">The type of button to check for the sense axis on.</param>
+		/// <param name="controllerReference">The reference to the controller to check the sense axis on.</param>
+		/// <returns>The current sense axis value.</returns>
+		public override float GetButtonSenseAxis(ButtonTypes buttonType, VRTK_ControllerReference controllerReference)
+		{
+			return 0f;
+		}
 
         /// <summary>
         /// The GetButtonHairlineDelta method is used to get the difference between the current button press and the previous frame button press.

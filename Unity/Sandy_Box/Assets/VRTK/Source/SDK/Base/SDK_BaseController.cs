@@ -235,7 +235,11 @@ namespace VRTK
             /// <summary>
             /// The Windows Mixed Reality Motion Controller for SteamVR.
             /// </summary>
-            SteamVR_WindowsMRController
+			SteamVR_WindowsMRController,
+			/// <summary>
+			/// VR Tracker Wand controller with trackpad
+			/// </summary>
+			VRTracker_Controller
         }
 
         public event VRTKSDKBaseControllerEventHandler LeftControllerReady;

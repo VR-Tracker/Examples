@@ -44,6 +44,15 @@ namespace VRTK
             CalculateAngularVelocity();
         }
 
+		/// <summary>
+		/// The GetHeadsetType method returns a string representing the type of headset connected.
+		/// </summary>
+		/// <returns>The string of the headset connected.</returns>
+		public override string GetHeadsetType()
+		{
+			return ScrapeHeadsetType();
+		}
+
         /// <summary>
         /// The GetHeadset method returns the Transform of the object that is used to represent the headset in the scene.
         /// </summary>
@@ -67,7 +76,7 @@ namespace VRTK
 			cachedHeadsetCamera = GetSDKManagerHeadset();
 			if (cachedHeadsetCamera == null)
 			{
-				cachedHeadsetCamera = GetHeadset(); //TODO: est ce qu'il faudrait pas renvoyer le sous object Camera de VRTrackerCamera plutôt ?
+				cachedHeadsetCamera = VRTK_SharedMethods.FindEvenInactiveGameObject<VRTrackerVRTKCameraRig>("VRTrackerCamera/Camera").transform;
 			}
 			return cachedHeadsetCamera;
         }
