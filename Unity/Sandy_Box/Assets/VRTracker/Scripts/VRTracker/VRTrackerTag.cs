@@ -7,8 +7,13 @@ using System.Collections.Generic;
 
 public class VRTrackerTag : MonoBehaviour {
 
-	// For Quaternion orientation from Tag
-	protected bool orientationUsesQuaternion = false;
+    // Type of Tag (Head, controller Left / Right fro VRTK)
+    public bool headset;
+    public bool leftController;
+    public bool rightController;
+
+    // For Quaternion orientation from Tag
+    protected bool orientationUsesQuaternion = false;
 	protected Quaternion imuOrientation_quat;
 	public float magneticNorthOffset = 0.0f;
 
@@ -45,7 +50,7 @@ public class VRTrackerTag : MonoBehaviour {
 
     // Simple velocity calculation for Pickup script
 	private Vector3 previousPosition;
-	public Vector3 velocity;
+    [System.NonSerialized] public Vector3 velocity;
 
 	// SMOOTHING
 	private long lastLateUpateTimestamp = 0;

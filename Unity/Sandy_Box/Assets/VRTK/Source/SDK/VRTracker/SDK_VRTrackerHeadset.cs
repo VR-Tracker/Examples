@@ -26,11 +26,14 @@ namespace VRTK
         private Quaternion previousHeadsetRotation;
         private Quaternion currentHeadsetRotation;
 
-        /// <summary>
-        /// The ProcessUpdate method enables an SDK to run logic for every Unity Update
-        /// </summary>
-        /// <param name="options">A dictionary of generic options that can be used to within the update.</param>
-        public override void ProcessUpdate(Dictionary<string, object> options)
+        private VRTrackerTag vrtrackerTagHead;
+
+
+/// <summary>
+/// The ProcessUpdate method enables an SDK to run logic for every Unity Update
+/// </summary>
+/// <param name="options">A dictionary of generic options that can be used to within the update.</param>
+public override void ProcessUpdate(Dictionary<string, object> options)
         {
             CalculateAngularVelocity();
         }
@@ -64,6 +67,20 @@ namespace VRTK
             {
 				cachedHeadset = VRTK_SharedMethods.FindEvenInactiveGameObject<VRTrackerVRTKCameraRig>("VRTrackerCamera").transform;
             }
+
+            if (vrtrackerTagHead == null)
+            {
+                VRTK_TransformFollow transformFollow = cachedHeadset.transform.GetComponent<VRTK_TransformFollow>();
+                foreach (VRTrackerTag tag in VRTracker.instance.tags)
+                {
+                    if (tag.headset)
+                    {
+                        vrtrackerTagHead = tag;
+                        transformFollow.gameObjectToFollow = tag.gameObject;
+                    }
+                }
+            }
+
             return cachedHeadset;
         }
 

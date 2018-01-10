@@ -21,7 +21,6 @@ GameObject:
   - component: {fileID: 4806231489287808}
   - component: {fileID: 114553164362347676}
   - component: {fileID: 114582820415726884}
-  - component: {fileID: 114964683661914178}
   m_Layer: 0
   m_Name: VRTracker_Hand_R
   m_TagString: Untagged
@@ -113,7 +112,6 @@ GameObject:
   - component: {fileID: 4449801789864944}
   - component: {fileID: 114161899881732324}
   - component: {fileID: 114315740525492024}
-  - component: {fileID: 114075171989243188}
   m_Layer: 0
   m_Name: VRTracker_Foot_L
   m_TagString: Untagged
@@ -149,7 +147,6 @@ GameObject:
   - component: {fileID: 4138701101435464}
   - component: {fileID: 114143088003324398}
   - component: {fileID: 114271405173408898}
-  - component: {fileID: 114052112290238634}
   m_Layer: 0
   m_Name: VRTracker_Hand_L
   m_TagString: Untagged
@@ -239,7 +236,6 @@ GameObject:
   - component: {fileID: 4694879402621360}
   - component: {fileID: 114290661913554270}
   - component: {fileID: 114520961004300672}
-  - component: {fileID: 114782172926363070}
   m_Layer: 0
   m_Name: VRTracker_HeadsetV2
   m_TagString: Untagged
@@ -311,7 +307,6 @@ GameObject:
   - component: {fileID: 4313213875684574}
   - component: {fileID: 114373598515629322}
   - component: {fileID: 114836245551339326}
-  - component: {fileID: 114507019631060536}
   m_Layer: 0
   m_Name: VRTracker_Foot_R
   m_TagString: Untagged
@@ -1095,30 +1090,6 @@ Behaviour:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1073396011470174}
   m_Enabled: 1
---- !u!114 &114052112290238634
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1570568899112524}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40aec8a9f3d464a93a8676eaca852db1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  activeLogging: 1
---- !u!114 &114075171989243188
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1456072726168372}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40aec8a9f3d464a93a8676eaca852db1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  activeLogging: 1
 --- !u!114 &114143088003324398
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1139,7 +1110,10 @@ MonoBehaviour:
   UID: Enter Your Tag UID
   displayLog: 0
   velocity: {x: 0, y: 0, z: 0}
-  enablePrediction: 0
+  DeadReckogningDelayMs: 80
+  smoothingIntensity: 0.85
+  enablePositionSmoothing: 1
+  enableOrientationSmoothing: 0
 --- !u!114 &114161899881732324
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1160,7 +1134,10 @@ MonoBehaviour:
   UID: Enter Your Tag UID
   displayLog: 0
   velocity: {x: 0, y: 0, z: 0}
-  enablePrediction: 0
+  DeadReckogningDelayMs: 80
+  smoothingIntensity: 0.85
+  enablePositionSmoothing: 1
+  enableOrientationSmoothing: 0
 --- !u!114 &114271405173408898
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1193,7 +1170,10 @@ MonoBehaviour:
   UID: Enter Your Tag UID
   displayLog: 0
   velocity: {x: 0, y: 0, z: 0}
-  enablePrediction: 0
+  DeadReckogningDelayMs: 80
+  smoothingIntensity: 0.85
+  enablePositionSmoothing: 1
+  enableOrientationSmoothing: 0
 --- !u!114 &114312076448232810
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1258,19 +1238,10 @@ MonoBehaviour:
   UID: Enter Your Tag UID
   displayLog: 0
   velocity: {x: 0, y: 0, z: 0}
-  enablePrediction: 0
---- !u!114 &114507019631060536
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1977763471149840}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40aec8a9f3d464a93a8676eaca852db1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  activeLogging: 1
+  DeadReckogningDelayMs: 80
+  smoothingIntensity: 0.85
+  enablePositionSmoothing: 1
+  enableOrientationSmoothing: 0
 --- !u!114 &114520961004300672
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1303,7 +1274,10 @@ MonoBehaviour:
   UID: Enter Your Tag UID
   displayLog: 0
   velocity: {x: 0, y: 0, z: 0}
-  enablePrediction: 0
+  DeadReckogningDelayMs: 80
+  smoothingIntensity: 0.85
+  enablePositionSmoothing: 1
+  enableOrientationSmoothing: 0
 --- !u!114 &114582820415726884
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1337,18 +1311,6 @@ MonoBehaviour:
   m_SnapThreshold: 5
   m_InterpolateRotation: 1
   m_InterpolateMovement: 1
---- !u!114 &114782172926363070
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1851092783079386}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40aec8a9f3d464a93a8676eaca852db1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  activeLogging: 1
 --- !u!114 &114797265274614128
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1380,18 +1342,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enableOnLoad: 0
---- !u!114 &114964683661914178
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1029750476707128}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40aec8a9f3d464a93a8676eaca852db1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  activeLogging: 1
 --- !u!124 &124021111821812212
 Behaviour:
   m_ObjectHideFlags: 1

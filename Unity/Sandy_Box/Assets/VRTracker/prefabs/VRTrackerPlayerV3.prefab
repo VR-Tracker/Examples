@@ -131,7 +131,6 @@ GameObject:
   - component: {fileID: 4840401926947130}
   - component: {fileID: 114722603805879058}
   - component: {fileID: 114743059592530554}
-  - component: {fileID: 114967637398878904}
   m_Layer: 0
   m_Name: VRTracker_HeadsetV2
   m_TagString: Untagged
@@ -735,18 +734,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enableOnLoad: 0
---- !u!114 &114967637398878904
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1711573878268894}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40aec8a9f3d464a93a8676eaca852db1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  activeLogging: 1
 --- !u!124 &124688290335164584
 Behaviour:
   m_ObjectHideFlags: 1

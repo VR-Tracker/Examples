@@ -27,11 +27,7 @@ namespace VRTK
         protected SDK_VRTrackerBoundaries cachedBoundariesSDK;
         protected VRTK_TrackedController cachedLeftController;
         protected VRTK_TrackedController cachedRightController;
-        /*protected OVRInput.Controller[] touchControllers = new OVRInput.Controller[] { OVRInput.Controller.LTouch, OVRInput.Controller.RTouch };
-        protected OVRInput.RawAxis2D[] touchpads = new OVRInput.RawAxis2D[] { OVRInput.RawAxis2D.LThumbstick, OVRInput.RawAxis2D.RThumbstick };
-        protected OVRInput.RawAxis1D[] triggers = new OVRInput.RawAxis1D[] { OVRInput.RawAxis1D.LIndexTrigger, OVRInput.RawAxis1D.RIndexTrigger };
-        protected OVRInput.RawAxis1D[] grips = new OVRInput.RawAxis1D[] { OVRInput.RawAxis1D.LHandTrigger, OVRInput.RawAxis1D.RHandTrigger };
-		*/
+
         protected Quaternion[] previousControllerRotations = new Quaternion[2];
         protected Quaternion[] currentControllerRotations = new Quaternion[2];
 
@@ -43,6 +39,9 @@ namespace VRTK
 
         protected float[] hairTriggerLimit = new float[2];
         protected float[] hairGripLimit = new float[2];
+
+        private VRTrackerTag vrtrackerTagLeft;
+        private VRTrackerTag vrtrackerTagRight;
 
         /// <summary>
         /// The ProcessUpdate method enables an SDK to run logic for every Unity Update
@@ -582,6 +581,17 @@ namespace VRTK
                     if (cachedLeftController != null)
                     {
                         cachedLeftController.index = 0;
+
+                        // VR Tracker note : assign follow Controller to Tag
+                        VRTK_TransformFollow transformFollow = GetControllerLeftHand().transform.parent.GetComponent<VRTK_TransformFollow>();
+                        foreach(VRTrackerTag tag in VRTracker.instance.tags)
+                        {
+                            if (tag.leftController)
+                            {
+                                vrtrackerTagLeft = tag;
+                                transformFollow.gameObjectToFollow = tag.gameObject;
+                            }
+                        }
                     }
                 }
                 if (cachedRightController == null && sdkManager.loadedSetup.actualRightController)
@@ -590,6 +600,17 @@ namespace VRTK
                     if (cachedRightController != null)
                     {
                         cachedRightController.index = 1;
+
+                        // VR Tracker note : assign follow Controller to Tag
+                        VRTK_TransformFollow transformFollow = GetControllerRightHand().transform.parent.GetComponent<VRTK_TransformFollow>();
+                        foreach (VRTrackerTag tag in VRTracker.instance.tags)
+                        {
+                            if (tag.rightController)
+                            {
+                                vrtrackerTagRight = tag;
+                                transformFollow.gameObjectToFollow = tag.gameObject;
+                            }
+                        }
                     }
                 }
             }
