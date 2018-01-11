@@ -662,7 +662,6 @@
     <Compile Include="Assets\VRTrackerVRTKPlayArea.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\OVR\Editor\AndroidManifest.OVRSubmission.xml" />
     <None Include="Assets\OVR\Plugins\placeholder.txt" />
     <None Include="Assets\OVR\Resources\Cubemap Blit.shader" />
     <None Include="Assets\OVR\Resources\OVRMRCameraFrame.shader" />

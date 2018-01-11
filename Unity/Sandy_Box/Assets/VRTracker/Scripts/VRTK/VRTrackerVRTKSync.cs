@@ -11,9 +11,9 @@ public class VRTrackerVRTKSync : MonoBehaviour {
     private void OnEnable() {
         netId = transform.GetComponent<NetworkIdentity>();
 
-        SetUpTransformFollow(AvatarHead, VRTK_DeviceFinder.Devices.Headset);
+       /* SetUpTransformFollow(AvatarHead, VRTK_DeviceFinder.Devices.Headset);
         SetUpTransformFollow(LeftHand, VRTK_DeviceFinder.Devices.LeftController);
-        SetUpTransformFollow(RightHand, VRTK_DeviceFinder.Devices.RightController);
+        SetUpTransformFollow(RightHand, VRTK_DeviceFinder.Devices.RightController);*/
     }
 
     private static void SetUpTransformFollow(GameObject avatarComponent, VRTK_DeviceFinder.Devices device) {

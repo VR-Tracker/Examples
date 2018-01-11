@@ -12,6 +12,13 @@ public class VRTrackerTag : MonoBehaviour {
     public bool leftController;
     public bool rightController;
 
+    [System.NonSerialized] public bool triggerPressed = false;
+    [System.NonSerialized] public bool triggerUp = false;
+    [System.NonSerialized] public bool triggerDown = false;
+    [System.NonSerialized] public bool buttonPressed = false;
+    [System.NonSerialized] public bool buttonUp = false;
+    [System.NonSerialized] public bool buttonDown = false;
+
     // For Quaternion orientation from Tag
     protected bool orientationUsesQuaternion = false;
 	protected Quaternion imuOrientation_quat;
@@ -306,23 +313,34 @@ public class VRTrackerTag : MonoBehaviour {
 		
 		if (commandReceived) {
 			commandReceived = false;
-			if (command.Contains("triggeron"))
-			{
-				OnTriggerDown ();
-			}
-			else if (command.Contains("triggeroff"))
-			{
-				OnTriggerUp(); 
-			}
-			else if (command.Contains("buttonon"))
-			{
-				if (displayLog)
-				{
-					Debug.Log("Update orentiation begin to : " + orientationBegin.y);
-				}
-				ResetOrientation();
-			}
-		}
+            if (command.Contains("triggeron"))
+            {
+                OnTriggerDown();
+                triggerPressed = true;
+                triggerDown = true; 
+
+            }
+            else if (command.Contains("triggeroff"))
+            {
+                OnTriggerUp();
+                triggerPressed = false;
+                triggerUp = true;
+            }
+            else if (command.Contains("buttonon"))
+            {
+                buttonPressed = true;
+                buttonDown = true;
+                if (displayLog)
+                {
+                    Debug.Log("Update orentiation begin to : " + orientationBegin.y);
+                }
+                ResetOrientation();
+            }
+            else if (command.Contains("buttonoff"))
+            {
+                buttonPressed = false;
+            }
+         }
 
 		velocity = (transform.position - previousPosition) / Time.deltaTime;
 		previousPosition = transform.position;
@@ -438,7 +456,8 @@ public class VRTrackerTag : MonoBehaviour {
 
 	private void OnDestroy()
 	{
-		VRTracker.instance.RemoveTag(this);
+        if(VRTracker.instance)
+    		VRTracker.instance.RemoveTag(this);
 	}
 
 	public void assignTag(string tagID)

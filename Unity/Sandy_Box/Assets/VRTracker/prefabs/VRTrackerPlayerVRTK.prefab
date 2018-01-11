@@ -243,6 +243,7 @@ GameObject:
   - component: {fileID: 4492237409213582}
   - component: {fileID: 114203615795852634}
   - component: {fileID: 114584674956760460}
+  - component: {fileID: 114729443609709118}
   m_Layer: 0
   m_Name: VRTracker_HeadsetV2
   m_TagString: Untagged
@@ -258,14 +259,17 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4337616406659928}
-  - component: {fileID: 114201885120452194}
+  - component: {fileID: 114178357250018340}
+  - component: {fileID: 114204517234477176}
+  - component: {fileID: 114514716902718518}
+  - component: {fileID: 114894671532250668}
   m_Layer: 0
   m_Name: VRTrackerPlayerVRTK
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1368272052718740
 GameObject:
   m_ObjectHideFlags: 1
@@ -635,7 +639,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1359053530621860}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.2, y: -0.41206515, z: 10.68}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4492237409213582}
@@ -1119,6 +1123,38 @@ MonoBehaviour:
   MPSDisplay: {fileID: 114197191807990122}
   tickTime: 3
   average: 0
+--- !u!114 &114178357250018340
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1359053530621860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 103
+    i1: 89
+    i2: 31
+    i3: 92
+    i4: 80
+    i5: 84
+    i6: 70
+    i7: 228
+    i8: 105
+    i9: 114
+    i10: 202
+    i11: 113
+    i12: 174
+    i13: 218
+    i14: 141
+    i15: 181
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 1
 --- !u!114 &114197191807990122
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1152,20 +1188,6 @@ MonoBehaviour:
     m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: 60
---- !u!114 &114201885120452194
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1359053530621860}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6791e812090b76d418d2121baac1348a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AvatarHead: {fileID: 1344637977880768}
-  LeftHand: {fileID: 0}
-  RightHand: {fileID: 1583032609316150}
 --- !u!114 &114203615795852634
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1192,6 +1214,27 @@ MonoBehaviour:
   smoothingIntensity: 0.9
   enablePositionSmoothing: 0
   enableOrientationSmoothing: 0
+--- !u!114 &114204517234477176
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1359053530621860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 1
+  m_SendInterval: 0.1
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_VelocityThreshold: 0.0001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 1
 --- !u!114 &114212085118458800
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1311,6 +1354,25 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+--- !u!114 &114514716902718518
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1359053530621860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1267208747, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Target: {fileID: 4492237409213582}
+  m_ChildIndex: 0
+  m_SendInterval: 0.1
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_MovementThreshold: 0.001
+  m_InterpolateRotation: 0.5
+  m_InterpolateMovement: 0.5
 --- !u!114 &114520278543860670
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1607,6 +1669,17 @@ MonoBehaviour:
     m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: FPS
+--- !u!114 &114729443609709118
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1344637977880768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c90205edaa350421188f24b62661a673, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114754412401759714
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1738,6 +1811,25 @@ MonoBehaviour:
     m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: FPS
+--- !u!114 &114894671532250668
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1359053530621860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1267208747, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Target: {fileID: 4502408048704688}
+  m_ChildIndex: 1
+  m_SendInterval: 0.1
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_MovementThreshold: 0.001
+  m_InterpolateRotation: 0.5
+  m_InterpolateMovement: 0.5
 --- !u!114 &114901544417917060
 MonoBehaviour:
   m_ObjectHideFlags: 1

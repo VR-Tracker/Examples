@@ -36,6 +36,13 @@ namespace VRTK
 public override void ProcessUpdate(Dictionary<string, object> options)
         {
             CalculateAngularVelocity();
+
+            // VR Tracker set position and rotation
+            if (GetHeadset() && vrtrackerTagHead)
+            {
+                GetHeadset().transform.position = vrtrackerTagHead.transform.position;
+                GetHeadset().transform.rotation = vrtrackerTagHead.transform.rotation;
+            }
         }
 
         /// <summary>
@@ -70,15 +77,14 @@ public override void ProcessUpdate(Dictionary<string, object> options)
 
             if (vrtrackerTagHead == null)
             {
-                VRTK_TransformFollow transformFollow = cachedHeadset.transform.GetComponent<VRTK_TransformFollow>();
+                // VR Tracker note : assign Tag to Controller 
                 foreach (VRTrackerTag tag in VRTracker.instance.tags)
-                {
-                    if (tag.headset)
-                    {
-                        vrtrackerTagHead = tag;
-                        transformFollow.gameObjectToFollow = tag.gameObject;
-                    }
-                }
+                 {
+                     if (tag.headset)
+                     {
+                         vrtrackerTagHead = tag;
+                     }
+                 }
             }
 
             return cachedHeadset;

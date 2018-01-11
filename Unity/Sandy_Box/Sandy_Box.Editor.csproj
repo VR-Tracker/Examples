@@ -280,13 +280,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Editor\CrossPlatformInput\CrossPlatformInputInitialize.cs" />
-    <Compile Include="Assets\OVR\Editor\OVRBuild.cs" />
-    <Compile Include="Assets\OVR\Editor\OVREngineConfigurationUpdater.cs" />
-    <Compile Include="Assets\OVR\Editor\OVRLayerAttributeEditor.cs" />
-    <Compile Include="Assets\OVR\Editor\OVRManifestPreprocessor.cs" />
-    <Compile Include="Assets\OVR\Editor\OVRPluginUpdater.cs" />
-    <Compile Include="Assets\OVR\Editor\OVRPluginUpdaterStub.cs" />
-    <Compile Include="Assets\OVR\Editor\OVRScreenshotWizard.cs" />
     <Compile Include="Assets\OVR\Scripts\Editor\OVRManagerEditor.cs" />
     <Compile Include="Assets\TornadoBanditsStudio\Editor\TBS_EditorInitializer.cs" />
     <Compile Include="Assets\TornadoBanditsStudio\Editor\TBS_PresentationWindow.cs" />
@@ -308,7 +301,6 @@
     <Compile Include="Assets\VRTK\Source\Editor\VRTK_UpdatePrompt.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\OVR\Editor\AndroidManifest.OVRSubmission.xml" />
     <None Include="Assets\OVR\Plugins\placeholder.txt" />
     <None Include="Assets\OVR\Resources\Cubemap Blit.shader" />
     <None Include="Assets\OVR\Resources\OVRMRCameraFrame.shader" />

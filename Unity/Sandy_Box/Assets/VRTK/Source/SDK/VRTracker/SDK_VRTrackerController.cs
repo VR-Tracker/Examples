@@ -51,50 +51,66 @@ namespace VRTK
         public override void ProcessUpdate(VRTK_ControllerReference controllerReference, Dictionary<string, object> options)
         {
 
+            // VR Tracker set position and rotation
+            uint index = VRTK_ControllerReference.GetRealIndex(controllerReference);
+            GameObject controller = GetControllerByIndex(index);
+
+            if (IsControllerLeftHand(controller) && vrtrackerTagLeft)
+            {
+                cachedLeftController.transform.position = vrtrackerTagLeft.transform.position;
+                cachedLeftController.transform.rotation = vrtrackerTagLeft.transform.rotation;
+            }
+            else if (IsControllerRightHand(controller) && vrtrackerTagRight)
+            {
+                cachedRightController.transform.position = vrtrackerTagRight.transform.position;
+                cachedRightController.transform.rotation = vrtrackerTagRight.transform.rotation;
+            }
+
+            ProcessControllerUpdate(controllerReference);
         }
 
-        /// <summary>
-        /// The ProcessFixedUpdate method enables an SDK to run logic for every Unity FixedUpdate
-        /// </summary>
-        /// <param name="controllerReference">The reference for the controller.</param>
-        /// <param name="options">A dictionary of generic options that can be used to within the fixed update.</param>
-        public override void ProcessFixedUpdate(VRTK_ControllerReference controllerReference, Dictionary<string, object> options)
-        {
+    /// <summary>
+    /// The ProcessFixedUpdate method enables an SDK to run logic for every Unity FixedUpdate
+    /// </summary>
+    /// <param name="controllerReference">The reference for the controller.</param>
+    /// <param name="options">A dictionary of generic options that can be used to within the fixed update.</param>
+    public override void ProcessFixedUpdate(VRTK_ControllerReference controllerReference, Dictionary<string, object> options)
+    {
 
+    }
+
+    /// <summary>
+    /// The GetCurrentControllerType method returns the current used ControllerType based on the SDK and headset being used.
+    /// </summary>
+    /// <returns>The ControllerType based on the SDK and headset being used.</returns>
+    public override ControllerType GetCurrentControllerType(VRTK_ControllerReference controllerReference = null)
+    {
+        return ControllerType.VRTracker_Controller;
+    }
+
+    /// <summary>
+    /// The GetControllerDefaultColliderPath returns the path to the prefab that contains the collider objects for the default controller of this SDK.
+    /// </summary>
+    /// <param name="hand">The controller hand to check for</param>
+    /// <returns>A path to the resource that contains the collider GameObject.</returns>
+    public override string GetControllerDefaultColliderPath(ControllerHand hand)
+    {
+        return "ControllerColliders/VRTracker_" + hand.ToString();
+
+        //TODO: Use this to use Oculus or Steam controllers
+        /*
+        string returnCollider = "ControllerColliders/Fallback";
+        switch (VRTK_DeviceFinder.GetHeadsetType(true))
+        {
+        case VRTK_DeviceFinder.Headsets.OculusRift:
+            returnCollider = (hand == ControllerHand.Left ? "ControllerColliders/SteamVROculusTouch_Left" : "ControllerColliders/SteamVROculusTouch_Right");
+            break;
+        case VRTK_DeviceFinder.Headsets.Vive:
+            returnCollider = "ControllerColliders/HTCVive";
+            break;
         }
-
-        /// <summary>
-        /// The GetCurrentControllerType method returns the current used ControllerType based on the SDK and headset being used.
-        /// </summary>
-        /// <returns>The ControllerType based on the SDK and headset being used.</returns>
-		public override ControllerType GetCurrentControllerType(VRTK_ControllerReference controllerReference = null)
-        {
-			return ControllerType.VRTracker_Controller;
-        }
-
-        /// <summary>
-        /// The GetControllerDefaultColliderPath returns the path to the prefab that contains the collider objects for the default controller of this SDK.
-        /// </summary>
-        /// <param name="hand">The controller hand to check for</param>
-        /// <returns>A path to the resource that contains the collider GameObject.</returns>
-        public override string GetControllerDefaultColliderPath(ControllerHand hand)
-        {
-			return "ControllerColliders/VRTracker_" + hand.ToString();
-
-			//TODO: Use this to use Oculus or Steam controllers
-			/*
-			string returnCollider = "ControllerColliders/Fallback";
-			switch (VRTK_DeviceFinder.GetHeadsetType(true))
-			{
-			case VRTK_DeviceFinder.Headsets.OculusRift:
-				returnCollider = (hand == ControllerHand.Left ? "ControllerColliders/SteamVROculusTouch_Left" : "ControllerColliders/SteamVROculusTouch_Right");
-				break;
-			case VRTK_DeviceFinder.Headsets.Vive:
-				returnCollider = "ControllerColliders/HTCVive";
-				break;
-			}
-			return returnCollider;
-			*/
+        return returnCollider;
+        */
         }
 
         /// <summary>
@@ -522,22 +538,62 @@ namespace VRTK
             switch (buttonType)
             {
                 case ButtonTypes.Trigger:
-				/*	switch (pressType)
+					switch (pressType)
 					{
 					case ButtonPressTypes.Press:
-					return GvrController.ClickButton;
-					case ButtonPressTypes.PressDown:
-					return GvrController.ClickButtonDown;
-					case ButtonPressTypes.PressUp:
-					return GvrController.ClickButtonUp;
-					case ButtonPressTypes.Touch:
-					return GvrController.IsTouching;
-					case ButtonPressTypes.TouchDown:
-					return GvrController.TouchDown;
-					case ButtonPressTypes.TouchUp:
-					return GvrController.TouchUp;
-					}
-				*/
+                        if(controllerReference.index == 0 && vrtrackerTagLeft)
+                        {
+                            return vrtrackerTagLeft.triggerPressed;
+                        }
+					        
+                        else if (controllerReference.index == 1 && vrtrackerTagRight)
+                            return vrtrackerTagRight.triggerPressed;
+                        break;
+                    case ButtonPressTypes.PressDown:
+                            if (controllerReference.index == 0 && vrtrackerTagLeft)
+                            {
+                                if (vrtrackerTagLeft.triggerDown)
+                                { 
+                                    vrtrackerTagLeft.triggerDown = false;
+                                    return true;
+                                }
+                                else
+                                    return false;
+                            }
+                            else if (controllerReference.index == 1 && vrtrackerTagRight)
+                            {
+                                if (vrtrackerTagRight.triggerDown)
+                                {
+                                    vrtrackerTagRight.triggerDown = false;
+                                    return true;
+                                }
+                                else
+                                    return false;
+                            }
+                        break;
+                    case ButtonPressTypes.PressUp:
+                            if (controllerReference.index == 0 && vrtrackerTagLeft)
+                            {
+                                if (vrtrackerTagLeft.triggerUp)
+                                {
+                                    vrtrackerTagLeft.triggerUp = false;
+                                    return true;
+                                }
+                                else
+                                    return false;
+                            }
+                            else if (controllerReference.index == 1 && vrtrackerTagRight)
+                            {
+                                if (vrtrackerTagRight.triggerUp)
+                                {
+                                    vrtrackerTagRight.triggerUp = false;
+                                    return true;
+                                }
+                                else
+                                    return false;
+                            }
+                            break;
+                    }
 					break;
                 case ButtonTypes.TriggerHairline:
                     
@@ -552,7 +608,59 @@ namespace VRTK
                     
                     break;
                 case ButtonTypes.ButtonOne:
-                    
+                    switch (pressType)
+                    {
+                    case ButtonPressTypes.Press:
+                        if (controllerReference.index == 0 && vrtrackerTagLeft)
+                            return vrtrackerTagLeft.buttonPressed;
+                        else if (controllerReference.index == 1 && vrtrackerTagRight)
+                            return vrtrackerTagRight.buttonPressed;
+                        break;
+                    case ButtonPressTypes.PressDown:
+                        if (controllerReference.index == 0 && vrtrackerTagLeft)
+                        {
+                            if (vrtrackerTagLeft.buttonDown)
+                            {
+                                vrtrackerTagLeft.buttonDown = false;
+                                return true;
+                            }
+                            else
+                                return false;
+                        }
+                        else if (controllerReference.index == 1 && vrtrackerTagRight)
+                        {
+                            if (vrtrackerTagRight.buttonDown)
+                            {
+                                vrtrackerTagRight.buttonDown = false;
+                                return true;
+                            }
+                            else
+                                return false;
+                        }
+                            break;
+                    case ButtonPressTypes.PressUp:
+                        if (controllerReference.index == 0 && vrtrackerTagLeft)
+                        {
+                            if (vrtrackerTagLeft.buttonUp)
+                            {
+                                vrtrackerTagLeft.buttonUp = false;
+                                return true;
+                            }
+                            else
+                                return false;
+                        }
+                        else if (controllerReference.index == 1 && vrtrackerTagRight)
+                        {
+                            if (vrtrackerTagRight.buttonUp)
+                            {
+                                vrtrackerTagRight.buttonUp = false;
+                                return true;
+                            }
+                            else
+                                return false;
+                        }
+                        break;
+                    }
                     break;
                 case ButtonTypes.ButtonTwo:
                     
@@ -582,14 +690,12 @@ namespace VRTK
                     {
                         cachedLeftController.index = 0;
 
-                        // VR Tracker note : assign follow Controller to Tag
-                        VRTK_TransformFollow transformFollow = GetControllerLeftHand().transform.parent.GetComponent<VRTK_TransformFollow>();
-                        foreach(VRTrackerTag tag in VRTracker.instance.tags)
+                        // VR Tracker note : assign Tag to Controller 
+                        foreach (VRTrackerTag tag in VRTracker.instance.tags)
                         {
                             if (tag.leftController)
                             {
                                 vrtrackerTagLeft = tag;
-                                transformFollow.gameObjectToFollow = tag.gameObject;
                             }
                         }
                     }
@@ -601,14 +707,12 @@ namespace VRTK
                     {
                         cachedRightController.index = 1;
 
-                        // VR Tracker note : assign follow Controller to Tag
-                        VRTK_TransformFollow transformFollow = GetControllerRightHand().transform.parent.GetComponent<VRTK_TransformFollow>();
+                        // VR Tracker note : assign Tag to Controller 
                         foreach (VRTrackerTag tag in VRTracker.instance.tags)
                         {
                             if (tag.rightController)
                             {
                                 vrtrackerTagRight = tag;
-                                transformFollow.gameObjectToFollow = tag.gameObject;
                             }
                         }
                     }
@@ -630,6 +734,22 @@ namespace VRTK
                 trackedObject = cachedRightController;
             }
             return trackedObject;
+        }
+
+        protected virtual void ProcessControllerUpdate(VRTK_ControllerReference controllerReference)
+        {
+            if (VRTK_ControllerReference.IsValid(controllerReference))
+            {
+                uint index = VRTK_ControllerReference.GetRealIndex(controllerReference);
+                VRTK_TrackedController device = GetTrackedObject(controllerReference.actual);
+                if (device == null)
+                {
+                    return;
+                }
+
+                UpdateHairValues(index, GetButtonAxis(ButtonTypes.Trigger, controllerReference).x, GetButtonHairlineDelta(ButtonTypes.Trigger, controllerReference), ref previousHairTriggerState[index], ref currentHairTriggerState[index], ref hairTriggerLimit[index]);
+                UpdateHairValues(index, GetButtonAxis(ButtonTypes.Grip, controllerReference).x, GetButtonHairlineDelta(ButtonTypes.Grip, controllerReference), ref previousHairGripState[index], ref currentHairGripState[index], ref hairGripLimit[index]);
+            }
         }
 
         protected virtual void UpdateHairValues(uint index, float axisValue, float hairDelta, ref bool previousState, ref bool currentState, ref float hairLimit)

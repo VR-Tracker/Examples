@@ -1096,7 +1096,7 @@ RectTransform:
   m_Children:
   - {fileID: 1284414341}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1738,7 +1738,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 30, y: 6, z: 0.01}
+  m_Size: {x: 50, y: 20, z: 0.01}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &301670989
 MonoBehaviour:
@@ -1924,7 +1924,7 @@ Transform:
   - {fileID: 433040094}
   - {fileID: 469135611}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &318346096
 GameObject:
@@ -3214,7 +3214,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 30, y: 6, z: 0.01}
+  m_Size: {x: 50, y: 20, z: 0.01}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &877012915
 MonoBehaviour:
@@ -3837,7 +3837,7 @@ Transform:
   - {fileID: 1180491436}
   - {fileID: 78885904}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1082570473
 GameObject:
@@ -3873,7 +3873,7 @@ Transform:
   - {fileID: 364924019}
   - {fileID: 1646453355}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1139288683
 GameObject:
@@ -4223,12 +4223,12 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4442430545188724, guid: 71adf1c14cccb4819b3d892f30609c2c, type: 2}
       propertyPath: m_RootOrder
-      value: 4
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114514673923542662, guid: 71adf1c14cccb4819b3d892f30609c2c,
         type: 2}
       propertyPath: m_OnlineScene
-      value: Sandy_Box
+      value: 003_Controller_SimplePointer
       objectReference: {fileID: 0}
     - target: {fileID: 114514673923542662, guid: 71adf1c14cccb4819b3d892f30609c2c,
         type: 2}
@@ -4275,6 +4275,11 @@ Prefab:
         type: 2}
       propertyPath: m_ConnectionConfig.m_DisconnectTimeout
       value: 2000
+      objectReference: {fileID: 0}
+    - target: {fileID: 114514673923542662, guid: 71adf1c14cccb4819b3d892f30609c2c,
+        type: 2}
+      propertyPath: m_AutoCreatePlayer
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 71adf1c14cccb4819b3d892f30609c2c, type: 2}
