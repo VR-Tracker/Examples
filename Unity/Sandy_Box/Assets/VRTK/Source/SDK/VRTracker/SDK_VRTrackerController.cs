@@ -225,7 +225,7 @@ namespace VRTK
             GameObject controller = GetSDKManagerControllerLeftHand(actual);
             if (controller == null && actual)
             {
-				controller = VRTK_SharedMethods.FindEvenInactiveGameObject<VRTrackerVRTKCameraRig>("ControllerLeft");
+				controller = VRTK_SharedMethods.FindEvenInactiveGameObject<VRTrackerVRTKCameraRig>("ControllerLeftAnchor");
             }
             return controller;
         }
@@ -240,7 +240,7 @@ namespace VRTK
             GameObject controller = GetSDKManagerControllerRightHand(actual);
             if (controller == null && actual)
             {
-				controller = VRTK_SharedMethods.FindEvenInactiveGameObject<VRTrackerVRTKCameraRig>("ControllerRight");
+				controller = VRTK_SharedMethods.FindEvenInactiveGameObject<VRTrackerVRTKCameraRig>("ControllerRightAnchor");
             }
             return controller;
         }
@@ -690,12 +690,15 @@ namespace VRTK
                     {
                         cachedLeftController.index = 0;
 
-                        // VR Tracker note : assign Tag to Controller 
-                        foreach (VRTrackerTag tag in VRTracker.instance.tags)
+                        // VR Tracker note : assign Tag to Controller \
+                        if (VRTracker.instance)
                         {
-                            if (tag.leftController)
+                            foreach (VRTrackerTag tag in VRTracker.instance.tags)
                             {
-                                vrtrackerTagLeft = tag;
+                                if (tag.leftController)
+                                {
+                                    vrtrackerTagLeft = tag;
+                                }
                             }
                         }
                     }
@@ -708,11 +711,14 @@ namespace VRTK
                         cachedRightController.index = 1;
 
                         // VR Tracker note : assign Tag to Controller 
-                        foreach (VRTrackerTag tag in VRTracker.instance.tags)
+                        if (VRTracker.instance)
                         {
-                            if (tag.rightController)
+                            foreach (VRTrackerTag tag in VRTracker.instance.tags)
                             {
-                                vrtrackerTagRight = tag;
+                                if (tag.rightController)
+                                {
+                                    vrtrackerTagRight = tag;
+                                }
                             }
                         }
                     }

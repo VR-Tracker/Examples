@@ -78,13 +78,16 @@ public override void ProcessUpdate(Dictionary<string, object> options)
             if (vrtrackerTagHead == null)
             {
                 // VR Tracker note : assign Tag to Controller 
-                foreach (VRTrackerTag tag in VRTracker.instance.tags)
-                 {
-                     if (tag.headset)
-                     {
-                         vrtrackerTagHead = tag;
-                     }
-                 }
+                if (VRTracker.instance)
+                {
+                    foreach (VRTrackerTag tag in VRTracker.instance.tags)
+                    {
+                        if (tag.headset)
+                        {
+                            vrtrackerTagHead = tag;
+                        }
+                    }
+                }
             }
 
             return cachedHeadset;
