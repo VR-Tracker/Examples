@@ -5381,7 +5381,7 @@ Prefab:
     - target: {fileID: 224000012623161658, guid: d46cf6b1ad9d84a48ae7548a2a6b41b3,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: 139.5
+      value: 209.5
       objectReference: {fileID: 0}
     - target: {fileID: 224000012484682510, guid: d46cf6b1ad9d84a48ae7548a2a6b41b3,
         type: 2}
@@ -5820,6 +5820,26 @@ Prefab:
     - target: {fileID: 4404362823631390, guid: 50e5d40a3ac404447b0f98436a0629b3, type: 2}
       propertyPath: m_LocalPosition.z
       value: -0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114945607954240058, guid: 50e5d40a3ac404447b0f98436a0629b3,
+        type: 2}
+      propertyPath: actualBoundaries
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 114945607954240058, guid: 50e5d40a3ac404447b0f98436a0629b3,
+        type: 2}
+      propertyPath: actualHeadset
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 114945607954240058, guid: 50e5d40a3ac404447b0f98436a0629b3,
+        type: 2}
+      propertyPath: actualLeftController
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 114945607954240058, guid: 50e5d40a3ac404447b0f98436a0629b3,
+        type: 2}
+      propertyPath: actualRightController
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 50e5d40a3ac404447b0f98436a0629b3, type: 2}
