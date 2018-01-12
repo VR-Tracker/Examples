@@ -28,6 +28,8 @@ public class VRTrackerPickup : NetworkBehaviour {
 	public Vector3 positionOffset = new Vector3 (0.3f, 0f, 0f);
 	private NetworkIdentity netId;
 
+	public VRTrackerTag TagPickup;
+
 	// Use this for initialization
 	void Start () {
 		netId = transform.GetComponent<NetworkIdentity> ();
