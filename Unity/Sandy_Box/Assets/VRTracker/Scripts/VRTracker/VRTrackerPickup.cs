@@ -26,18 +26,17 @@ public class VRTrackerPickup : NetworkBehaviour {
 	public CollisionDetector collisionDetector;
 
 	public Vector3 positionOffset = new Vector3 (0.3f, 0f, 0f);
-	private NetworkIdentity netId;
+	private NetworkIdentity networkId;
 
-	public VRTrackerTag TagPickup;
 
 	// Use this for initialization
 	void Start () {
-		netId = transform.GetComponent<NetworkIdentity> ();
+		networkId = transform.GetComponent<NetworkIdentity> ();
 
-		if (!netId)
+		if (!networkId)
 			Debug.LogWarning ("No Network Identity found");
 		
-		if (netId != null && !netId.isLocalPlayer) {
+		if (networkId != null && !networkId.isLocalPlayer) {
 			Debug.Log ("Pickup return on Start");
 			return;
 		}
@@ -54,7 +53,7 @@ public class VRTrackerPickup : NetworkBehaviour {
 	void Update () {
 		
 		// Update loop on server only
-		if (netId != null && !netId.isServer)
+		if (networkId != null && !networkId.isServer)
 			return;
 
 		foreach (GameObject obj in selectedObjectsUsingGravity) {
