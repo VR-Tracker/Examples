@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/* VR Tracker
+ * This scripts transforms a Tag into a 3D Rudder like controller
+ * https://www.3drudder.com/
+ */
 public class VRTrackerTagOrientationToPosition : MonoBehaviour {
 
 	public Transform tag;

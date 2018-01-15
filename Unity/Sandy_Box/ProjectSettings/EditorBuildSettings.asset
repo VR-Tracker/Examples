@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/VRTracker/Scenes/IntroAssignation.unity
     guid: 7556bf3b639914ae89c4ed608a25474e
   - enabled: 1
-    path: Assets/3DRudderDIY.unity
+    path: Assets/VRTracker/Scenes/3DRudderDIY.unity
     guid: e728df45ad26e44a1986caa6f22e2b6b
   - enabled: 0
     path: Assets/VRTracker/Scenes/Sandy_Box.unity

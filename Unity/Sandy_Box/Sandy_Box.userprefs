@@ -1,11 +1,8 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/VRTracker/Scripts/VRTracker/VRTrackerRaycaster.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/VRTracker/Scripts/VRTrackerTagOrientationToPosition.cs">
     <Files>
-      <File FileName="Assets/VRTracker/Scripts/CollisionDetector.cs" Line="23" Column="11" />
-      <File FileName="Assets/VRTracker/Scripts/VRTracker/VRTrackerRaycaster.cs" Line="86" Column="4" />
-      <File FileName="Assets/VRTracker/Scripts/VRTracker/VRTracker.cs" Line="649" Column="29" />
-      <File FileName="Assets/VRTracker/Scripts/VRTracker/VRTrackerTag.cs" Line="145" Column="56" />
+      <File FileName="Assets/VRTracker/Scripts/VRTrackerTagOrientationToPosition.cs" Line="30" Column="49" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
