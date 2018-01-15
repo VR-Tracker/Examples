@@ -368,9 +368,9 @@ namespace VRTK
         {
             if (VRTK_ControllerReference.IsValid(controllerReference))
             {
-                uint index = VRTK_ControllerReference.GetRealIndex(controllerReference);
+            /*    uint index = VRTK_ControllerReference.GetRealIndex(controllerReference);
                 GameObject controller = GetControllerByIndex(index);
-				/*
+			
                 if (IsControllerLeftHand(controller))
                 {
                     hapticsProceduralClipLeft.Reset();
@@ -395,9 +395,9 @@ namespace VRTK
         {
             if (VRTK_ControllerReference.IsValid(controllerReference))
             {
-                uint index = VRTK_ControllerReference.GetRealIndex(controllerReference);
+				/*  uint index = VRTK_ControllerReference.GetRealIndex(controllerReference);
                 GameObject controller = GetControllerByIndex(index);
-				/*
+
                 if (IsControllerLeftHand(controller))
                 {
                     OVRHaptics.LeftChannel.Preempt(new OVRHapticsClip(clip));
@@ -478,7 +478,7 @@ namespace VRTK
             {
                 return Vector2.zero;
             }
-            uint index = VRTK_ControllerReference.GetRealIndex(controllerReference);
+           // uint index = VRTK_ControllerReference.GetRealIndex(controllerReference);
             VRTK_TrackedController device = GetTrackedObject(controllerReference.actual);
             if (device != null)
             {
@@ -533,7 +533,7 @@ namespace VRTK
             {
                 return false;
             }
-            uint index = VRTK_ControllerReference.GetRealIndex(controllerReference);
+           // uint index = VRTK_ControllerReference.GetRealIndex(controllerReference);
 
             switch (buttonType)
             {

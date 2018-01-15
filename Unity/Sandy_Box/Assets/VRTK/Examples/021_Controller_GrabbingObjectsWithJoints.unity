@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657868, g: 0.49641263, b: 0.57481706, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -4941,12 +4941,12 @@ Prefab:
     - target: {fileID: 224000013127654674, guid: d46cf6b1ad9d84a48ae7548a2a6b41b3,
         type: 2}
       propertyPath: m_LocalPosition.x
-      value: 446
+      value: 339
       objectReference: {fileID: 0}
     - target: {fileID: 224000013127654674, guid: d46cf6b1ad9d84a48ae7548a2a6b41b3,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: 209.5
+      value: 196.5
       objectReference: {fileID: 0}
     - target: {fileID: 224000013127654674, guid: d46cf6b1ad9d84a48ae7548a2a6b41b3,
         type: 2}
@@ -5376,12 +5376,12 @@ Prefab:
     - target: {fileID: 224000012623161658, guid: d46cf6b1ad9d84a48ae7548a2a6b41b3,
         type: 2}
       propertyPath: m_LocalPosition.x
-      value: 365
+      value: 258
       objectReference: {fileID: 0}
     - target: {fileID: 224000012623161658, guid: d46cf6b1ad9d84a48ae7548a2a6b41b3,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: 209.5
+      value: 126.5
       objectReference: {fileID: 0}
     - target: {fileID: 224000012484682510, guid: d46cf6b1ad9d84a48ae7548a2a6b41b3,
         type: 2}
@@ -5815,11 +5815,11 @@ Prefab:
       objectReference: {fileID: 673114627}
     - target: {fileID: 4157340031994128, guid: 50e5d40a3ac404447b0f98436a0629b3, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -0.2
+      value: -0.3
       objectReference: {fileID: 0}
     - target: {fileID: 4404362823631390, guid: 50e5d40a3ac404447b0f98436a0629b3, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -0.2
+      value: -0.3
       objectReference: {fileID: 0}
     - target: {fileID: 114945607954240058, guid: 50e5d40a3ac404447b0f98436a0629b3,
         type: 2}
@@ -5840,6 +5840,46 @@ Prefab:
         type: 2}
       propertyPath: actualRightController
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 114139423204693310, guid: 50e5d40a3ac404447b0f98436a0629b3,
+        type: 2}
+      propertyPath: cachedSystemSDKInfo.typeName
+      value: VRTK.SDK_VRTrackerSystem
+      objectReference: {fileID: 0}
+    - target: {fileID: 114139423204693310, guid: 50e5d40a3ac404447b0f98436a0629b3,
+        type: 2}
+      propertyPath: cachedSystemSDKInfo.descriptionIndex
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114139423204693310, guid: 50e5d40a3ac404447b0f98436a0629b3,
+        type: 2}
+      propertyPath: cachedBoundariesSDKInfo.typeName
+      value: VRTK.SDK_VRTrackerBoundaries
+      objectReference: {fileID: 0}
+    - target: {fileID: 114139423204693310, guid: 50e5d40a3ac404447b0f98436a0629b3,
+        type: 2}
+      propertyPath: cachedBoundariesSDKInfo.descriptionIndex
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114139423204693310, guid: 50e5d40a3ac404447b0f98436a0629b3,
+        type: 2}
+      propertyPath: cachedHeadsetSDKInfo.typeName
+      value: VRTK.SDK_VRTrackerHeadset
+      objectReference: {fileID: 0}
+    - target: {fileID: 114139423204693310, guid: 50e5d40a3ac404447b0f98436a0629b3,
+        type: 2}
+      propertyPath: cachedHeadsetSDKInfo.descriptionIndex
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114139423204693310, guid: 50e5d40a3ac404447b0f98436a0629b3,
+        type: 2}
+      propertyPath: cachedControllerSDKInfo.typeName
+      value: VRTK.SDK_VRTrackerController
+      objectReference: {fileID: 0}
+    - target: {fileID: 114139423204693310, guid: 50e5d40a3ac404447b0f98436a0629b3,
+        type: 2}
+      propertyPath: cachedControllerSDKInfo.descriptionIndex
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 50e5d40a3ac404447b0f98436a0629b3, type: 2}
