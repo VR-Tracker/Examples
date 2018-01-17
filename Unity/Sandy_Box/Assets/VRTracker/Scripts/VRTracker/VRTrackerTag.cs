@@ -159,7 +159,7 @@ public class VRTrackerTag : MonoBehaviour {
 			}  
 
 		} else {
-			Debug.LogWarning("Position Length != 0 : " + positions.Count.ToString());
+			//Debug.LogWarning("Position Length != 0 : " + positions.Count.ToString());
 		}
 
         lastFramePosition = positionReceived;
