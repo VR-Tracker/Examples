@@ -52,3 +52,4 @@ Corridor/Library/metadata/
 /Unity/Sandy_Box/Assembly-CSharp-Editor.csproj
 /Unity/Sandy_Box/Assembly-CSharp.csproj
 .DS_Store
+*.meta~HEAD

@@ -2545,7 +2545,7 @@ Transform:
   - {fileID: 4715602852881332}
   - {fileID: 4371450613296040}
   m_Father: {fileID: 4766145350129932}
-  m_RootOrder: 6
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4042344941358622
 Transform:
@@ -2599,7 +2599,7 @@ Transform:
   m_Children:
   - {fileID: 4283606720438276}
   m_Father: {fileID: 4766145350129932}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4056447030502624
 Transform:
@@ -2680,7 +2680,7 @@ Transform:
   m_Children:
   - {fileID: 4345646296176348}
   m_Father: {fileID: 4766145350129932}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4077035003837426
 Transform:
@@ -3298,7 +3298,7 @@ Transform:
   - {fileID: 4675588725465242}
   - {fileID: 4554891989737916}
   m_Father: {fileID: 4766145350129932}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4493404337769104
 Transform:
@@ -3352,7 +3352,7 @@ Transform:
   m_Children:
   - {fileID: 4471212934339688}
   m_Father: {fileID: 4766145350129932}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4508641534046050
 Transform:
@@ -3424,7 +3424,7 @@ Transform:
   m_Children:
   - {fileID: 4785342408166174}
   m_Father: {fileID: 4766145350129932}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4585054115259614
 Transform:
@@ -3689,7 +3689,7 @@ Transform:
   - {fileID: 4324210002048908}
   - {fileID: 4930007609340744}
   m_Father: {fileID: 4766145350129932}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4692465788725300
 Transform:
@@ -3826,13 +3826,13 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 4008881788050072}
   - {fileID: 4076723974839768}
   - {fileID: 4688705649759886}
   - {fileID: 4053359523189298}
   - {fileID: 4486759426966220}
   - {fileID: 4505578132770762}
   - {fileID: 4572511684764252}
-  - {fileID: 4008881788050072}
   - {fileID: 4867155952815240}
   m_Father: {fileID: 0}
   m_RootOrder: 0

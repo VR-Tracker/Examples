@@ -1,16 +1,15 @@
 fileFormatVersion: 2
-guid: 8443fe4a35819164b9d5e066c9943aa9
+guid: 33bb2c4406ce7164182f5552f34afb33
 folderAsset: yes
 <<<<<<< HEAD
-timeCreated: 1471636040
-licenseType: Pro
-DefaultImporter:
-=======
-timeCreated: 1515780954
+timeCreated: 1515978517
 licenseType: Free
+=======
+timeCreated: 1492434052
+licenseType: Pro
+>>>>>>> origin/master
 DefaultImporter:
   externalObjects: {}
->>>>>>> origin/master
   userData: 
   assetBundleName: 
   assetBundleVariant: 
