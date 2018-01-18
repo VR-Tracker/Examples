@@ -4228,13 +4228,14 @@ Prefab:
     - target: {fileID: 114514673923542662, guid: 71adf1c14cccb4819b3d892f30609c2c,
         type: 2}
       propertyPath: m_OnlineScene
-      value: 021_Controller_GrabbingObjectsWithJoints
+      value: Sandy_Box
       objectReference: {fileID: 0}
     - target: {fileID: 114514673923542662, guid: 71adf1c14cccb4819b3d892f30609c2c,
         type: 2}
       propertyPath: m_SpawnPrefabs.Array.data[0]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1733267339492732, guid: 684233dba38814393b45647f60f22005,
+        type: 2}
     - target: {fileID: 114514673923542662, guid: 71adf1c14cccb4819b3d892f30609c2c,
         type: 2}
       propertyPath: m_CustomConfig
@@ -4249,18 +4250,20 @@ Prefab:
         type: 2}
       propertyPath: m_PlayerPrefab
       value: 
-      objectReference: {fileID: 1359053530621860, guid: 67591f5c505446e46972ca71aeda8db5,
+      objectReference: {fileID: 1052761640305138, guid: 6b170089d89153a49a72a89f9502f1c7,
         type: 2}
     - target: {fileID: 114514673923542662, guid: 71adf1c14cccb4819b3d892f30609c2c,
         type: 2}
       propertyPath: m_SpawnPrefabs.Array.data[1]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1723703890817490, guid: a22ad9743af96364084e4e3bd1b091ae,
+        type: 2}
     - target: {fileID: 114514673923542662, guid: 71adf1c14cccb4819b3d892f30609c2c,
         type: 2}
       propertyPath: m_SpawnPrefabs.Array.data[2]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1690141231308654, guid: 2432407b4ff3842108a459c711686824,
+        type: 2}
     - target: {fileID: 114514673923542662, guid: 71adf1c14cccb4819b3d892f30609c2c,
         type: 2}
       propertyPath: m_SpawnPrefabs.Array.data[3]
