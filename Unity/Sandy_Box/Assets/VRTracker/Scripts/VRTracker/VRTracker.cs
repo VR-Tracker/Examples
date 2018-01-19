@@ -176,7 +176,7 @@ public class VRTracker : MonoBehaviour {
 		}
 		else if (e.Data.Contains("cmd=specialcmd"))
 		{
-			Debug.Log (e.Data);
+		//	Debug.Log (e.Data);
 			string[] datas = e.Data.Split('&');
 			string uid = null;
 			string command = null;

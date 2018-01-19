@@ -28,6 +28,8 @@ public class VRTrackerTag : MonoBehaviour {
 	protected Vector3 orientation_;
 	protected Vector3 orientationBegin;
 
+	protected Vector3 acceleration_;
+
 	protected Vector3 tagRotation;
 
 	public Vector3 orientationOffset; // Offset to apply
@@ -89,6 +91,9 @@ public class VRTrackerTag : MonoBehaviour {
 
 	// Use this for initialization
 	protected virtual void Start () {
+
+		onTagData("cmd=specialdata&s=30&x=376&y=481&z=36&st=1&s=10&ox=190.19&oy=-49.17&oz=-22.71&ax=21.27&ay=0.78&az=-15.79");
+
 		netId = transform.GetComponentInParent<NetworkIdentity> ();
 		if (netId != null && !netId.isLocalPlayer) {
 			return;
@@ -159,7 +164,7 @@ public class VRTrackerTag : MonoBehaviour {
 			}  
 
 		} else {
-			Debug.LogWarning("Position Length != 0 : " + positions.Count.ToString());
+//			Debug.LogWarning("Position Length != 0 : " + positions.Count.ToString());
 		}
 
         lastFramePosition = positionReceived;
@@ -406,6 +411,16 @@ public class VRTrackerTag : MonoBehaviour {
 		orientationMessageSaved = false;
 	}
 
+	public void updateOrientationAndAcceleration(Vector3 neworientation, Vector3 newacceleration)
+	{
+		Vector3 flippedRotation = neworientation;
+		orientation_ = flippedRotation;
+		acceleration_ = newacceleration;
+		orientationUsesQuaternion = false;
+		orientationReceptionTime = (System.DateTime.Now.Ticks / System.TimeSpan.TicksPerMillisecond) - startTimestamp;
+		orientationMessageSaved = false;
+	}
+
 	// Update the Oriention from IMU For Tag V2
 	public void updateOrientationQuat(Quaternion neworientation)
 	{
@@ -427,6 +442,45 @@ public class VRTrackerTag : MonoBehaviour {
 			UID = tagID;
 			IDisAssigned = true;
 			waitingForID = false;
+		}
+	}
+
+	public void onTagData(string data){
+		string[] sensors = data.Split(new string[] {"&s="}, System.StringSplitOptions.RemoveEmptyEntries);
+		foreach (string sensor in sensors) {
+			string[] parameters = sensor.Split ('&');
+			char[] sensorInfo = parameters[0].ToCharArray();
+			if (sensorInfo.Length != 2)
+				return;
+			Dictionary<string, string> values = new Dictionary<string, string>();
+			for (int i = 1; i < parameters.Length; i++) {
+				string[] dict = parameters [i].Split ('=');
+				values.Add (dict[0], dict[1]);
+			}
+
+			// IMU
+			if (sensorInfo [0] == 1) {
+			
+			}
+
+			// Trackpad
+			else if (sensorInfo [0] == 3) {
+
+			}
+
+			/*
+			 string temp = null;
+        
+	        //This is a safer, but slow, method of accessing
+	        //values in a dictionary.
+	        if(badguys.TryGetValue("birds", out temp))
+	        {
+	            //success!
+	        }
+			*/
+			
+
+			Debug.Log (sensor);
 		}
 	}
 

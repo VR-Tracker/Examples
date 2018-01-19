@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 114711876756055282}
   - component: {fileID: 114101103418101432}
   - component: {fileID: 54615953918665970}
-  - component: {fileID: 114018939162824328}
+  - component: {fileID: 114415449130032640}
   m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
@@ -116,17 +116,6 @@ MeshCollider:
   m_InflateMesh: 0
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: 9309ffb9d4b52b84ca75d21dd909394d, type: 3}
---- !u!114 &114018939162824328
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1690141231308654}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 05f03ece8e40b40a0b9bceed9dbe7889, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114101103418101432
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -148,6 +137,17 @@ MonoBehaviour:
   m_SnapThreshold: 5
   m_InterpolateRotation: 1
   m_InterpolateMovement: 1
+--- !u!114 &114415449130032640
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1690141231308654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87bb4bb0abb4d54b3a60472892d4cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114711876756055282
 MonoBehaviour:
   m_ObjectHideFlags: 1

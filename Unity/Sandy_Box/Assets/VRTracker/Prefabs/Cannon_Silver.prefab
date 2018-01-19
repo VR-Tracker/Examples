@@ -72,11 +72,11 @@ GameObject:
   - component: {fileID: 4008036606845232}
   - component: {fileID: 54900600979827244}
   - component: {fileID: 65395150655194600}
-  - component: {fileID: 114761009807128748}
   - component: {fileID: 114190697016900782}
-  - component: {fileID: 114789886812672482}
+  - component: {fileID: 114761009807128748}
+  - component: {fileID: 114687745968813524}
   m_Layer: 0
-  m_Name: Cannon_Silver (1) 1
+  m_Name: Cannon_Silver
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -535,6 +535,17 @@ MonoBehaviour:
     i15: 174
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114687745968813524
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1723703890817490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87bb4bb0abb4d54b3a60472892d4cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114761009807128748
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -556,14 +567,3 @@ MonoBehaviour:
   m_SnapThreshold: 5
   m_InterpolateRotation: 1
   m_InterpolateMovement: 1
---- !u!114 &114789886812672482
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1723703890817490}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
