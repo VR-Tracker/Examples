@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2017
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugin Integration Example", "Plugin Integration Example.csproj", "{CDBAFDEF-3572-84CA-9A18-459311053187}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugin Integration Example.Editor", "Plugin Integration Example.Editor.csproj", "{7DC29343-69B0-8BF4-C6E7-20B438CF743F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CDBAFDEF-3572-84CA-9A18-459311053187}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDBAFDEF-3572-84CA-9A18-459311053187}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDBAFDEF-3572-84CA-9A18-459311053187}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDBAFDEF-3572-84CA-9A18-459311053187}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DC29343-69B0-8BF4-C6E7-20B438CF743F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DC29343-69B0-8BF4-C6E7-20B438CF743F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DC29343-69B0-8BF4-C6E7-20B438CF743F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DC29343-69B0-8BF4-C6E7-20B438CF743F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
