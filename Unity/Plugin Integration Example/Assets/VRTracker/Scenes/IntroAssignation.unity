@@ -3834,6 +3834,22 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1034132109}
+--- !u!1 &1054638481 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1764823701623966, guid: df0359d714a905142abf2a73511d3560,
+    type: 2}
+  m_PrefabInternal: {fileID: 809386181}
+--- !u!114 &1054638482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1054638481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9bbd0ca0bb1fa04ab0db0a9ef4771cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1071934068
 GameObject:
   m_ObjectHideFlags: 0
@@ -4276,7 +4292,7 @@ Prefab:
         type: 2}
       propertyPath: m_SpawnPrefabs.Array.data[0]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 153412, guid: 548c56f4bcf4db24b8aa057e9846a005, type: 2}
     - target: {fileID: 114514673923542662, guid: 71adf1c14cccb4819b3d892f30609c2c,
         type: 2}
       propertyPath: m_CustomConfig
@@ -4297,12 +4313,12 @@ Prefab:
         type: 2}
       propertyPath: m_SpawnPrefabs.Array.data[1]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 100000, guid: ea3c2728ef33e3a4d99527a86cda6465, type: 2}
     - target: {fileID: 114514673923542662, guid: 71adf1c14cccb4819b3d892f30609c2c,
         type: 2}
       propertyPath: m_SpawnPrefabs.Array.data[2]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 100002, guid: e5171f72421770240bd7c3989fe351e3, type: 2}
     - target: {fileID: 114514673923542662, guid: 71adf1c14cccb4819b3d892f30609c2c,
         type: 2}
       propertyPath: m_SpawnPrefabs.Array.data[3]

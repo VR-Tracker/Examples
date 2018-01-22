@@ -81,8 +81,10 @@ namespace CompleteProject
         }
 
 
-        void Shoot ()
+        public void Shoot ()
         {
+            Debug.Log("Shooting");
+
             // Reset the timer.
             timer = 0f;
 
@@ -117,6 +119,10 @@ namespace CompleteProject
                     // ... the enemy should take damage.
                     enemyHealth.TakeDamage (damagePerShot, shootHit.point);
                 }
+                else
+                {
+                    Debug.Log("No ennemy");
+                }
 
                 // Set the second position of the line renderer to the point the raycast hit.
                 gunLine.SetPosition (1, shootHit.point);
@@ -124,6 +130,8 @@ namespace CompleteProject
             // If the raycast didn't hit anything on the shootable layer...
             else
             {
+                Debug.Log("Shooting fail");
+
                 // ... set the second position of the line renderer to the fullest extent of the gun's range.
                 gunLine.SetPosition (1, shootRay.origin + shootRay.direction * range);
             }

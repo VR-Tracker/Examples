@@ -320,6 +320,7 @@
     <Compile Include="Assets\VRTracker\Scripts\MessageCounter.cs" />
     <Compile Include="Assets\VRTracker\Scripts\StartMenu\LevelLoader.cs" />
     <Compile Include="Assets\VRTracker\Scripts\StartMenu\SliderGroup.cs" />
+    <Compile Include="Assets\VRTracker\Scripts\TutorialScripts\NetworkShoot.cs" />
     <Compile Include="Assets\VRTracker\Scripts\VRTracker\VRTracker.cs" />
     <Compile Include="Assets\VRTracker\Scripts\VRTracker\VRTrackerPickup.cs" />
     <Compile Include="Assets\VRTracker\Scripts\VRTracker\VRTrackerRaycaster.cs" />

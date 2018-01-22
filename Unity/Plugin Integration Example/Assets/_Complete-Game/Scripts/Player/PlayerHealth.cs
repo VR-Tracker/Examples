@@ -86,7 +86,7 @@ namespace CompleteProject
             isDead = true;
 
             // Turn off any remaining shooting effects.
-            playerShooting.DisableEffects ();
+            //playerShooting.DisableEffects ();
 
             // Tell the animator that the player is dead.
             anim.SetTrigger ("Die");
@@ -97,7 +97,7 @@ namespace CompleteProject
 
             // Turn off the movement and shooting scripts.
             playerMovement.enabled = false;
-            playerShooting.enabled = false;
+            //playerShooting.enabled = false;
         }
 
 
