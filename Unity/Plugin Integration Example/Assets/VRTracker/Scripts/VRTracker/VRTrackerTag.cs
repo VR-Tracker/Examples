@@ -147,7 +147,7 @@ public class VRTrackerTag : MonoBehaviour {
 			}  
 
 		} else {
-			Debug.LogWarning("Position Length != 0 : " + positions.Count.ToString());
+			//Debug.LogWarning("Position Length != 0 : " + positions.Count.ToString());
 		}
 
         lastFramePosition = positionReceived;
@@ -287,6 +287,7 @@ public class VRTrackerTag : MonoBehaviour {
 			calcOffset = Quaternion.Euler(predictedOrientation)* EyeTagOffset;
 		else
 			calcOffset = Quaternion.Euler(tagRotation)* EyeTagOffset;
+
 
 		// Assign tag orientation if enabled only. By default it's disabled for Camera, to use the VR Headset orientation instead
 		if (orientationEnabled) {
