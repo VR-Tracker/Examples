@@ -26,6 +26,7 @@ sysinfo.txt
 /*.csproj
 /*.pidb
 *.pidb.meta
+*.pdb.meta
 /*.suo
 /*.sln*
 /*.user
@@ -54,3 +55,4 @@ Corridor/Library/metadata/
 .DS_Store
 *.meta~HEAD
 Unity/Plugin Integration Example/Library/shadercompiler-UnityShaderCompiler.exe0.log
+Unity/Plugin Integration Example/Assets/VRTracker/Scenes/IntroAssignation.unity
