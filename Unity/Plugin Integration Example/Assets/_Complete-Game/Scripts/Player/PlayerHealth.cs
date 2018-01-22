@@ -2,12 +2,16 @@
 using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.SceneManagement;
-
+using UnityEngine.Networking;
 namespace CompleteProject
 {
-    public class PlayerHealth : MonoBehaviour
+    public class PlayerHealth : NetworkBehaviour
     {
+
+        [SyncVar(hook = "OnChangeHealth")]                          //Synchronize on the network the health bar
+
         public int startingHealth = 100;                            // The amount of health the player starts the game with.
+        [SyncVar]
         public int currentHealth;                                   // The current health the player has.
         public Slider healthSlider;                                 // Reference to the UI's health bar.
         public Image damageImage;                                   // Reference to an image to flash on the screen on being hurt.
@@ -59,6 +63,11 @@ namespace CompleteProject
 
         public void TakeDamage (int amount)
         {
+            //Damage will only be applied on the Server
+            if (!isServer)
+            {
+                return;
+            }
             // Set the damaged flag so the screen will flash.
             damaged = true;
 
@@ -105,6 +114,11 @@ namespace CompleteProject
         {
             // Reload the level that is currently loaded.
             //SceneManager.LoadScene (0);
+        }
+
+        void OnChangeHealth(int currentHealth)
+        {
+            //healthSlider.value = currentHealth;
         }
     }
 }
