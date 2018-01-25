@@ -485,9 +485,13 @@ namespace VRTK
                 switch (buttonType)
                 {
 					// Touchpad value from -1.0f to 1.0f on X and Y (cf DaydreamReach.cs)
-					case ButtonTypes.Touchpad:
-                     //TODO: set touchpad data here   return OVRInput.Get(touchpads[index], touchControllers[index]);
-
+				case ButtonTypes.Touchpad:
+					if (controllerReference.index == 0 && vrtrackerTagLeft) {
+						return vrtrackerTagLeft.trackpadXY;
+					} else if (controllerReference.index == 1 && vrtrackerTagRight)
+						return vrtrackerTagRight.trackpadXY;
+					else
+						return Vector2.zero;
 						break;
                 }
             }
@@ -608,18 +612,18 @@ namespace VRTK
 					case ButtonPressTypes.Touch:
 						if(controllerReference.index == 0 && vrtrackerTagLeft)
 						{
-							return vrtrackerTagLeft.triggerPressed;
+							return vrtrackerTagLeft.trackpadTouch;
 						}
 
 						else if (controllerReference.index == 1 && vrtrackerTagRight)
-							return vrtrackerTagRight.triggerPressed;
+							return vrtrackerTagRight.trackpadTouch;
 						break;
 					case ButtonPressTypes.TouchDown:
 						if (controllerReference.index == 0 && vrtrackerTagLeft)
 						{
-							if (vrtrackerTagLeft.triggerDown)
+							if (vrtrackerTagLeft.trackpadDown)
 							{ 
-								vrtrackerTagLeft.triggerDown = false;
+								vrtrackerTagLeft.trackpadDown = false;
 								return true;
 							}
 							else
@@ -627,9 +631,9 @@ namespace VRTK
 						}
 						else if (controllerReference.index == 1 && vrtrackerTagRight)
 						{
-							if (vrtrackerTagRight.triggerDown)
+							if (vrtrackerTagRight.trackpadDown)
 							{
-								vrtrackerTagRight.triggerDown = false;
+								vrtrackerTagRight.trackpadDown = false;
 								return true;
 							}
 							else
@@ -639,9 +643,9 @@ namespace VRTK
 					case ButtonPressTypes.TouchUp:
 						if (controllerReference.index == 0 && vrtrackerTagLeft)
 						{
-							if (vrtrackerTagLeft.triggerUp)
+							if (vrtrackerTagLeft.trackpadUp)
 							{
-								vrtrackerTagLeft.triggerUp = false;
+								vrtrackerTagLeft.trackpadUp = false;
 								return true;
 							}
 							else
@@ -649,9 +653,9 @@ namespace VRTK
 						}
 						else if (controllerReference.index == 1 && vrtrackerTagRight)
 						{
-							if (vrtrackerTagRight.triggerUp)
+							if (vrtrackerTagRight.trackpadUp)
 							{
-								vrtrackerTagRight.triggerUp = false;
+								vrtrackerTagRight.trackpadUp = false;
 								return true;
 							}
 							else
@@ -748,7 +752,7 @@ namespace VRTK
                         {
                             foreach (VRTrackerTag tag in VRTracker.instance.tags)
                             {
-                                if (tag.leftController)
+								if (tag.tagType == VRTrackerTag.TagType.LeftController)
                                 {
                                     vrtrackerTagLeft = tag;
                                 }
@@ -768,7 +772,7 @@ namespace VRTK
                         {
                             foreach (VRTrackerTag tag in VRTracker.instance.tags)
                             {
-                                if (tag.rightController)
+								if (tag.tagType == VRTrackerTag.TagType.RightController)
                                 {
                                     vrtrackerTagRight = tag;
                                 }

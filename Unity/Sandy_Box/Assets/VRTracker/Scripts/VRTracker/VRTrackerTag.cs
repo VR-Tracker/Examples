@@ -7,11 +7,14 @@ using System.Collections.Generic;
 
 public class VRTrackerTag : MonoBehaviour {
 
-    // Type of Tag (Head, controller Left / Right fro VRTK)
-    public bool headset;
-    public bool leftController;
-    public bool rightController;
+    // Type of Tag (Head, controller Left / Right for VRTK)
+	public enum TagType 
+	{
+		Head, LeftController, RightController
+	}
+	public TagType tagType;
 
+	// Button value saved here for VRTK
     [System.NonSerialized] public bool triggerPressed = false;
     [System.NonSerialized] public bool triggerUp = false;
     [System.NonSerialized] public bool triggerDown = false;
@@ -22,6 +25,11 @@ public class VRTrackerTag : MonoBehaviour {
 	[System.NonSerialized] public bool trackpadUp = false;
 	[System.NonSerialized] public bool trackpadDown = false;
 	[System.NonSerialized] public Vector2 trackpadXY = Vector2.zero;
+
+	private int trackpadMaxLeft = 0; // Max left (x) value sent by the trackpad
+	private int trackpadMaxRight = 600; // Max right (x) value sent by the trackpad
+	private int trackpadMaxUp = 600; // Max up (x) value sent by the trackpad
+	private int trackpadMaxDown = 0; // Max down (x) value sent by the trackpad
 
     // For Quaternion orientation from Tag
     protected bool orientationUsesQuaternion = false;
@@ -36,8 +44,8 @@ public class VRTrackerTag : MonoBehaviour {
 
 	protected Vector3 tagRotation;
 
-	public Vector3 orientationOffset; // Offset to apply
-	public Vector3 EyeTagOffset; // Difference between tag and eye position in real world
+	//public Vector3 orientationOffset; // Offset to apply
+	//public Vector3 EyeTagOffset; // Difference between tag and eye position in real world
 	public bool orientationEnabled = true;
 	public string status;   
 	public int battery;
@@ -205,7 +213,8 @@ public class VRTrackerTag : MonoBehaviour {
 		Vector3 calcOffset = new Vector3(0f,0f,0f); // Position offset due to distance between eyes and tag position
 
 		// Setting Orientation for Tag
-		tagRotation = orientation_ + orientationOffset - orientationBegin;
+		//tagRotation = orientation_ + orientationOffset - orientationBegin;
+		tagRotation = orientation_ - orientationBegin;
 		tagRotation.y -= magneticNorthOffset;
 
 		// SMOOTH ORIENTATION
@@ -304,11 +313,11 @@ public class VRTrackerTag : MonoBehaviour {
 
 
 		// Calculated the offset between the Tag and the user's eyes
-		if(enableOrientationSmoothing)
+		/*if(enableOrientationSmoothing)
 			calcOffset = Quaternion.Euler(predictedOrientation)* EyeTagOffset;
 		else
 			calcOffset = Quaternion.Euler(tagRotation)* EyeTagOffset;
-
+		*/
 		// Assign tag orientation if enabled only. By default it's disabled for Camera, to use the VR Headset orientation instead
 		if (orientationEnabled) {
 				//Apply uniformely the rotation
@@ -347,7 +356,8 @@ public class VRTrackerTag : MonoBehaviour {
                 {
                     Debug.Log("Update orentiation begin to : " + orientationBegin.y);
                 }
-                ResetOrientation();
+				if(transform.GetComponentInChildren<Camera>())
+	                ResetOrientation();
             }
             else if (command.Contains("buttonoff"))
             {
@@ -497,9 +507,10 @@ public class VRTrackerTag : MonoBehaviour {
 				}
 				float f;
 				float.TryParse(values ["x"], System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out f);
-				trackpadXY.x = f;
+				trackpadXY.x = (f - (Mathf.Abs(trackpadMaxLeft - trackpadMaxRight)/2))/Mathf.Abs(trackpadMaxLeft - trackpadMaxRight);
 				float.TryParse(values ["y"], System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out f);
-				trackpadXY.y = f;
+				trackpadXY.y = (f - (Mathf.Abs(trackpadMaxUp - trackpadMaxDown)/2))/Mathf.Abs(trackpadMaxUp - trackpadMaxDown);
+
 			}
 		}
 

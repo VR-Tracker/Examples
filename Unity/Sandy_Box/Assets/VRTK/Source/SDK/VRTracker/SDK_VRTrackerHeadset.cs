@@ -82,7 +82,7 @@ public override void ProcessUpdate(Dictionary<string, object> options)
                 {
                     foreach (VRTrackerTag tag in VRTracker.instance.tags)
                     {
-                        if (tag.headset)
+						if (tag.tagType == VRTrackerTag.TagType.Head)
                         {
                             vrtrackerTagHead = tag;
                         }
