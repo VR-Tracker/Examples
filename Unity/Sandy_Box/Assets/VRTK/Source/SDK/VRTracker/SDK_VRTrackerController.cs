@@ -484,13 +484,11 @@ namespace VRTK
             {
                 switch (buttonType)
                 {
+					// Touchpad value from -1.0f to 1.0f on X and Y (cf DaydreamReach.cs)
 					case ButtonTypes.Touchpad:
                      //TODO: set touchpad data here   return OVRInput.Get(touchpads[index], touchControllers[index]);
+
 						break;
-                  /*  case ButtonTypes.Trigger:
-                        return new Vector2(OVRInput.Get(triggers[index], touchControllers[index]), 0f);
-                    case ButtonTypes.Grip:
-                        return new Vector2(OVRInput.Get(grips[index], touchControllers[index]), 0f);*/
                 }
             }
             return Vector2.zero;
@@ -605,8 +603,63 @@ namespace VRTK
                     
                     break;
                 case ButtonTypes.Touchpad:
-                    
-                    break;
+					switch (pressType)
+					{
+					case ButtonPressTypes.Touch:
+						if(controllerReference.index == 0 && vrtrackerTagLeft)
+						{
+							return vrtrackerTagLeft.triggerPressed;
+						}
+
+						else if (controllerReference.index == 1 && vrtrackerTagRight)
+							return vrtrackerTagRight.triggerPressed;
+						break;
+					case ButtonPressTypes.TouchDown:
+						if (controllerReference.index == 0 && vrtrackerTagLeft)
+						{
+							if (vrtrackerTagLeft.triggerDown)
+							{ 
+								vrtrackerTagLeft.triggerDown = false;
+								return true;
+							}
+							else
+								return false;
+						}
+						else if (controllerReference.index == 1 && vrtrackerTagRight)
+						{
+							if (vrtrackerTagRight.triggerDown)
+							{
+								vrtrackerTagRight.triggerDown = false;
+								return true;
+							}
+							else
+								return false;
+						}
+						break;
+					case ButtonPressTypes.TouchUp:
+						if (controllerReference.index == 0 && vrtrackerTagLeft)
+						{
+							if (vrtrackerTagLeft.triggerUp)
+							{
+								vrtrackerTagLeft.triggerUp = false;
+								return true;
+							}
+							else
+								return false;
+						}
+						else if (controllerReference.index == 1 && vrtrackerTagRight)
+						{
+							if (vrtrackerTagRight.triggerUp)
+							{
+								vrtrackerTagRight.triggerUp = false;
+								return true;
+							}
+							else
+								return false;
+						}
+						break;
+					}
+					break;
                 case ButtonTypes.ButtonOne:
                     switch (pressType)
                     {

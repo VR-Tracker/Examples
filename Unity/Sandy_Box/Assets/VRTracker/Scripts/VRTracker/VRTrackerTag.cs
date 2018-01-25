@@ -18,6 +18,10 @@ public class VRTrackerTag : MonoBehaviour {
     [System.NonSerialized] public bool buttonPressed = false;
     [System.NonSerialized] public bool buttonUp = false;
     [System.NonSerialized] public bool buttonDown = false;
+	[System.NonSerialized] public bool trackpadTouch = false;
+	[System.NonSerialized] public bool trackpadUp = false;
+	[System.NonSerialized] public bool trackpadDown = false;
+	[System.NonSerialized] public Vector2 trackpadXY = Vector2.zero;
 
     // For Quaternion orientation from Tag
     protected bool orientationUsesQuaternion = false;
@@ -92,7 +96,7 @@ public class VRTrackerTag : MonoBehaviour {
 	// Use this for initialization
 	protected virtual void Start () {
 
-		onTagData("cmd=specialdata&s=30&x=376&y=481&z=36&st=1&s=10&ox=190.19&oy=-49.17&oz=-22.71&ax=21.27&ay=0.78&az=-15.79");
+		onTagData("cmd=specialdata&s=30&x=376.43&y=481&z=36&st=1&s=10&ox=190.19&oy=-49.17&oz=-22.71&ax=21.27&ay=0.78&az=-15.79");
 
 		netId = transform.GetComponentInParent<NetworkIdentity> ();
 		if (netId != null && !netId.isLocalPlayer) {
@@ -447,41 +451,59 @@ public class VRTrackerTag : MonoBehaviour {
 
 	public void onTagData(string data){
 		string[] sensors = data.Split(new string[] {"&s="}, System.StringSplitOptions.RemoveEmptyEntries);
-		foreach (string sensor in sensors) {
-			string[] parameters = sensor.Split ('&');
+		for (int i = 1; i < sensors.Length; i++) {
+			string[] parameters = sensors[i].Split ('&');
 			char[] sensorInfo = parameters[0].ToCharArray();
 			if (sensorInfo.Length != 2)
 				return;
 			Dictionary<string, string> values = new Dictionary<string, string>();
-			for (int i = 1; i < parameters.Length; i++) {
-				string[] dict = parameters [i].Split ('=');
+			for (int j = 1; j < parameters.Length; j++) {
+				string[] dict = parameters [j].Split ('=');
 				values.Add (dict[0], dict[1]);
 			}
 
 			// IMU
-			if (sensorInfo [0] == 1) {
-			
+			if (sensorInfo [0] == '1') {
+				Vector3 rec_orientation;
+				Vector3 rec_acceleration;
+
+				float f;
+				float.TryParse(values ["ox"], System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out f);
+				rec_orientation.x = f;
+				float.TryParse(values ["oy"], System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out f);
+				rec_orientation.y = f;
+				float.TryParse(values ["oz"], System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out f);
+				rec_orientation.z = f;
+
+				float.TryParse(values ["ax"], System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out f);
+				rec_acceleration.x = f;
+				float.TryParse(values ["ay"], System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out f);
+				rec_acceleration.y = f;
+				float.TryParse(values ["az"], System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out f);
+				rec_acceleration.z = f;
+
+				updateOrientationAndAcceleration (rec_orientation, rec_acceleration);
 			}
 
 			// Trackpad
-			else if (sensorInfo [0] == 3) {
-
+			else if (sensorInfo [0] == '3') {
+				string press = values ["st"];
+				if (press == "0") {
+					trackpadTouch = false;
+					trackpadUp = true;
+				} else if (press == "1") {
+					trackpadTouch = true;
+					trackpadDown = true;
+				}
+				float f;
+				float.TryParse(values ["x"], System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out f);
+				trackpadXY.x = f;
+				float.TryParse(values ["y"], System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out f);
+				trackpadXY.y = f;
 			}
-
-			/*
-			 string temp = null;
-        
-	        //This is a safer, but slow, method of accessing
-	        //values in a dictionary.
-	        if(badguys.TryGetValue("birds", out temp))
-	        {
-	            //success!
-	        }
-			*/
-			
-
-			Debug.Log (sensor);
 		}
+
+		Debug.Log (trackpadXY.x + "   " + trackpadXY.y);
 	}
 
 	public Vector3 GetPosition()
