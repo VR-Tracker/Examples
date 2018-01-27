@@ -125,34 +125,21 @@ namespace VRTK
             if (false) //TODO: Create a controller model with elements
             {
                 string suffix = (fullPath ? "" : "");
-                string parent = "controller_" + (hand == ControllerHand.Left ? "left" : "right") + "_renderPart_0";
-                string prefix = (hand == ControllerHand.Left ? "l" : "r") + "ctrl:";
-                string child = prefix + (hand == ControllerHand.Left ? "left" : "right") + "_touch_controller_world";
-
-                string path = parent + "/" + child + "/" + prefix + "b_";
+				string parent = "Controller" + (hand == ControllerHand.Left ? "Left" : "Right") + "Anchor";
+				string path = parent + "/Model";
 
                 switch (element)
                 {
                     case ControllerElements.AttachPoint:
                         return null;
                     case ControllerElements.Trigger:
-                        return path + "trigger" + suffix;
-                    case ControllerElements.GripLeft:
-                        return path + "hold" + suffix;
-                    case ControllerElements.GripRight:
-                        return path + "hold" + suffix;
+						return path + "/ButtonMain";
                     case ControllerElements.Touchpad:
-                        return path + "stick/" + prefix + "b_stick_IGNORE" + suffix;
+						return path + "/VRTrackerControllerModelTrackpad";
                     case ControllerElements.ButtonOne:
-                        return path + "button01" + suffix;
-                    case ControllerElements.ButtonTwo:
-                        return path + "button02" + suffix;
-                    case ControllerElements.SystemMenu:
-                        return path + "button03" + suffix;
-                    case ControllerElements.StartMenu:
-                        return path + "button03" + suffix;
+						return path + "/ButtonSecond";
                     case ControllerElements.Body:
-                        return parent;
+						return path;
                 }
             }
             return null;

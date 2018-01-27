@@ -69,6 +69,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UserUID: 
   autoAssignation: 1
+  RoomNorthOffset: 0
 --- !u!114 &114514673923542662
 MonoBehaviour:
   m_ObjectHideFlags: 1

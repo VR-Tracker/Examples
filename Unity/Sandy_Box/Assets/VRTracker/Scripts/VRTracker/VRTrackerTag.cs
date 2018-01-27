@@ -34,7 +34,6 @@ public class VRTrackerTag : MonoBehaviour {
     // For Quaternion orientation from Tag
     protected bool orientationUsesQuaternion = false;
 	protected Quaternion imuOrientation_quat;
-	public float magneticNorthOffset = 0.0f;
 
 	// For Rotation vector orientation from Tag
 	protected Vector3 orientation_;
@@ -215,7 +214,7 @@ public class VRTrackerTag : MonoBehaviour {
 		// Setting Orientation for Tag
 		//tagRotation = orientation_ + orientationOffset - orientationBegin;
 		tagRotation = orientation_ - orientationBegin;
-		tagRotation.y -= magneticNorthOffset;
+		tagRotation.y -= VRTracker.instance.RoomNorthOffset;
 
 		// SMOOTH ORIENTATION
 
