@@ -168,22 +168,22 @@ MonoBehaviour:
     baseTypeName: VRTK.SDK_BaseSystem
     fallbackTypeName: VRTK.SDK_FallbackSystem
     typeName: VRTK.SDK_VRTrackerSystem
-    descriptionIndex: 0
+    descriptionIndex: 4
   cachedBoundariesSDKInfo:
     baseTypeName: VRTK.SDK_BaseBoundaries
     fallbackTypeName: VRTK.SDK_FallbackBoundaries
     typeName: VRTK.SDK_VRTrackerBoundaries
-    descriptionIndex: 0
+    descriptionIndex: 4
   cachedHeadsetSDKInfo:
     baseTypeName: VRTK.SDK_BaseHeadset
     fallbackTypeName: VRTK.SDK_FallbackHeadset
     typeName: VRTK.SDK_VRTrackerHeadset
-    descriptionIndex: 0
+    descriptionIndex: 4
   cachedControllerSDKInfo:
     baseTypeName: VRTK.SDK_BaseController
     fallbackTypeName: VRTK.SDK_FallbackController
     typeName: VRTK.SDK_VRTrackerController
-    descriptionIndex: 0
+    descriptionIndex: 4
 --- !u!1 &21532454
 GameObject:
   m_ObjectHideFlags: 0

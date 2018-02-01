@@ -253,13 +253,11 @@ PlayerSettings:
     m_Enabled: 1
     m_Devices:
     - None
-    - Daydream
     - Oculus
+    - Daydream
   - m_BuildTarget: Standalone
     m_Enabled: 1
-    m_Devices:
-    - None
-    - Oculus
+    m_Devices: []
   - m_BuildTarget: iOS
     m_Enabled: 0
     m_Devices: []
