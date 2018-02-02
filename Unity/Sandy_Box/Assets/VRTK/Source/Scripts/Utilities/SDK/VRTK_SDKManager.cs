@@ -523,12 +523,13 @@ namespace VRTK
 
             foreach (VRTK_SDKSetup invalidSetup in sdkSetups.Where(setup => !setup.isValid))
             {
-                string setupErrorDescriptions = string.Join("\n- ", invalidSetup.GetSimplifiedErrorDescriptions());
-                if (!string.IsNullOrEmpty(setupErrorDescriptions))
-                {
-                    setupErrorDescriptions = "- " + setupErrorDescriptions;
-                    VRTK_Logger.Warn(string.Format("Ignoring SDK Setup '{0}' because there are some errors with it:\n{1}", invalidSetup.name, setupErrorDescriptions));
-                }
+				if (invalidSetup != null) {
+					string setupErrorDescriptions = string.Join ("\n- ", invalidSetup.GetSimplifiedErrorDescriptions ());
+					if (!string.IsNullOrEmpty (setupErrorDescriptions)) {
+						setupErrorDescriptions = "- " + setupErrorDescriptions;
+						VRTK_Logger.Warn (string.Format ("Ignoring SDK Setup '{0}' because there are some errors with it:\n{1}", invalidSetup.name, setupErrorDescriptions));
+					}
+				}
             }
 
             sdkSetups = sdkSetups.Where(setup => setup.isValid).ToArray();
@@ -575,7 +576,6 @@ namespace VRTK
                     .ToArray();
                 XRSettings.LoadDeviceByName(vrDeviceNames);
             }
-
             StartCoroutine(FinishSDKSetupLoading(sdkSetups, previousLoadedSetup));
         }
 
@@ -718,11 +718,14 @@ namespace VRTK
 
         private IEnumerator FinishSDKSetupLoading(VRTK_SDKSetup[] sdkSetups, VRTK_SDKSetup previousLoadedSetup)
         {
-            yield return null;
-
             string loadedDeviceName = string.IsNullOrEmpty(XRSettings.loadedDeviceName) ? "None" : XRSettings.loadedDeviceName;
-            loadedSetup = sdkSetups.FirstOrDefault(setup => setup.usedVRDeviceNames.Contains(loadedDeviceName));
 
+			// VR Tracker : removing check if device currently connected to load VR Tracker VRTK no matter what
+			if (sdkSetups[0].name != "VRTracker")
+				loadedSetup = sdkSetups.FirstOrDefault(setup => setup.usedVRDeviceNames.Contains(loadedDeviceName));
+			else
+				loadedSetup = sdkSetups[0];
+			
             if (loadedSetup == null)
             {
                 // The loaded VR Device doesn't match any SDK Setup
@@ -740,7 +743,8 @@ namespace VRTK
                 // The loaded VR Device is actually a VR Device
                 XRSettings.enabled = true;
 
-                if (!XRDevice.isPresent)
+				// VR Tracker : removing check if device currently connected to load VR Tracker VRTK no matter what
+				if (!XRDevice.isPresent && loadedSetup.name != "VRTracker")
                 {
                     // Despite being loaded, the loaded VR Device isn't working correctly
                     int nextSetupIndex = Array.IndexOf(sdkSetups, loadedSetup) + 1;

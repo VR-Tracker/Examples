@@ -4,20 +4,20 @@ namespace VRTK
     /// <summary>
 	/// The VRTracker System SDK script provides a bridge to the Oculus SDK.
     /// </summary>
-	[SDK_Description("VRTracker (Standalone:Oculus)", null, "Oculus", "Standalone")]
+/*	[SDK_Description("VRTracker (Standalone:Oculus)", null, "Oculus", "Standalone")]
 	[SDK_Description("VRTracker (Standalone:OpenVR)", null, "OpenVR", "Standalone", 1)]
 	[SDK_Description("VRTracker (Android:Cardboard)", null, "Cardboard", "Android", 2)]
 	[SDK_Description("VRTracker (Android:Daydream)", null, "Daydream", "Android", 3)]
 	[SDK_Description("VRTracker (Android:Oculus)", null, "Oculus", "Android", 4)]
 	[SDK_Description("VRTracker (Android:OpenVR)", null, "OpenVR", "Android", 5)]
-	/*
+	*/
 	[SDK_Description("VRTracker (Standalone:Oculus)", SDK_VRTrackerDefines.ScriptingDefineSymbol, "Oculus", "Standalone")]
 	[SDK_Description("VRTracker (Standalone:OpenVR)", SDK_VRTrackerDefines.ScriptingDefineSymbol, "OpenVR", "Standalone", 1)]
 	[SDK_Description("VRTracker (Android:Cardboard)", SDK_VRTrackerDefines.ScriptingDefineSymbol, "Cardboard", "Android", 2)]
 	[SDK_Description("VRTracker (Android:Daydream)", SDK_VRTrackerDefines.ScriptingDefineSymbol, "Daydream", "Android", 3)]
 	[SDK_Description("VRTracker (Android:Oculus)", SDK_VRTrackerDefines.ScriptingDefineSymbol, "Oculus", "Android", 4)]
 	[SDK_Description("VRTracker (Android:OpenVR)", SDK_VRTrackerDefines.ScriptingDefineSymbol, "OpenVR", "Android", 5)]
-	*/
+
 	public class SDK_VRTrackerSystem
 #if VRTK_DEFINE_SDK_VRTRACKER
         : SDK_BaseSystem

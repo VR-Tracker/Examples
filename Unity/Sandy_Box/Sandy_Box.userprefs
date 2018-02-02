@@ -1,13 +1,21 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/VRTK/Examples/ExampleResources/Scripts/SceneChanger.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/VRTK/Prefabs/SDKSetupSwitcher/VRTK_SDKSetupSwitcher.cs">
     <Files>
-      <File FileName="Assets/VRTracker/Scripts/VRTracker/VRTrackerTag.cs" Line="217" Column="54" />
-      <File FileName="Assets/VRTracker/Scripts/VRTracker/VRTracker.cs" Line="32" Column="30" />
-      <File FileName="Assets/VRTK/Prefabs/RadialMenu/VRTK_RadialMenuController.cs" Line="97" Column="14" />
-      <File FileName="Assets/VRTracker/Scripts/VRTK_RadialMenuControllerTrigger.cs" Line="29" Column="4" />
-      <File FileName="Assets/VRTK/Prefabs/RadialMenu/VRTK_RadialMenu.cs" Line="47" Column="43" />
-      <File FileName="Assets/VRTK/Examples/ExampleResources/Scripts/SceneChanger.cs" Line="1" Column="1" />
+      <File FileName="Assets/VRTK/Prefabs/SDKSetupSwitcher/VRTK_SDKSetupSwitcher.cs" Line="91" Column="1" />
+      <File FileName="Assets/VRTK/Source/SDK/Base/SDK_BaseController.cs" Line="1" Column="1" />
+      <File FileName="Assets/VRTK/Source/SDK/VRTracker/SDK_VRTrackerSystem.cs" Line="1" Column="1" />
+      <File FileName="Assets/VRTK/Source/SDK/VRTracker/SDK_VRTrackerHeadset.cs" Line="1" Column="1" />
+      <File FileName="Assets/VRTK/Source/SDK/Unity/SDK_UnityHeadset.cs" Line="1" Column="1" />
+      <File FileName="Assets/VRTK/Source/SDK/Oculus/SDK_OculusHeadset.cs" Line="1" Column="1" />
+      <File FileName="Assets/VRTK/Source/SDK/Ximmerse/SDK_XimmerseHeadset.cs" Line="1" Column="1" />
+      <File FileName="Assets/VRTK/Source/SDK/VRTracker/SDK_VRTrackerController.cs" Line="1" Column="1" />
+      <File FileName="Assets/VRTK/Source/SDK/Oculus/SDK_OculusController.cs" Line="1" Column="1" />
+      <File FileName="Assets/VRTK/Source/Scripts/Utilities/SDK/VRTK_SDKManager.cs" Line="732" Column="37" />
+      <File FileName="Assets/VRTK/Source/Scripts/Utilities/VRTK_DeviceFinder.cs" Line="1" Column="1" />
+      <File FileName="Assets/VRTK/Source/SDK/Base/SDK_BaseHeadset.cs" Line="1" Column="1" />
+      <File FileName="Assets/VRTK/Source/SDK/Unity/SDK_UnitySystem.cs" Line="1" Column="1" />
+      <File FileName="Assets/VRTK/Documentation/API.md" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
