@@ -727,42 +727,33 @@ namespace VRTK
             VRTK_SDKManager sdkManager = VRTK_SDKManager.instance;
             if (sdkManager != null)
             {
-                if (cachedLeftController == null && sdkManager.loadedSetup.actualLeftController)
-                {
-                    cachedLeftController = sdkManager.loadedSetup.actualLeftController.GetComponent<VRTK_TrackedController>();
-                    if (cachedLeftController != null)
-                    {
-                        cachedLeftController.index = 0;
-
-                        // VR Tracker note : assign Tag to Controller \
-                        if (VRTracker.instance)
-                        {
-                            foreach (VRTrackerTag tag in VRTracker.instance.tags)
-                            {
-								if (tag.tagType == VRTrackerTag.TagType.LeftController)
-                                {
-                                    vrtrackerTagLeft = tag;
-                                }
-                            }
-                        }
-                    }
-                }
+				if (cachedLeftController == null && sdkManager.loadedSetup.actualLeftController) {
+					// VR Tracker note : assign Tag to Controller \
+					if (VRTracker.instance) {
+						foreach (VRTrackerTag tag in VRTracker.instance.tags) {
+							if (tag.tagType == VRTrackerTag.TagType.LeftController) {
+								vrtrackerTagLeft = tag;
+								cachedLeftController = sdkManager.loadedSetup.actualLeftController.GetComponent<VRTK_TrackedController> ();
+								if (cachedLeftController != null) {
+									cachedLeftController.index = 0;
+								}
+							}
+						}
+					}
+				} 
                 if (cachedRightController == null && sdkManager.loadedSetup.actualRightController)
                 {
-                    cachedRightController = sdkManager.loadedSetup.actualRightController.GetComponent<VRTK_TrackedController>();
-                    if (cachedRightController != null)
+                    // VR Tracker note : assign Tag to Controller 
+                    if (VRTracker.instance)
                     {
-                        cachedRightController.index = 1;
-
-                        // VR Tracker note : assign Tag to Controller 
-                        if (VRTracker.instance)
+                        foreach (VRTrackerTag tag in VRTracker.instance.tags)
                         {
-                            foreach (VRTrackerTag tag in VRTracker.instance.tags)
-                            {
-								if (tag.tagType == VRTrackerTag.TagType.RightController)
-                                {
-                                    vrtrackerTagRight = tag;
-                                }
+							if (tag.tagType == VRTrackerTag.TagType.RightController) {
+								vrtrackerTagRight = tag;
+								cachedRightController = sdkManager.loadedSetup.actualRightController.GetComponent<VRTK_TrackedController>();
+								if (cachedRightController != null){
+									cachedRightController.index = 1;
+								}
                             }
                         }
                     }

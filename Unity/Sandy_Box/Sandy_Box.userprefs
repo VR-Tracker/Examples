@@ -1,21 +1,13 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/VRTK/Prefabs/SDKSetupSwitcher/VRTK_SDKSetupSwitcher.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/VRTK/Source/Scripts/Utilities/SDK/VRTK_SDKManager.cs">
     <Files>
-      <File FileName="Assets/VRTK/Prefabs/SDKSetupSwitcher/VRTK_SDKSetupSwitcher.cs" Line="91" Column="1" />
-      <File FileName="Assets/VRTK/Source/SDK/Base/SDK_BaseController.cs" Line="1" Column="1" />
-      <File FileName="Assets/VRTK/Source/SDK/VRTracker/SDK_VRTrackerSystem.cs" Line="1" Column="1" />
-      <File FileName="Assets/VRTK/Source/SDK/VRTracker/SDK_VRTrackerHeadset.cs" Line="1" Column="1" />
-      <File FileName="Assets/VRTK/Source/SDK/Unity/SDK_UnityHeadset.cs" Line="1" Column="1" />
-      <File FileName="Assets/VRTK/Source/SDK/Oculus/SDK_OculusHeadset.cs" Line="1" Column="1" />
-      <File FileName="Assets/VRTK/Source/SDK/Ximmerse/SDK_XimmerseHeadset.cs" Line="1" Column="1" />
-      <File FileName="Assets/VRTK/Source/SDK/VRTracker/SDK_VRTrackerController.cs" Line="1" Column="1" />
-      <File FileName="Assets/VRTK/Source/SDK/Oculus/SDK_OculusController.cs" Line="1" Column="1" />
-      <File FileName="Assets/VRTK/Source/Scripts/Utilities/SDK/VRTK_SDKManager.cs" Line="732" Column="37" />
-      <File FileName="Assets/VRTK/Source/Scripts/Utilities/VRTK_DeviceFinder.cs" Line="1" Column="1" />
-      <File FileName="Assets/VRTK/Source/SDK/Base/SDK_BaseHeadset.cs" Line="1" Column="1" />
-      <File FileName="Assets/VRTK/Source/SDK/Unity/SDK_UnitySystem.cs" Line="1" Column="1" />
-      <File FileName="Assets/VRTK/Documentation/API.md" Line="1" Column="1" />
+      <File FileName="Assets/VRTK/Prefabs/SDKSetupSwitcher/VRTK_SDKSetupSwitcher.cs" Line="1" Column="1" />
+      <File FileName="Assets/VRTK/Source/SDK/VRTracker/SDK_VRTrackerController.cs" Line="125" Column="22" />
+      <File FileName="Assets/VRTK/Source/SDK/VRTracker/SDK_VRTrackerSystem.cs" Line="14" Column="50" />
+      <File FileName="Assets/VRTK/Source/SDK/Oculus/SDK_OculusSystem.cs" Line="1" Column="1" />
+      <File FileName="Assets/VRTK/Source/SDK/Daydream/SDK_DaydreamSystem.cs" Line="7" Column="93" />
+      <File FileName="Assets/VRTK/Source/Scripts/Utilities/SDK/VRTK_SDKManager.cs" Line="716" Column="14" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

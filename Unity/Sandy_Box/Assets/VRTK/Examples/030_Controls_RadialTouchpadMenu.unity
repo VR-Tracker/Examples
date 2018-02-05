@@ -157,7 +157,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eeda6d41317f444b900e374895f14e95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  autoPopulateObjectReferences: 0
+  autoPopulateObjectReferences: 1
   actualBoundaries: {fileID: 394799906}
   actualHeadset: {fileID: 1306341347}
   actualLeftController: {fileID: 678100625}
@@ -4303,7 +4303,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5837af0260a118e4d808bfe0405429a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  autoManageScriptDefines: 0
+  autoManageScriptDefines: 1
   activeScriptingDefineSymbolsWithoutSDKClasses:
   - symbol: VRTK_DEFINE_SDK_OCULUS_AVATAR
     buildTargetGroupName: Standalone
@@ -4311,7 +4311,7 @@ MonoBehaviour:
     buildTargetGroupName: Android
   scriptAliasLeftController: {fileID: 106315678}
   scriptAliasRightController: {fileID: 708505806}
-  autoManageVRSettings: 0
+  autoManageVRSettings: 1
   autoLoadSetup: 1
   setups:
   - {fileID: 13426039}

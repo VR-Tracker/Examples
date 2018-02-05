@@ -365,6 +365,7 @@ namespace VRTK
             {
                 if (buttonID != -1)
                 {
+					Debug.Log ("DoClickButton ID " + buttonID.ToString());
                     ExecuteEvents.Execute(menuButtons[buttonID], pointer, ExecuteEvents.pointerDownHandler);
                 }
                 currentPress = buttonID;

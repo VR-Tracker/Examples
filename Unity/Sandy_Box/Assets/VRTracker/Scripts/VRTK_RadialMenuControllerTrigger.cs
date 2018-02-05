@@ -38,31 +38,24 @@
 			menu.FireHapticPulse -= new HapticPulseEventHandler(AttemptHapticPulse);
 		}
 
-		protected virtual void DoTouchpadTouched(object sender, ControllerInteractionEventArgs e)
-		{
-			if (!menu.isShown)
-				return;
-			touchpadTouched = true;
-			DoClickButton();
-		}
-
-		protected virtual void DoTouchpadUntouched(object sender, ControllerInteractionEventArgs e)
-		{
-			if (!menu.isShown)
-				return;
-			touchpadTouched = false;
-			DoUnClickButton();
-		}
-
 		protected virtual void DoTouchpadClicked(object sender, ControllerInteractionEventArgs e)
 		{
-			
+			if (!menu.isShown)
+				return;
+			//touchpadTouched = true;
+			Debug.Log ("DoTouchpadClicked");
+			//DoClickButton();
 		}
 
 		protected virtual void DoTouchpadUnclicked(object sender, ControllerInteractionEventArgs e)
 		{
-			
+			if (!menu.isShown)
+				return;
+			//touchpadTouched = false;
+			//Debug.Log ("DoTouchpadUntouched");
+			DoUnClickButton();
 		}
+
 
 		protected virtual void DoTriggerClicked(object sender, ControllerInteractionEventArgs e)
 		{
@@ -75,6 +68,25 @@
 		protected virtual void DoTriggerUnclicked(object sender, ControllerInteractionEventArgs e)
 		{
 			
+		}
+
+		protected virtual void DoTouchpadTouched(object sender, ControllerInteractionEventArgs e)
+		{
+			if (!menu.isShown)
+				return;
+
+			Debug.Log ("DoTouchpadTouched");
+			if(!touchpadTouched)
+				DoClickButton();
+			touchpadTouched = true;
+		}
+
+		protected virtual void DoTouchpadUntouched(object sender, ControllerInteractionEventArgs e)
+		{
+			if (!menu.isShown)
+				return;
+			
+			touchpadTouched = false;
 		}
 	}
 

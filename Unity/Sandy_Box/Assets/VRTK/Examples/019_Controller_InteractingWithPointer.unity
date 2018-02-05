@@ -2157,10 +2157,10 @@ MonoBehaviour:
   activateOnEnable: 0
   activationDelay: 0
   selectionButton: 10
-  selectOnPress: 0
+  selectOnPress: 1
   selectionDelay: 0
   selectAfterHoverDuration: 0
-  interactWithObjects: 0
+  interactWithObjects: 1
   grabToPointerTip: 0
   attachedTo: {fileID: 0}
   controllerEvents: {fileID: 0}
@@ -3179,6 +3179,7 @@ GameObject:
   - component: {fileID: 576094163}
   - component: {fileID: 576094162}
   - component: {fileID: 576094165}
+  - component: {fileID: 576094166}
   m_Layer: 0
   m_Name: Whirlygig
   m_TagString: Untagged
@@ -3252,14 +3253,33 @@ MonoBehaviour:
   grabAttachMechanicScript: {fileID: 0}
   secondaryGrabActionScript: {fileID: 0}
   isUsable: 1
-  holdButtonToUse: 0
+  holdButtonToUse: 1
   useOnlyIfGrabbed: 0
   pointerActivatesUseAction: 1
   useOverrideButton: 0
   allowedUseControllers: 0
   objectHighlighter: {fileID: 0}
-  touchHighlightColor: {r: 0, g: 0, b: 0, a: 0}
+  touchHighlightColor: {r: 0.39492902, g: 0.9705882, b: 0, a: 0.541}
   usingState: 0
+--- !u!114 &576094166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 576094161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abc4b5dd2be1cea4aaea2850b910d3f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nearTouchHighlight: {r: 0.99264705, g: 0.051092118, b: 0.051092118, a: 0}
+  touchHighlight: {r: 1, g: 0.93103445, b: 0, a: 0.666}
+  grabHighlight: {r: 0.23782957, g: 0, b: 0.9852941, a: 0}
+  useHighlight: {r: 0, g: 0.9852941, b: 0.16987832, a: 0}
+  objectToMonitor: {fileID: 0}
+  objectToHighlight: {fileID: 0}
+  objectHighlighter: {fileID: 0}
+  objectToAffect: {fileID: 0}
 --- !u!1 &591276883
 GameObject:
   m_ObjectHideFlags: 0
@@ -8828,12 +8848,12 @@ Prefab:
     - target: {fileID: 224000013127654674, guid: d46cf6b1ad9d84a48ae7548a2a6b41b3,
         type: 2}
       propertyPath: m_LocalPosition.x
-      value: 332.5
+      value: 326
       objectReference: {fileID: 0}
     - target: {fileID: 224000013127654674, guid: d46cf6b1ad9d84a48ae7548a2a6b41b3,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: 186.5
+      value: 176.5
       objectReference: {fileID: 0}
     - target: {fileID: 224000013127654674, guid: d46cf6b1ad9d84a48ae7548a2a6b41b3,
         type: 2}
@@ -9233,12 +9253,12 @@ Prefab:
     - target: {fileID: 224000012623161658, guid: d46cf6b1ad9d84a48ae7548a2a6b41b3,
         type: 2}
       propertyPath: m_LocalPosition.x
-      value: 251.5
+      value: 245
       objectReference: {fileID: 0}
     - target: {fileID: 224000012623161658, guid: d46cf6b1ad9d84a48ae7548a2a6b41b3,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: -186.5
+      value: -176.5
       objectReference: {fileID: 0}
     - target: {fileID: 224000012484682510, guid: d46cf6b1ad9d84a48ae7548a2a6b41b3,
         type: 2}
@@ -9288,6 +9308,16 @@ Prefab:
     - target: {fileID: 224000012747905524, guid: d46cf6b1ad9d84a48ae7548a2a6b41b3,
         type: 2}
       propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000012484682510, guid: d46cf6b1ad9d84a48ae7548a2a6b41b3,
+        type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000010031187690, guid: d46cf6b1ad9d84a48ae7548a2a6b41b3,
+        type: 2}
+      propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

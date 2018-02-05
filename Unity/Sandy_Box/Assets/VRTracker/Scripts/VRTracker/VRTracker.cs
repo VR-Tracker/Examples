@@ -93,7 +93,7 @@ public class VRTracker : MonoBehaviour {
     // Handler for all messages from the Gateway
     private void OnMessageHandler(object sender, MessageEventArgs e) {
 
-		//Debug.Log (e.Data);
+//		Debug.Log (e.Data);
 		if (e.Data.Contains ("cmd=position")) {
 			//Debug.Log (System.DateTime.Now.Millisecond + ", " + e.Data);
 
@@ -177,7 +177,23 @@ public class VRTracker : MonoBehaviour {
 			if (uid != null && command != null)
 				receiveSpecialCommand (uid, command);
 
-		} else if (e.Data.Contains ("cmd=taginfos")) {
+		} else if (e.Data.Contains ("cmd=tag")) { // Tag V2 data 
+			string[] datas = e.Data.Split ('&');
+			string uid = null;
+			string command = null;
+			foreach (string data in datas) {
+				string[] datasplit = data.Split ('=');
+
+				// Tag UID sending the special command
+				if (datasplit [0] == "uid") {
+					uid = datasplit [1];
+				}
+
+			}
+			if (uid != null)
+				receiveSpecialData(uid, e.Data);
+		}
+		else if (e.Data.Contains ("cmd=taginfos")) {
 
 			string[] datas = e.Data.Split ('&');
 
@@ -263,6 +279,7 @@ public class VRTracker : MonoBehaviour {
 				}
 			}
 		} else if (e.Data.Contains ("cmd=offset")) {
+			Debug.Log (e.Data);
 			string offset = null;
 			string[] datas = e.Data.Split ('&');
 
@@ -496,6 +513,26 @@ public class VRTracker : MonoBehaviour {
 			onAssociation (TagID, data);
 		}
 		
+	}
+
+
+
+	/*
+	 * Executed on reception of a special data 
+	 */
+	public void receiveSpecialData(string TagID, string data){
+		// TODO: You can do whatever you wants with the special command, have fun !
+
+		bool tagFound = false;
+		// Search for the Tag the special command is sent to
+		foreach (VRTrackerTag tag in tags)
+		{
+			if (tag.UID == TagID)
+			{
+				tagFound = true;
+				tag.onTagData(data);
+			}
+		}
 	}
 
 	/*

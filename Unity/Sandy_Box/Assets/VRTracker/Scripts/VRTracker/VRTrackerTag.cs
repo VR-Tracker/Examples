@@ -27,8 +27,8 @@ public class VRTrackerTag : MonoBehaviour {
 	[System.NonSerialized] public Vector2 trackpadXY = Vector2.zero;
 
 	private int trackpadMaxLeft = 0; // Max left (x) value sent by the trackpad
-	private int trackpadMaxRight = 600; // Max right (x) value sent by the trackpad
-	private int trackpadMaxUp = 600; // Max up (x) value sent by the trackpad
+	private int trackpadMaxRight = 1000; // Max right (x) value sent by the trackpad
+	private int trackpadMaxUp = 1000; // Max up (x) value sent by the trackpad
 	private int trackpadMaxDown = 0; // Max down (x) value sent by the trackpad
 
     // For Quaternion orientation from Tag
@@ -102,8 +102,8 @@ public class VRTrackerTag : MonoBehaviour {
 
 	// Use this for initialization
 	protected virtual void Start () {
-
-		onTagData("cmd=specialdata&s=30&x=376.43&y=481&z=36&st=1&s=10&ox=190.19&oy=-49.17&oz=-22.71&ax=21.27&ay=0.78&az=-15.79");
+		//Debug.Log ("TAG " + UID + "  " + tagType.ToString ());
+		//onTagData("cmd=specialdata&s=30&x=376.43&y=481&z=36&st=1&s=10&ox=190.19&oy=-49.17&oz=-22.71&ax=21.27&ay=0.78&az=-15.79");
 
 		netId = transform.GetComponentInParent<NetworkIdentity> ();
 		if (netId != null && !netId.isLocalPlayer) {
@@ -215,6 +215,7 @@ public class VRTrackerTag : MonoBehaviour {
 		//tagRotation = orientation_ + orientationOffset - orientationBegin;
 		tagRotation = orientation_ - orientationBegin;
 		tagRotation.y -= VRTracker.instance.RoomNorthOffset;
+		//Debug.Log (VRTracker.instance.RoomNorthOffset);
 
 		// SMOOTH ORIENTATION
 
@@ -339,6 +340,7 @@ public class VRTrackerTag : MonoBehaviour {
                 OnTriggerDown();
                 triggerPressed = true;
                 triggerDown = true; 
+				triggerUp = false;
 
             }
             else if (command.Contains("triggeroff"))
@@ -351,6 +353,7 @@ public class VRTrackerTag : MonoBehaviour {
             {
                 buttonPressed = true;
                 buttonDown = true;
+				buttonUp = false;
                 if (displayLog)
                 {
                     Debug.Log("Update orentiation begin to : " + orientationBegin.y);
@@ -361,6 +364,7 @@ public class VRTrackerTag : MonoBehaviour {
             else if (command.Contains("buttonoff"))
             {
                 buttonPressed = false;
+				buttonUp = true;
             }
          }
 
@@ -426,8 +430,11 @@ public class VRTrackerTag : MonoBehaviour {
 
 	public void updateOrientationAndAcceleration(Vector3 neworientation, Vector3 newacceleration)
 	{
-		Vector3 flippedRotation = neworientation;
-		orientation_ = flippedRotation;
+		Vector3 flippedRotation = new Vector3(-neworientation.z, neworientation.x, neworientation.y);
+		Quaternion quattest = Quaternion.Euler (flippedRotation);
+		quattest = quattest*Quaternion.Euler(180f, 0, 0);
+		quattest = quattest*Quaternion.Euler(0, -90f, 0);
+		orientation_ = quattest.eulerAngles;
 		acceleration_ = newacceleration;
 		orientationUsesQuaternion = false;
 		orientationReceptionTime = (System.DateTime.Now.Ticks / System.TimeSpan.TicksPerMillisecond) - startTimestamp;
@@ -459,6 +466,7 @@ public class VRTrackerTag : MonoBehaviour {
 	}
 
 	public void onTagData(string data){
+		//Debug.Log ("TAG: " + data);
 		string[] sensors = data.Split(new string[] {"&s="}, System.StringSplitOptions.RemoveEmptyEntries);
 		for (int i = 1; i < sensors.Length; i++) {
 			string[] parameters = sensors[i].Split ('&');
@@ -497,23 +505,23 @@ public class VRTrackerTag : MonoBehaviour {
 			// Trackpad
 			else if (sensorInfo [0] == '3') {
 				string press = values ["st"];
-				if (press == "0") {
+				if (press == "2") {
 					trackpadTouch = false;
 					trackpadUp = true;
-				} else if (press == "1") {
+				} else if (press == "1" || press == "3") {
 					trackpadTouch = true;
 					trackpadDown = true;
 				}
-				float f;
-				float.TryParse(values ["x"], System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out f);
-				trackpadXY.x = (f - (Mathf.Abs(trackpadMaxLeft - trackpadMaxRight)/2))/Mathf.Abs(trackpadMaxLeft - trackpadMaxRight);
-				float.TryParse(values ["y"], System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out f);
-				trackpadXY.y = (f - (Mathf.Abs(trackpadMaxUp - trackpadMaxDown)/2))/Mathf.Abs(trackpadMaxUp - trackpadMaxDown);
-
+				float a,b;
+				float.TryParse(values ["x"], System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out a);
+				trackpadXY.y = -(a - (Mathf.Abs(trackpadMaxLeft - trackpadMaxRight)/2))/Mathf.Abs(trackpadMaxLeft - trackpadMaxRight);
+				float.TryParse(values ["y"], System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out b);
+				trackpadXY.x = -(b - (Mathf.Abs(trackpadMaxUp - trackpadMaxDown)/2))/Mathf.Abs(trackpadMaxUp - trackpadMaxDown);
+				if (a == 0.0f && b == 0.0f)
+					trackpadXY = Vector2.zero;
+				//Debug.Log ("Trackpad " + trackpadXY.x + "  " + trackpadXY.y);
 			}
 		}
-
-		Debug.Log (trackpadXY.x + "   " + trackpadXY.y);
 	}
 
 	public Vector3 GetPosition()
@@ -566,12 +574,14 @@ public class VRTrackerTag : MonoBehaviour {
 			if (netId != null) {
 				//If it's local identity, we assign the id
 				if (netId.isLocalPlayer) {
-					string tagID = VRTrackerTagAssociation.instance.getAssociatedTagID (gameObject.name);
-					if (tagID != "") {
-						assignTag (tagID);
-					}
-					else {
-						Debug.LogError ("ID not valid : " + tagID);
+					if(VRTrackerTagAssociation.instance != null){
+						string tagID = VRTrackerTagAssociation.instance.getAssociatedTagID (gameObject.name);
+						if (tagID != "") {
+							assignTag (tagID);
+						}
+						else {
+							Debug.LogError ("ID not valid : " + tagID);
+						}
 					}
 				}
 			}
