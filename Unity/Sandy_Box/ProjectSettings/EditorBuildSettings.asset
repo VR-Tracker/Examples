@@ -11,3 +11,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/VRTracker/Scenes/Sandy_Box.unity
     guid: 73ade0db0f3eb4a9f8b3d6ec560dc233
+  - enabled: 1
+    path: Assets/VRTK/Examples/021_Controller_GrabbingObjectsWithJoints.unity
+    guid: 85f86f7020235d943a21f8692edccf10
