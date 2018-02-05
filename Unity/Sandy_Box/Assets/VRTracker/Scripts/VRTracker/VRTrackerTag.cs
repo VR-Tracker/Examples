@@ -97,6 +97,7 @@ public class VRTrackerTag : MonoBehaviour {
 	private Vector3 predictedOrientation;
 	private int counterFrameWithSameOrientation = 0;
 	private Vector3 lastFrameOrientationReceived;
+	private bool doResetOrientation = false;
 
 	private NetworkIdentity netId;
 
@@ -135,6 +136,12 @@ public class VRTrackerTag : MonoBehaviour {
 	protected virtual void LateUpdate(){
 		if (netId != null && !netId.isLocalPlayer) {
 			return;
+		}
+
+		if (doResetOrientation == true) {
+			if (transform.GetComponentInChildren<Camera> ())
+				ResetOrientation ();
+			doResetOrientation = false;
 		}
 
 		long lateUpdateTimestamp = (System.DateTime.Now.Ticks / System.TimeSpan.TicksPerMillisecond) - startTimestamp;
@@ -354,12 +361,12 @@ public class VRTrackerTag : MonoBehaviour {
                 buttonPressed = true;
                 buttonDown = true;
 				buttonUp = false;
+				doResetOrientation = true;
                 if (displayLog)
                 {
                     Debug.Log("Update orentiation begin to : " + orientationBegin.y);
                 }
-				if(transform.GetComponentInChildren<Camera>())
-	                ResetOrientation();
+
             }
             else if (command.Contains("buttonoff"))
             {
