@@ -35,11 +35,11 @@ namespace CompleteProject
             //faceLight = GetComponentInChildren<Light> ();
 
             // Callback for Local layer, not server
-            if (vrGun)
+            /*if (vrGun)
             {
                 vrGun.OnDown += Shoot;
                 //vrGun.OnUp += ;
-            }
+            }*/
         }
 
 

@@ -24,7 +24,7 @@ namespace CompleteProject
         AudioSource playerAudio;                                    // Reference to the AudioSource component.
         PlayerMovement playerMovement;                              // Reference to the player's movement.
         PlayerShooting playerShooting;                              // Reference to the PlayerShooting script.
-        bool isDead;                                                // Whether the player is dead.
+        public bool isDead;                                                // Whether the player is dead.
         bool damaged;                                               // True when the player gets damaged.
 
 

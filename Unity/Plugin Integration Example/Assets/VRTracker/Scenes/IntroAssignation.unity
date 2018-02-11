@@ -667,6 +667,12 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Slider+SliderEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &143830884 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114974073278683688, guid: df0359d714a905142abf2a73511d3560,
+    type: 2}
+  m_PrefabInternal: {fileID: 809386181}
+  m_Script: {fileID: 11500000, guid: a4b89a5f8b9c849b595b98387d4d31ee, type: 3}
 --- !u!1 &158099335
 GameObject:
   m_ObjectHideFlags: 0
@@ -3009,6 +3015,46 @@ Prefab:
       propertyPath: m_RootOrder
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 224872006687450948, guid: df0359d714a905142abf2a73511d3560,
+        type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -330.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 224872006687450948, guid: df0359d714a905142abf2a73511d3560,
+        type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -281
+      objectReference: {fileID: 0}
+    - target: {fileID: 224860938833182056, guid: df0359d714a905142abf2a73511d3560,
+        type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -55
+      objectReference: {fileID: 0}
+    - target: {fileID: 224860938833182056, guid: df0359d714a905142abf2a73511d3560,
+        type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -5
+      objectReference: {fileID: 0}
+    - target: {fileID: 224616144089617724, guid: df0359d714a905142abf2a73511d3560,
+        type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 333.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 224616144089617724, guid: df0359d714a905142abf2a73511d3560,
+        type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 286.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 224170598192271654, guid: df0359d714a905142abf2a73511d3560,
+        type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 246
+      objectReference: {fileID: 0}
+    - target: {fileID: 114835725866142004, guid: df0359d714a905142abf2a73511d3560,
+        type: 2}
+      propertyPath: vrGun
+      value: 
+      objectReference: {fileID: 143830884}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: df0359d714a905142abf2a73511d3560, type: 2}
   m_IsPrefabParent: 0

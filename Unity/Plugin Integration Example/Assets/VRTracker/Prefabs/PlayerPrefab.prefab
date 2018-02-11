@@ -288,7 +288,6 @@ GameObject:
   - component: {fileID: 114618144946781826}
   - component: {fileID: 114314505244143392}
   - component: {fileID: 114835725866142004}
-  - component: {fileID: 114156447802265386}
   m_Layer: 0
   m_Name: PlayerPrefab
   m_TagString: Player
@@ -830,17 +829,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114156447802265386
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1764823701623966}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9bbd0ca0bb1fa04ab0db0a9ef4771cd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114242730269388516
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1208,6 +1196,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9bbd0ca0bb1fa04ab0db0a9ef4771cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  vrGun: {fileID: 114974073278683688}
 --- !u!114 &114934523296356032
 MonoBehaviour:
   m_ObjectHideFlags: 1
