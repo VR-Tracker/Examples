@@ -106,6 +106,7 @@ namespace CompleteProject
             // Set the shootRay so that it starts at the end of the gun and points forward from the barrel.
             shootRay.origin = transform.position;
             shootRay.direction = transform.forward;
+            
 
             // Perform the raycast against gameobjects on the shootable layer and if it hits something...
             if(Physics.Raycast (shootRay, out shootHit, range, shootableMask))
@@ -135,6 +136,34 @@ namespace CompleteProject
                 // ... set the second position of the line renderer to the fullest extent of the gun's range.
                 gunLine.SetPosition (1, shootRay.origin + shootRay.direction * range);
             }
+        }
+
+        public void ShootEffects()
+        {
+            Debug.Log("Shooting");
+
+            // Reset the timer.
+            timer = 0f;
+
+            // Play the gun shot audioclip.
+            gunAudio.Play();
+
+            // Enable the lights.
+            gunLight.enabled = true;
+            faceLight.enabled = true;
+
+            // Stop the particles from playing if they were, then start the particles.
+            gunParticles.Stop();
+            gunParticles.Play();
+
+            // Enable the line renderer and set it's first position to be the end of the gun.
+            gunLine.enabled = true;
+            gunLine.SetPosition(0, transform.position);
+
+            // Set the shootRay so that it starts at the end of the gun and points forward from the barrel.
+            shootRay.origin = transform.position;
+            shootRay.direction = transform.forward;
+
         }
     }
 }
