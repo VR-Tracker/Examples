@@ -34,6 +34,8 @@ public class WaveManager : NetworkBehaviour
     //private DoorManager doorManager;                //The door manager in charge of opening and closing doors
     private DoOnMainThread mainThread;              //Calls functions on the main thread
 
+    public float time = 0;                              //The current time shown by the timer
+    private bool isCounting = false;                //If the Timer is currently counting
 
 
     private void Awake()
@@ -66,6 +68,16 @@ public class WaveManager : NetworkBehaviour
         {
             ManageEndOfWave();
         }
+        if (isCounting)
+        {
+            //Make the timer count and stop if it reaches 0
+            time -= Time.deltaTime;
+            if (time <= 0)
+            {
+                time = 0;
+                isCounting = false;
+            }
+        }
     }
 
     /// <summary>
@@ -77,7 +89,7 @@ public class WaveManager : NetworkBehaviour
         //audioManager.playSound("Bell");
 
         //Stop the game timer
-        GameTimer.instance.StopTimer();
+        StopTimer();
 
         //Disable all the spawn points
         //ESpawner.DisableSpawnPoints();
@@ -86,7 +98,7 @@ public class WaveManager : NetworkBehaviour
         //TagsManager.instance.EnableSpawn();
 
         //Try to make a healthpack appear
-        PickupSpawner.instance.TryHealthSpawn();
+        //PickupSpawner.instance.TryHealthSpawn();
 
         //Start the next wave
         StartCoroutine(WaitForWellDone(3f));
@@ -97,9 +109,11 @@ public class WaveManager : NetworkBehaviour
     /// </summary>
     public void NextWave()
     {
-        if(currentWave < waveList.Count)
+        Debug.Log("Next wave " + currentWave);
+
+        if (currentWave < waveList.Count)
         {
-            DoOnMainThread.ExecuteOnMainThread.Enqueue(() => {  StartWarning(); } );
+           StartWarning();
         }
     }
 
@@ -114,6 +128,9 @@ public class WaveManager : NetworkBehaviour
     /// <returns></returns>
     IEnumerator WaitForCountDown()
     {
+        Debug.Log("Wave length " + waveList.Count);
+        Debug.Log("counttime " + countdownTime);
+
         if (currentWave < waveList.Count)
         {
             //Show the message to the player
@@ -134,7 +151,9 @@ public class WaveManager : NetworkBehaviour
     /// <param name="time">duration of the countdown</param>
     private void StartCountdown(int time)
     {
-        if(time > 0)
+        Debug.Log("Countdown " + time);
+
+        if (time > 0)
         {
             //Show the message to the player
             if (announcer.hasMessage)
@@ -151,8 +170,9 @@ public class WaveManager : NetworkBehaviour
         }
         else
         {
-            //when the countdown is over, start the zombie wave
-            StartWave();
+            //when the countdown is over, start the enmy wave
+            if(currentWave < waveList.Count)
+                StartWave();
         }
     }
 
@@ -161,9 +181,11 @@ public class WaveManager : NetworkBehaviour
     /// </summary>
     private void StartWave()
     {
+        Debug.Log("Start wave" + currentWave);
+
         //Set the timer to the correct duration and start it
-        GameTimer.instance.SetTimer(waveList[currentWave].duration);
-        GameTimer.instance.StartTimer();
+        time = waveList[currentWave].duration;
+        StartTimer();
 
         //Set the spawnRate and quantity of the zombie spawner
         ESpawner.SetSpawnRate(waveList[currentWave].spawnRate);
@@ -196,9 +218,9 @@ public class WaveManager : NetworkBehaviour
     /// <returns></returns>
     private bool VerifyTimer()
     {
-        if(GameTimer.instance.time == 0)
+        if(time == 0)
         {
-            Debug.Log("Stahp");
+            Debug.Log("Stop wave");
             ESpawner.ClearEnemies();
             return false;
         }
@@ -217,6 +239,8 @@ public class WaveManager : NetworkBehaviour
     IEnumerator WaitForSecond(int number, float time)
     {
         yield return new WaitForSeconds(time);
+        Debug.Log("new ocunttime " + number);
+
         StartCountdown(--number);
     }
 
@@ -262,7 +286,24 @@ public class WaveManager : NetworkBehaviour
         //doorManager.CloseAllDoors();
         //ESpawner.DisableSpawnPoints();
         //EnemyManager.instance.ClearZombies();
-        GameTimer.instance.StopTimer();
+       StopTimer();
+    }
+
+    /// <summary>
+    /// Makes the timer start counting
+    /// </summary>
+    public void StartTimer()
+    {
+        isCounting = true;
+    }
+
+    /// <summary>
+    /// Makes the timer stop counting
+    /// </summary>
+    public void StopTimer()
+    {
+        isCounting = false;
+        time = (0f);
     }
 
 }

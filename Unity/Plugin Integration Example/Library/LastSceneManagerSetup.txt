@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/_Complete-Game/_Complete-Game.unity
+- path: Assets/VRTracker/Scenes/IntroAssignement.unity
   isLoaded: 1
   isActive: 1

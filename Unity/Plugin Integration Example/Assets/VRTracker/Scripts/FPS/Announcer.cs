@@ -32,7 +32,7 @@ public class Announcer : NetworkBehaviour
 
     private void Start()
     {
-        cam = Camera.main.gameObject;
+        //cam = Camera.main.gameObject;
     }
 
     private void Update()
@@ -51,7 +51,7 @@ public class Announcer : NetworkBehaviour
         {
             if (cam == null)
             {
-                cam = Camera.main.gameObject;
+                //cam = Camera.main.gameObject;
             }
             messageList.Add(message);
             hasMessage = true;
@@ -63,7 +63,7 @@ public class Announcer : NetworkBehaviour
         if (!VRTracker.instance.isSpectator)
         {
             messageList[0] = message;
-            currentText.GetComponent<Text>().text = message;
+            //currentText.GetComponent<Text>().text = message;
         }
     }
 
@@ -71,9 +71,9 @@ public class Announcer : NetworkBehaviour
     {
         if (!VRTracker.instance.isSpectator)
         {
-            cam = Camera.main.gameObject;
+            /*cam = Camera.main.gameObject;
             currentText = Instantiate(textTemplate, cam.transform.Find("HUD"));
-            currentText.GetComponent<Text>().text = message;
+            currentText.GetComponent<Text>().text = message;*/
         }
     }
 
@@ -82,7 +82,7 @@ public class Announcer : NetworkBehaviour
         if (!VRTracker.instance.isSpectator)
         {
             messageList.Remove(messageList[0]);
-            currentText.GetComponent<TextFader>().DestroyText();
+            //currentText.GetComponent<TextFader>().DestroyText();
             if (messageList.Count == 0)
             {
                 hasMessage = false;

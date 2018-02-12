@@ -37,7 +37,7 @@ public class EnemySpawner : NetworkBehaviour
 
     public void Start()
     {
-
+        enemyList = new List<GameObject>();
     }
 
     public void SetSpawnRate(float newRate)
@@ -49,7 +49,7 @@ public class EnemySpawner : NetworkBehaviour
     {
         if (this != null)
         {
-            if(enemyList.Count < WaveManager.instance.waveList[currentWave].quantity)
+            if (enemyList.Count < WaveManager.instance.waveList.Count)
             {
                 // Find a random index between zero and one less than the number of spawn points.
                 int spawnPointIndex = Random.Range(0, spawnPoints.Count);
@@ -69,9 +69,14 @@ public class EnemySpawner : NetworkBehaviour
         if (enemyNumber > 0)
         {
             isSpawning = true;
-            if (Network.isServer)
+            if (isServer)
             {
                 Spawn(currentWave);
+            }
+            else
+            {
+                Debug.Log("Not server");
+
             }
             StartCoroutine(WaitForSpawn(enemyNumber));
         }
@@ -104,13 +109,16 @@ public class EnemySpawner : NetworkBehaviour
 
     public void ClearEnemies()
     {
-        foreach(GameObject enemy in enemyList)
+        if(enemyList != null)
         {
-            if(enemy != null)
+            foreach (GameObject enemy in enemyList)
             {
-                NetworkServer.Destroy(enemy);
+                if (enemy != null)
+                {
+                    NetworkServer.Destroy(enemy);
+                }
             }
-            enemyList.Remove(enemy);
+            enemyList.Clear();
         }
 
     }

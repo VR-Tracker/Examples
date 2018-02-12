@@ -286,23 +286,9 @@ MonoBehaviour:
   - quantity: 3
     duration: 40
     spawnRate: 5
-  - quantity: 8
-    duration: 50
-    spawnRate: 3
-  - quantity: 12
-    duration: 60
-    spawnRate: 1
-  - quantity: 18
-    duration: 60
-    spawnRate: 1
-  - quantity: 27
-    duration: 60
-    spawnRate: 0.75
-  - quantity: 30
-    duration: 60
-    spawnRate: 0.75
-  countdownTime: 5
+  countdownTime: 1
   intermissionTime: 10
+  time: 0
 --- !u!1 &28357257
 GameObject:
   m_ObjectHideFlags: 0
