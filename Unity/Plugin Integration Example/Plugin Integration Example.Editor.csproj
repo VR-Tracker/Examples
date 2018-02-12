@@ -330,6 +330,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Fonts\LuckiestGuy\LICENSE.txt" />
+    <None Include="Assets\Models\CubeRoomUnlitGrayscale.shader" />
     <None Include="Assets\PostProcessing\Editor Resources\Monitors\HistogramCompute.compute" />
     <None Include="Assets\PostProcessing\Editor Resources\Monitors\HistogramRender.shader" />
     <None Include="Assets\PostProcessing\Editor Resources\Monitors\ParadeRender.shader" />
@@ -370,7 +371,6 @@
     <None Include="Assets\PostProcessing\Resources\Shaders\Tonemapping.cginc" />
     <None Include="Assets\PostProcessing\Resources\Shaders\Uber.shader" />
     <None Include="Assets\PostProcessing\Resources\Shaders\UberSecondPass.cginc" />
-    <None Include="Assets\ResonanceAudio\Demos\Environment\ResonanceAudioDemo\CubeRoomUnlitGrayscale.shader" />
     <None Include="Assets\VRTracker\Scripts\Boundaries\BoundariesShader.shader" />
     <None Include="Assets\VRTracker\Shaders\Grayscale Effect.shader" />
     <None Include="Assets\VRTracker\VRSampleScenes\Shaders\UIOverlay.shader" />

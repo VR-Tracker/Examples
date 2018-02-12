@@ -14,7 +14,7 @@ namespace CompleteProject
 
         [SerializeField] private List<Transform> targets;       // The transform of the zombie's meal
         private float distance;                                 // The distance between the zombie and its target
-    
+        private int refreshCount = 0;
         void Awake ()
         {
             // Set up the references.
@@ -35,12 +35,21 @@ namespace CompleteProject
             {
                 // ... set the destination of the nav mesh agent to the player.
                 // nav.SetDestination (player.position);
-                Transform chosenTarget = FindClosestTarget();
-                if (chosenTarget != null)
+                if(refreshCount == 10)
                 {
-                    Vector3 ChosenPosition = new Vector3(chosenTarget.position.x, 0f, chosenTarget.position.z);
-                    nav.SetDestination(ChosenPosition);
+                    Transform chosenTarget = FindClosestTarget();
+                    if (chosenTarget != null)
+                    {
+                        Vector3 ChosenPosition = new Vector3(chosenTarget.position.x, 0f, chosenTarget.position.z);
+                        nav.SetDestination(ChosenPosition);
+                    }
+                    refreshCount = 0;
                 }
+                else
+                {
+                    refreshCount++;
+                }
+                
             }
             // Otherwise...
             else
@@ -53,13 +62,12 @@ namespace CompleteProject
         public void SetAllTargets()
         {
             targets.Clear();
-            foreach (Player player in TagsManager.instance.players)
+            foreach (GameObject player in VRTrackerNetwork.instance.players)
             {
-                if (!player.isDead && !player.isSpectator)
+                if (player != null)
                 {
-                    GameObject playerObject = TagsManager.instance.getPlayerObject(player.ID);
-                    if (playerObject != null)
-                        targets.Add(playerObject.transform.Find("PlayerHead"));
+                    if (!player.GetComponent<PlayerHealth>().isDead)
+                        targets.Add(player.transform.Find("Player"));
                 }
             }
         }
@@ -68,13 +76,12 @@ namespace CompleteProject
         {
             if (targets.Count == 0)
             {
-                Debug.Log("oy");
+                Debug.Log("No player");
                 return null;
             }
 
             float distanceTemp;
             Transform chosenTransform = targets[0];
-            //Debug.Log (chosenTransform.name + ": " + chosenTransform.position);
             distance = Vector3.Distance(this.transform.position, targets[0].position);
             if (targets.Count > 1)
             {

@@ -293,15 +293,6 @@
     <Compile Include="Assets\PostProcessing\Runtime\Utils\GraphicsUtils.cs" />
     <Compile Include="Assets\PostProcessing\Runtime\Utils\MaterialFactory.cs" />
     <Compile Include="Assets\PostProcessing\Runtime\Utils\RenderTextureFactory.cs" />
-    <Compile Include="Assets\ResonanceAudio\Scripts\ResonanceAudio.cs" />
-    <Compile Include="Assets\ResonanceAudio\Scripts\ResonanceAudioAcousticMesh.cs" />
-    <Compile Include="Assets\ResonanceAudio\Scripts\ResonanceAudioListener.cs" />
-    <Compile Include="Assets\ResonanceAudio\Scripts\ResonanceAudioMaterialMapper.cs" />
-    <Compile Include="Assets\ResonanceAudio\Scripts\ResonanceAudioMaterialMapperUpdater.cs" />
-    <Compile Include="Assets\ResonanceAudio\Scripts\ResonanceAudioReverbProbe.cs" />
-    <Compile Include="Assets\ResonanceAudio\Scripts\ResonanceAudioRoom.cs" />
-    <Compile Include="Assets\ResonanceAudio\Scripts\ResonanceAudioRoomManager.cs" />
-    <Compile Include="Assets\ResonanceAudio\Scripts\ResonanceAudioSource.cs" />
     <Compile Include="Assets\Scripts\Enemy\EnemyAttack.cs" />
     <Compile Include="Assets\Scripts\Enemy\EnemyHealth.cs" />
     <Compile Include="Assets\Scripts\Enemy\EnemyMovement.cs" />
@@ -396,8 +387,6 @@
     <Compile Include="Assets\VRTracker\Scripts\StartMenu\LevelLoader.cs" />
     <Compile Include="Assets\VRTracker\Scripts\StartMenu\SliderGroup.cs" />
     <Compile Include="Assets\VRTracker\Scripts\TutorialScripts\NetworkShoot.cs" />
-    <Compile Include="Assets\VRTracker\Scripts\VRTK_AnimationController.cs" />
-    <Compile Include="Assets\VRTracker\Scripts\VRTK_RadialMenuControllerTrigger.cs" />
     <Compile Include="Assets\VRTracker\Scripts\VRTracker\VRTracker.cs" />
     <Compile Include="Assets\VRTracker\Scripts\VRTracker\VRTrackerPickup.cs" />
     <Compile Include="Assets\VRTracker\Scripts\VRTracker\VRTrackerPickUpV2.cs" />
@@ -405,12 +394,7 @@
     <Compile Include="Assets\VRTracker\Scripts\VRTracker\VRTrackerTag.cs" />
     <Compile Include="Assets\VRTracker\Scripts\VRTracker_FollowRotation.cs" />
     <Compile Include="Assets\VRTracker\Scripts\VRTracker_HeadsetRotationCancel_Y.cs" />
-    <Compile Include="Assets\VRTracker\Scripts\VRTracker_ObjectGenerator.cs" />
     <Compile Include="Assets\VRTracker\Scripts\VRTracker_SpectatorCamera.cs" />
-    <Compile Include="Assets\VRTracker\Scripts\VRTracker_VRTK_Network_Grab.cs" />
-    <Compile Include="Assets\VRTracker\Scripts\VRTrackerTagOrientationToPosition.cs" />
-    <Compile Include="Assets\VRTracker\Scripts\VRTrackerVRTKCameraRig.cs" />
-    <Compile Include="Assets\VRTracker\Scripts\VRTrackerVRTKPlayArea.cs" />
     <Compile Include="Assets\VRTracker\VRSampleScenes\Scripts\Utils\GUIArrows.cs" />
     <Compile Include="Assets\VRTracker\VRSampleScenes\Scripts\Utils\InputWarnings.cs" />
     <Compile Include="Assets\VRTracker\VRSampleScenes\Scripts\Utils\ObjectPool.cs" />
@@ -432,6 +416,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Fonts\LuckiestGuy\LICENSE.txt" />
+    <None Include="Assets\Models\CubeRoomUnlitGrayscale.shader" />
     <None Include="Assets\PostProcessing\Editor Resources\Monitors\HistogramCompute.compute" />
     <None Include="Assets\PostProcessing\Editor Resources\Monitors\HistogramRender.shader" />
     <None Include="Assets\PostProcessing\Editor Resources\Monitors\ParadeRender.shader" />
@@ -472,7 +457,6 @@
     <None Include="Assets\PostProcessing\Resources\Shaders\Tonemapping.cginc" />
     <None Include="Assets\PostProcessing\Resources\Shaders\Uber.shader" />
     <None Include="Assets\PostProcessing\Resources\Shaders\UberSecondPass.cginc" />
-    <None Include="Assets\ResonanceAudio\Demos\Environment\ResonanceAudioDemo\CubeRoomUnlitGrayscale.shader" />
     <None Include="Assets\VRTracker\Scripts\Boundaries\BoundariesShader.shader" />
     <None Include="Assets\VRTracker\Shaders\Grayscale Effect.shader" />
     <None Include="Assets\VRTracker\VRSampleScenes\Shaders\UIOverlay.shader" />

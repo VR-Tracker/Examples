@@ -45,17 +45,29 @@ namespace VRStandardAssets.Intro
             }
 
 
-
-			GameObject pPrefab = VRTrackerNetwork.instance.playerPrefab;
+            //Retrieve the player prefab from the network manager
+            GameObject pPrefab = null;
+            if (VRTrackerNetwork.instance.playerPrefab != null)
+            {
+                pPrefab = VRTrackerNetwork.instance.playerPrefab;
+            }
+            else
+            {
+                Debug.Log("Player prefab is null");
+            }
             //Create and prepare the different prefab for assignation in the next scene
-			if (pPrefab != null) {
+            if (pPrefab != null) {
 				VRTrackerTag[] playerObject = pPrefab.GetComponentsInChildren<VRTrackerTag>();
 				for (int i = 0; i < playerObject.Length; i++) {
 					//Store the different player prefab name for association
 					VRTrackerAssociation newAsso = new VRTrackerAssociation();
                     VRTrackerTagAssociation.instance.AddPrefabAssociation(playerObject[i].gameObject.name, newAsso);
 				}
-			}
+            }
+            else
+            {
+                Debug.LogError("No player prefab set !");
+            }
 
 			if (VRTracker.instance.autoAssignation)
 			{
