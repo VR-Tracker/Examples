@@ -88,7 +88,7 @@ public class VRTrackerTagAssociation : MonoBehaviour {
 		}
 	}
 
-	public void saveToPlayerPrefs(JSONObject data){
+	public void SaveToPlayerPrefs(JSONObject data){
 
 		foreach (KeyValuePair<string, string> kvp in data)
 		{
@@ -102,11 +102,7 @@ public class VRTrackerTagAssociation : MonoBehaviour {
 
 	}
 
-	public void loadFromPlayerPrefs(){
-
-	}
-
-	public void SaveAssociation(){
+    private void Save(){
 		string filePath = Path.Combine(Application.persistentDataPath, JsonFilePath);
 		Debug.Log ("Save path " + filePath);
 		if(playerAssociation != null)
@@ -260,7 +256,7 @@ public class VRTrackerTagAssociation : MonoBehaviour {
 	/// <summary>
 	/// Saves the tag association for the game for this device
 	/// </summary>
-	public void saveAssociation(){
+	public void SaveAssociation(){
 		foreach(KeyValuePair<string, VRTrackerAssociation> tagAssociation in prefabAssociation)
 		{
 			if(tagAssociation.Value.tagID != "" && tagAssociation.Value.tagID != "Enter Your Tag UID")
@@ -274,10 +270,10 @@ public class VRTrackerTagAssociation : MonoBehaviour {
 				canSave = true;
 			}
 		}
-		VRTrackerTagAssociation.instance.SaveAssociation();
+		VRTrackerTagAssociation.instance.Save();
 	}
 
-    public void addPrefabAssociation(string prefabName, VRTrackerAssociation newAsso)
+    public void AddPrefabAssociation(string prefabName, VRTrackerAssociation newAsso)
     {
         prefabAssociation.Add(prefabName, newAsso);
         objectToAssign.Add(prefabName);

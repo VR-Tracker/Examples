@@ -37,6 +37,7 @@ public class SliderGroup : MonoBehaviour {
             VRTracker.instance.assignationComplete = false;
         }
     }
+
     /// <summary>
     /// Hide the button i'm ready if auto assignation is not possible
     /// </summary>
@@ -50,4 +51,18 @@ public class SliderGroup : MonoBehaviour {
             }
         }
     }
+
+	/// <summary>
+	/// Hide the button i'm ready if auto assignation is not possible
+	/// </summary>
+	public void hideSpectatorMode()
+	{
+		for (int i = 0; i < sliders.Length; i++)
+		{
+			if (sliders[i].name == "SpectatorSlider")
+			{
+				sliders[i].gameObject.SetActive(false);
+			}
+		}
+	}
 }

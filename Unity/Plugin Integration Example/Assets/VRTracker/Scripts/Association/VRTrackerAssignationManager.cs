@@ -31,6 +31,8 @@ namespace VRStandardAssets.Intro
 			//m_Radial.Hide ();
 
 			DontDestroyOnLoad (VRTracker.instance);
+			Debug.Log("Instance is spectator :  " + VRTracker.instance.isSpectator);
+
             if (VRTracker.instance.autoAssignation)
             {
                 Debug.Log("Loading association");
@@ -42,14 +44,16 @@ namespace VRStandardAssets.Intro
                 m_SliderCroup.hideSkipAssignationSlider();
             }
 
-			GameObject pPrefab = NetworkManager.singleton.playerPrefab;
+
+
+			GameObject pPrefab = VRTrackerNetwork.instance.playerPrefab;
             //Create and prepare the different prefab for assignation in the next scene
 			if (pPrefab != null) {
 				VRTrackerTag[] playerObject = pPrefab.GetComponentsInChildren<VRTrackerTag>();
 				for (int i = 0; i < playerObject.Length; i++) {
 					//Store the different player prefab name for association
 					VRTrackerAssociation newAsso = new VRTrackerAssociation();
-                    VRTrackerTagAssociation.instance.addPrefabAssociation(playerObject[i].gameObject.name, newAsso);
+                    VRTrackerTagAssociation.instance.AddPrefabAssociation(playerObject[i].gameObject.name, newAsso);
 				}
 			}
 
@@ -63,6 +67,23 @@ namespace VRStandardAssets.Intro
                 }
             }
 
+			#if (UNITY_IOS || UNITY_ANDROID) && !UNITY_EDITOR
+				VRTracker.instance.isSpectator = false;
+				Debug.Log("Setting spectator mode to  :  " + VRTracker.instance.isSpectator);
+		
+			#endif
+			if (!VRTracker.instance.isSpectator)
+			{
+				m_SliderCroup.hideSpectatorMode();
+                Debug.Log("Setting spectator mode to  :  " + VRTracker.instance.isSpectator);
+
+            }
+            else
+            {
+				//VRTracker.instance.assignationComplete = true;
+			}
+			Debug.Log("Instance is spectator :  " + VRTracker.instance.isSpectator);
+
             // In order, fade in the UI on confirming the use of sliders, wait for the slider to be filled, then fade out the UI.
             yield return StartCoroutine(m_HowToUseConfirmFader.InteruptAndFadeIn());
             yield return StartCoroutine(m_SliderCroup.WaitForBarsToFill());
@@ -71,10 +92,9 @@ namespace VRStandardAssets.Intro
 
 
             // Assign a Tag to each Prefab instance containing a Tag in VR Tracker
-            if (!VRTracker.instance.isAssigned())
+            if (!VRTracker.instance.isAssigned() && !VRTracker.instance.isSpectator)
 			{
 				Debug.Log("Manual assignement ");
-
 				//Assignement step
 				//foreach (VRTrackerTag tagObject in VRTracker.instance.tags)
 				foreach (KeyValuePair<string, VRTrackerAssociation> prefab in VRTrackerTagAssociation.instance.prefabAssociation)
@@ -107,44 +127,45 @@ namespace VRStandardAssets.Intro
 
 				}
 			}
-
-			VRTracker.instance.saveAssociationTagUser();
+			if(!VRTracker.instance.isSpectator)
+			{
+				VRTracker.instance.SaveAssociationTagUser();
+				enablePlayerCameraForNextLevel();
+			}
 			// Load the next Level (the Game !)
-			enablePlayerCameraForNextLevel();
-			Debug.Log ("Loading next level");
 			yield return StartCoroutine(m_LoadingFader.InteruptAndFadeIn());
 			//LevelLoader.instance.LoadLevel(1);
 			if (VRTracker.instance.serverIp == "") {
 				VRTracker.instance.serverIp = Network.player.ipAddress;
 				VRTracker.instance.sendServerIP (VRTracker.instance.serverIp);
-                NetworkManager.singleton.serverBindAddress = VRTracker.instance.serverIp;
+                VRTrackerNetwork.instance.serverBindAddress = VRTracker.instance.serverIp;
                 #if UNITY_EDITOR || UNITY_STANDALONE
                     Debug.LogWarning("Unity Editor");
-                #endif
+				#endif
 
                 if (VRTracker.instance.isSpectator)
                 {
-					Debug.Log ("Starting as Server");
-                    NetworkManager.singleton.StartServer();
+                    Debug.Log("Starting as Server");
+                    VRTrackerNetwork.instance.StartServer();
                 }
                 else
                 {
-					Debug.Log ("Starting as Host");
-                    NetworkManager.singleton.StartHost();
+                    Debug.Log("Starting as Host");
+                    VRTrackerNetwork.instance.StartHost();
                 }
             } else {
                 Debug.Log("Starting client");
-                NetworkManager.singleton.networkAddress = VRTracker.instance.serverIp;
-				NetworkManager.singleton.StartClient ();
+                VRTrackerNetwork.instance.networkAddress = VRTracker.instance.serverIp;
+				VRTrackerNetwork.instance.StartClient ();
 
-                NetworkManager.singleton.serverBindAddress = VRTracker.instance.serverIp;
-                NetworkManager.singleton.serverBindToIP = true;
-                NetworkManager.singleton.networkAddress = VRTracker.instance.serverIp;
+                VRTrackerNetwork.instance.serverBindAddress = VRTracker.instance.serverIp;
+                VRTrackerNetwork.instance.serverBindToIP = true;
+                VRTrackerNetwork.instance.networkAddress = VRTracker.instance.serverIp;
 
-                Debug.Log("Server Ip " + NetworkManager.singleton.serverBindAddress);
-                Debug.Log("Server Port " + NetworkManager.singleton.networkPort);
+                Debug.Log("Server Ip " + VRTrackerNetwork.instance.serverBindAddress);
+                Debug.Log("Server Port " + VRTrackerNetwork.instance.networkPort);
                 //after binding address, start server
-                NetworkManager.singleton.StartClient();
+                VRTrackerNetwork.instance.StartClient();
 
             }
         }
@@ -169,14 +190,14 @@ namespace VRStandardAssets.Intro
 		{
 			yield return StartCoroutine(fader.InteruptAndFadeIn());
             prefab.WaitForAssignation();
-            yield return StartCoroutine(VRTrackerTagAssociation.instance.WaitForAssignation ()); 
+            yield return StartCoroutine(VRTrackerTagAssociation.instance.WaitForAssignation ());
 			if (prefab.isIDAssigned)
 				transform.GetComponent<AudioSource> ().Play();
 			yield return StartCoroutine(fader.InteruptAndFadeOut());
 		}
 
-		/* In the Intro / Tag assignation scene, a camera is already there, 
-         * the one in our player character is currently disable but we want 
+		/* In the Intro / Tag assignation scene, a camera is already there,
+         * the one in our player character is currently disable but we want
          * to use it in the next scene. It's done using the "enableOnLoad" script
          */
 		private void enablePlayerCameraForNextLevel(){

@@ -26,9 +26,12 @@ public class VRTracker : MonoBehaviour {
 	[System.NonSerialized]public bool assignationComplete = false;
 	[System.NonSerialized]public string serverIp = "";
 	private bool serverIpReceived = false;
-    [System.NonSerialized]
+    //[System.NonSerialized]
     public bool isSpectator = false;
-	public bool activateLog = false;
+
+	public float RoomNorthOffset;
+
+	private GameObject LocalPlayerReference;
 
     private void Awake()
 	{
@@ -81,6 +84,7 @@ public class VRTracker : MonoBehaviour {
 				assignTag(tag.UID);
 		}
 
+		getMagneticOffset ();
 	}
 
     private void OnErrorHandler(object sender, System.EventArgs e)
@@ -91,229 +95,238 @@ public class VRTracker : MonoBehaviour {
     // Handler for all messages from the Gateway
     private void OnMessageHandler(object sender, MessageEventArgs e) {
 
-		//Debug.Log (e.Data);
-		if (e.Data.Contains("cmd=position"))
-		{
-			//Debug.Log (System.DateTime.Now.Millisecond + ", " + e.Data);
+//		Debug.Log (e.Data);
+		if (e.Data.Contains ("cmd=position")) {
+//			Debug.Log (System.DateTime.Now.Millisecond + ", " + e.Data);
 
-			string[] datasbytag = e.Data.Split(new string[] { "&uid=" }, System.StringSplitOptions.RemoveEmptyEntries);
-			for (int i = 1; i < datasbytag.Length; i++)
-			{
+			string[] datasbytag = e.Data.Split (new string[] { "&uid=" }, System.StringSplitOptions.RemoveEmptyEntries);
+			for (int i = 1; i < datasbytag.Length; i++) {
 				bool positionUpdated = false;
 				bool orientationUpdated = false;
 				bool orientationQuaternion = false;
-                bool timestampUpdated = false;
-				string[] datas = datasbytag[i].Split('&');
-				string uid = datas[0];
-				foreach (string data in datas)
-				{
-					string[] datasplit = data.Split('=');
+				bool timestampUpdated = false;
+				string[] datas = datasbytag [i].Split ('&');
+				string uid = datas [0];
+				foreach (string data in datas) {
+					string[] datasplit = data.Split ('=');
 					// Position
-					if (datasplit[0] == "x")
-					{
+					if (datasplit [0] == "x") {
 						positionUpdated = true;
-						position.x = float.Parse(datasplit[1]);
+						position.x = float.Parse (datasplit [1]);
+					} else if (datasplit [0] == "z") {
+						position.y = float.Parse (datasplit [1]);
+					} else if (datasplit [0] == "y") {
+						position.z = float.Parse (datasplit [1]);
+					} else if (datasplit [0] == "ts") {
+						timestamp = int.Parse (datasplit [1]);
+						timestampUpdated = true;
 					}
-					else if (datasplit[0] == "z")
-					{
-						position.y = float.Parse(datasplit[1]);
-					}
-					else if (datasplit[0] == "y")
-					{
-						position.z = float.Parse(datasplit[1]);
-					}
-                    else if (datasplit[0] == "ts")
-                    {
-                        timestamp = int.Parse(datasplit[1]);
-                        timestampUpdated = true;
-                    }
 
                     // Orientation
-                    else if (datasplit[0] == "ox")
-					{
+                    else if (datasplit [0] == "ox") {
 						orientationUpdated = true;
 						//orientation.x = float.Parse(datasplit[1]);
-						orientation.y = -float.Parse(datasplit[1]);
+						orientation.y = -float.Parse (datasplit [1]);
 						orientation_quat.x = -orientation.y;
-					}
-					else if (datasplit[0] == "oy")
-					{
+					} else if (datasplit [0] == "oy") {
 						//orientation.y = float.Parse(datasplit[1]);
-						orientation.x = -float.Parse(datasplit[1]);
+						orientation.x = -float.Parse (datasplit [1]);
 						orientation_quat.y = -orientation.x;
-					}
-					else if (datasplit[0] == "oz")
-					{
-						orientation.z = float.Parse(datasplit[1]);
+					} else if (datasplit [0] == "oz") {
+						orientation.z = float.Parse (datasplit [1]);
 						orientation_quat.z = orientation.z;
-					}
-					else if (datasplit[0] == "ow")
-					{
+					} else if (datasplit [0] == "ow") {
 						orientationQuaternion = true;
-						orientation_quat.w = -float.Parse(datasplit[1]);
+						orientation_quat.w = -float.Parse (datasplit [1]);
 					}
 				}
-				foreach (VRTrackerTag tag in tags)
-				{
-					if (tag.UID == uid)
-					{
+				foreach (VRTrackerTag tag in tags) {
+					if (tag.UID == uid) {
 						if (orientationUpdated) {
-							if(orientationQuaternion)
+							if (orientationQuaternion)
 								tag.updateOrientationQuat (orientation_quat);
-							else 
+							else
 								tag.updateOrientation (orientation);
 						}
-						if (positionUpdated)
-						{
-                            if(!timestampUpdated)
-    							tag.updatePosition(position);
-                            else
-                                tag.updatePosition(position, timestamp);
+						if (positionUpdated) {
+							if (!timestampUpdated)
+								tag.updatePosition (position);
+							else
+								tag.updatePosition (position, timestamp);
 
-                        }
+						}
 					}
 				}
 			}
-		}
-		else if (e.Data.Contains("cmd=specialcmd"))
-		{
-			//Debug.Log (e.Data);
-			string[] datas = e.Data.Split('&');
+		} else if (e.Data.Contains ("cmd=specialcmd")) {
+			//	Debug.Log (e.Data);
+			string[] datas = e.Data.Split ('&');
 			string uid = null;
 			string command = null;
-			foreach (string data in datas)
-			{
-				string[] datasplit = data.Split('=');
+			foreach (string data in datas) {
+				string[] datasplit = data.Split ('=');
 
 				// Tag UID sending the special command
-				if (datasplit[0] == "uid")
-				{
-					uid = datasplit[1];
+				if (datasplit [0] == "uid") {
+					uid = datasplit [1];
 				}
 
 				// Special Command name
-				else if (datasplit[0] == "data")
-				{
-					command = datasplit[1];
+				else if (datasplit [0] == "data") {
+					command = datasplit [1];
 				}
 			}
 			if (uid != null && command != null)
-				receiveSpecialCommand(uid, command);
+				receiveSpecialCommand (uid, command);
 
+		} else if (e.Data.Contains ("cmd=tag")) { // Tag V2 data 
+			string[] datas = e.Data.Split ('&');
+			string uid = null;
+			string command = null;
+			foreach (string data in datas) {
+				string[] datasplit = data.Split ('=');
+
+				// Tag UID sending the special command
+				if (datasplit [0] == "uid") {
+					uid = datasplit [1];
+				}
+
+			}
+			if (uid != null)
+				receiveSpecialData(uid, e.Data);
 		}
-		else if (e.Data.Contains("cmd=taginfos"))
-		{
+		else if (e.Data.Contains ("cmd=taginfos")) {
 
-			string[] datas = e.Data.Split('&');
+			string[] datas = e.Data.Split ('&');
 
 			string uid = null;
 			string status = null;
 			int battery = 0;
 
-			foreach (string data in datas)
-			{
-				string[] datasplit = data.Split('=');
+			foreach (string data in datas) {
+				string[] datasplit = data.Split ('=');
 
 				// Tag UID sending its informations
-				if (datasplit[0] == "uid")
-				{
-					uid = datasplit[1];
+				if (datasplit [0] == "uid") {
+					uid = datasplit [1];
 				}
 				// Tag status (“lost”, “tracking”, “unassigned”)
-				else if (datasplit[0] == "status")
-				{
-					status = datasplit[1];
+				else if (datasplit [0] == "status") {
+					status = datasplit [1];
 				}
 				// Tag battery
-				else if (datasplit[0] == "battery")
-				{
-					battery = int.Parse(datasplit[1]);
+				else if (datasplit [0] == "battery") {
+					battery = int.Parse (datasplit [1]);
 				}
 			}
-			if (uid != null && status != null)
-			{
-				foreach (VRTrackerTag tag in tags)
-				{
-					if (tag.UID == uid)
-					{
+			if (uid != null && status != null) {
+				foreach (VRTrackerTag tag in tags) {
+					if (tag.UID == uid) {
 						tag.status = status;
 						tag.battery = battery;
 					}
 				}
 			}
 
-		}
-		else if (e.Data.Contains("cmd=error"))
-		{
+		} else if (e.Data.Contains ("cmd=error")) {
 			// TODO Parse differnt kinds of errors
-			Debug.LogWarning("VR Tracker : " + e.Data);
-			if (e.Data.Contains("needmacadress"))
-			{
-				myws.SendAsync("cmd=mac&uid=" + UserUID, OnSendComplete);
-				foreach (VRTrackerTag tag in tags)
-				{
+			Debug.LogWarning ("VR Tracker : " + e.Data);
+			if (e.Data.Contains ("needmacadress")) {
+				myws.SendAsync ("cmd=mac&uid=" + UserUID, OnSendComplete);
+				foreach (VRTrackerTag tag in tags) {
 					if (tag.UID != "Enter Your Tag UID")
-						assignTag(tag.UID);
+						assignTag (tag.UID);
 				}
 			}
-		}
-		else if (e.Data.Contains("function=needaddress"))
-		{
+		} else if (e.Data.Contains ("function=needaddress")) {
 			receiveAskServerIP ();
 		}
 		//if the message gives us an IP address, try to connect as a client to it
-		else if (e.Data.Contains("function=address"))
-		{
+		else if (e.Data.Contains ("function=address")) {
 
-			string[] datas = e.Data.Split('&');
-			foreach(string data in datas)
-			{
-				string[] infos = data.Split('=');
-				if(infos[0] == "ip")
-				{
+			string[] datas = e.Data.Split ('&');
+			foreach (string data in datas) {
+				string[] infos = data.Split ('=');
+				if (infos [0] == "ip") {
 					receiveServerIP (infos [1]);
 				}
 			}
-		}
-		else if (e.Data.Contains("cmd=availabletag"))
-		{
-			Debug.Log("Available tag message : " + e.Data);
-			string[] datas = e.Data.Split('&');
+		} else if (e.Data.Contains ("cmd=availabletag")) {
+			Debug.Log ("Available tag message : " + e.Data);
+			string[] datas = e.Data.Split ('&');
 
 
 			// Verify if Tags connected to the system can be assoicated to the User from association File
-			foreach (string data in datas)
-			{
-				string[] datasplit = data.Split('=');
-				if (datasplit[0].Contains("tag"))
-				{
-					VRTrackerTagAssociation.instance.addAvailableTag(datasplit[1]);
+			foreach (string data in datas) {
+				string[] datasplit = data.Split ('=');
+				if (datasplit [0].Contains ("tag")) {
+					VRTrackerTagAssociation.instance.addAvailableTag (datasplit [1]);
 				}
 			}
-		}
-		else if (e.Data.Contains("cmd=reoriente")){
+		} else if (e.Data.Contains ("cmd=reoriente")) {
 			string uid = null;
-			string[] datas = e.Data.Split('&');
+			string[] datas = e.Data.Split ('&');
 
-			foreach (string data in datas)
-			{
-				string[] datasplit = data.Split('=');
+			foreach (string data in datas) {
+				string[] datasplit = data.Split ('=');
 				// Tag UID sending the special command
-				if (datasplit[0] == "uid")
-				{
-					uid = datasplit[1];
+				if (datasplit [0] == "uid") {
+					uid = datasplit [1];
 				}
 			}
-			foreach (VRTrackerTag tag in tags)
-			{
-				if (tag.UID == uid)
-				{
+			foreach (VRTrackerTag tag in tags) {
+				if (tag.UID == uid) {
 					Debug.Log ("Resetting orientation after receiving message");
-					tag.ResetOrientation();
+					tag.ResetOrientation ();
+				}
+			}
+		} else if (e.Data.Contains ("cmd=offset")) {
+			Debug.LogWarning (e.Data);
+			string offset = null;
+			string[] datas = e.Data.Split ('&');
+
+			foreach (string data in datas) {
+				string[] datasplit = data.Split ('=');
+				// Tag UID sending the special command
+				if (datasplit [0] == "oy") {
+					float f;
+
+                    // Update rotation offset only if not null
+                    if (float.TryParse(datasplit[1], System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out f))
+                        RoomNorthOffset = f+90;
 				}
 			}
 		}
-		else
+        else if (e.Data.Contains("cmd=boundaries"))
+        {
+            Debug.LogWarning(e.Data);
+
+
+            string[] datas = e.Data.Split('&');
+
+            foreach (string data in datas)
+            {
+                string[] datasplit = data.Split('=');
+                // Tag UID sending the special command
+                if (datasplit[0] == "xmin")
+                {
+                    VRTrackerBoundariesHandler.instance.borderLimitXMin = float.Parse(datasplit[1]);
+                }else if (datasplit[0] == "xmax")
+                {
+                    VRTrackerBoundariesHandler.instance.borderLimitXMax = float.Parse(datasplit[1]);
+                }else if (datasplit[0] == "ymin")
+                {
+                    VRTrackerBoundariesHandler.instance.borderLimitYMin = float.Parse(datasplit[1]);
+                }else if (datasplit[0] == "ymax")
+                {
+                    VRTrackerBoundariesHandler.instance.borderLimitYMax = float.Parse(datasplit[1]);
+                }
+            }
+            VRTrackerBoundariesHandler.instance.RearrangeBoundaries();
+            VRTrackerBoundariesHandler.instance.SaveAssociation();
+        }
+
+        else
 		{
 		//	Debug.Log("VR Tracker : Unknown data received : " + e.Data);
 		}
@@ -533,6 +546,26 @@ public class VRTracker : MonoBehaviour {
 		
 	}
 
+
+
+	/*
+	 * Executed on reception of a special data 
+	 */
+	public void receiveSpecialData(string TagID, string data){
+		// TODO: You can do whatever you wants with the special command, have fun !
+
+		bool tagFound = false;
+		// Search for the Tag the special command is sent to
+		foreach (VRTrackerTag tag in tags)
+		{
+			if (tag.UID == TagID)
+			{
+				tagFound = true;
+				tag.onTagData(data);
+			}
+		}
+	}
+
 	/*
 	 * Executed on reception of  tag informations
 	 */
@@ -571,6 +604,27 @@ public class VRTracker : MonoBehaviour {
 		tags.Add(tag);
 	}
 
+	public VRTrackerTag getHeadsetTag(){
+		foreach (VRTrackerTag tag in tags)
+			if (tag.tagType == VRTrackerTag.TagType.Head)
+				return tag;
+		return null;
+	}
+
+	public VRTrackerTag getLeftControllerTag(){
+		foreach (VRTrackerTag tag in tags)
+			if (tag.tagType == VRTrackerTag.TagType.LeftController)
+				return tag;
+		return null;
+	}
+
+	public VRTrackerTag getRightControllerTag(){
+		foreach (VRTrackerTag tag in tags)
+			if (tag.tagType == VRTrackerTag.TagType.RightController)
+				return tag;
+		return null;
+	}
+
 	public void RemoveTag(VRTrackerTag tag)
 	{
 	//	tags.Remove(tag);
@@ -593,7 +647,6 @@ public class VRTracker : MonoBehaviour {
 	public void assignDirectlyTags()
 	{
 		//Assign tags from file
-		Debug.Log("Number of tag : " + tags.Count);
 
 		if (VRTrackerTagAssociation.instance.isAllTagAvailable())
 		{
@@ -603,13 +656,11 @@ public class VRTracker : MonoBehaviour {
 				//TODO fix this part when partial assignation
 				if (!assignTagToUser(playerAssociation.Key, VRTrackerTagAssociation.instance.userTagUID[playerAssociation.Key]))
 				{
-					Debug.Log("CALIBRATION AUTOMATIC ERROR");
 					assignationComplete = false;
 					break;
 				}
 			}
 
-			Debug.Log("CALIBRATION AUTOMATIC FINISH");
 			if (VRTrackerTagAssociation.instance.userTagUID.Count > 0) {
 				assignationComplete = true;
 			}
@@ -621,7 +672,6 @@ public class VRTracker : MonoBehaviour {
 
 	public bool assignTagToUser(string prefabName, string tagUID)
 	{
-		Debug.Log("Assiging to user, tag " + tagUID);
 		Dictionary<string, string>.KeyCollection keyTag = VRTrackerTagAssociation.instance.userTagUID.Keys;
 		foreach (string mac in keyTag)
 		{
@@ -642,13 +692,18 @@ public class VRTracker : MonoBehaviour {
 	}
 
 	// Save the association between the Tag and each object for this user in a file on the PC/Phone
-	public void saveAssociationTagUser()
+	public void SaveAssociationTagUser()
 	{
-		VRTrackerTagAssociation.instance.saveAssociation ();
+		VRTrackerTagAssociation.instance.SaveAssociation ();
 	}
 
 	public void askForServer(){
 		askServerIP ();
+	}
+
+	// Ask the gateway for the rotation offset between true magnetic North and room forward axis (Y in VR Tracker coordinates, Z in Unity coordinates)
+	public void getMagneticOffset(){
+		myws.SendAsync("cmd=getoffset", OnSendComplete);
 	}
 
 	public void onAssociation(string tagID, string data){
@@ -656,9 +711,7 @@ public class VRTracker : MonoBehaviour {
             //Update the assignation
 
             foreach (KeyValuePair<string, VRTrackerAssociation> kvp in VRTrackerTagAssociation.instance.prefabAssociation) {
-                Debug.Log("Checking");
                 if (kvp.Value.isWaitingForAssignation) {
-                    Debug.Log("Assigning " + tagID);
                     kvp.Value.assign (tagID);
                     //Ask for the tag assignation
                     //assignTag(tagID);
@@ -667,7 +720,14 @@ public class VRTracker : MonoBehaviour {
 			}
 		}
 	}
+		
+	public void SetLocalPlayer(GameObject player){
+		LocalPlayerReference = player;
+	}
 
+	public GameObject GetLocalPlayer(){
+		return LocalPlayerReference;
+	}
     /*
     public void unassignAllTag()
     {

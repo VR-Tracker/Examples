@@ -6,6 +6,11 @@ public class EnableOnLoad : MonoBehaviour {
 
     public bool enableOnLoad = false;
 
+	// Use this for initialization
+//	void Start () {
+   //     SceneManager.sceneLoaded += OnLevelFinishedLoading;
+  //  }
+
 	protected virtual void Start () {
 
 		if (transform.parent.GetComponent<NetworkIdentity>() != null && !transform.parent.GetComponent<NetworkIdentity>().isLocalPlayer) {
@@ -19,13 +24,25 @@ public class EnableOnLoad : MonoBehaviour {
 			//Disable audio listener of other player
 			if(this.GetComponentInChildren<AudioListener>() != null)
 				this.GetComponentInChildren<AudioListener>().enabled = false;
+			//GameObject[] bodyParts = GameObject.FindGameObjectsWithTag ("Body");
+			/*GameObject[] bodyParts = GetComponentInChildren<GameObject>();
+			foreach(GameObject bodyPart in bodyParts)
+			{
+				if (bodyPart.transform.parent.gameObject != gameObject) {
+					Debug.Log ("Setting body part to buddybody");
+					bodyPart.layer = 9; //See layer for the number
+					SetLayerToChildren (bodyPart, 9);
+				} else {
+					Debug.Log ("Same stuff buddy");
+				}
 
+			}*/
 			foreach(Transform child in transform)
 			{
 				//display all the component with tag buddy
 				if (child.tag == "Body") {
 					child.gameObject.layer = 9; //See layer for the number
-					setLayerToChildren (child.gameObject, 9);
+					SetLayerToChildren (child.gameObject, 9);
 				}
 					
 			}
@@ -50,14 +67,14 @@ public class EnableOnLoad : MonoBehaviour {
 				//hide all the component with for the player buddy
 				if (child.tag == "Body") {
 					child.gameObject.layer = 8; //See layer for the number
-					setLayerToChildren (child.gameObject, 8);
+					SetLayerToChildren (child.gameObject, 8);
 				}
 
 			}
         }
     }
 
-	public void setLayerToChildren(GameObject gObject, int layerNumber)
+	public void SetLayerToChildren(GameObject gObject, int layerNumber)
 	{
 		foreach (Transform trans in gObject.GetComponentsInChildren<Transform>(true))
 		{

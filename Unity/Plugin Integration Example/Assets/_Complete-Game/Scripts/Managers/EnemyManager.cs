@@ -5,24 +5,10 @@ namespace CompleteProject
 {
     public class EnemyManager : NetworkBehaviour
     {
-        public PlayerHealth playerHealth;       // Reference to the player's heatlh.
+        private PlayerHealth playerHealth;       // Reference to the player's heatlh.
         public GameObject enemyPrefab;                // The enemy prefab to be spawned.
         public float spawnTime = 3f;            // How long between each spawn.
         public Transform[] spawnPoints;         // An array of the spawn points this enemy can spawn from.
-        public static EnemyManager instance;
-
-
-        private void Awake()
-        {
-            if (instance != null)
-            {
-                Debug.LogError("More than one TagsManager in the scene");
-            }
-            else
-            {
-                instance = this;
-            }
-        }
 
         void Start ()
         {

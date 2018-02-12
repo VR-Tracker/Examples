@@ -7,19 +7,44 @@ using System.Collections.Generic;
 
 public class VRTrackerTag : MonoBehaviour {
 
-	// For Quaternion orientation from Tag
-	protected bool orientationUsesQuaternion = false;
+    // Type of Tag (Head, controller Left / Right for VRTK)
+	public enum TagType 
+	{
+		Head, LeftController, RightController
+	}
+	public TagType tagType;
+
+	// Button value saved here for VRTK
+    [System.NonSerialized] public bool triggerPressed = false;
+    [System.NonSerialized] public bool triggerUp = false;
+    [System.NonSerialized] public bool triggerDown = false;
+    [System.NonSerialized] public bool buttonPressed = false;
+    [System.NonSerialized] public bool buttonUp = false;
+    [System.NonSerialized] public bool buttonDown = false;
+	[System.NonSerialized] public bool trackpadTouch = false;
+	[System.NonSerialized] public bool trackpadUp = false;
+	[System.NonSerialized] public bool trackpadDown = false;
+	[System.NonSerialized] public Vector2 trackpadXY = Vector2.zero;
+
+	private int trackpadMaxLeft = 0; // Max left (x) value sent by the trackpad
+	private int trackpadMaxRight = 1000; // Max right (x) value sent by the trackpad
+	private int trackpadMaxUp = 1000; // Max up (x) value sent by the trackpad
+	private int trackpadMaxDown = 0; // Max down (x) value sent by the trackpad
+
+    // For Quaternion orientation from Tag
+    protected bool orientationUsesQuaternion = false;
 	protected Quaternion imuOrientation_quat;
-	public float magneticNorthOffset = 0.0f;
 
 	// For Rotation vector orientation from Tag
 	protected Vector3 orientation_;
 	protected Vector3 orientationBegin;
 
+	protected Vector3 acceleration_;
+
 	protected Vector3 tagRotation;
 
-	public Vector3 orientationOffset; // Offset to apply
-	public Vector3 EyeTagOffset; // Difference between tag and eye position in real world
+	//public Vector3 orientationOffset; // Offset to apply
+	//public Vector3 EyeTagOffset; // Difference between tag and eye position in real world
 	public bool orientationEnabled = true;
 	public string status;   
 	public int battery;
@@ -45,7 +70,7 @@ public class VRTrackerTag : MonoBehaviour {
 
     // Simple velocity calculation for Pickup script
 	private Vector3 previousPosition;
-	public Vector3 velocity;
+    [System.NonSerialized] public Vector3 velocity;
 
 	// SMOOTHING
 	private long lastLateUpateTimestamp = 0;
@@ -77,9 +102,15 @@ public class VRTrackerTag : MonoBehaviour {
 
 	// Use this for initialization
 	protected virtual void Start () {
+		//Debug.Log ("TAG " + UID + "  " + tagType.ToString ());
+		//onTagData("cmd=specialdata&s=30&x=376.43&y=481&z=36&st=1&s=10&ox=190.19&oy=-49.17&oz=-22.71&ax=21.27&ay=0.78&az=-15.79");
+
 		netId = transform.GetComponentInParent<NetworkIdentity> ();
 		if (netId != null && !netId.isLocalPlayer) {
+			Debug.Log ("TAG " +UID +" Not local player");
 			return;
+		} else {
+			Debug.Log ("TAG " +UID +" IS local player");
 		}
 		
 		startTimestamp = System.DateTime.Now.Ticks / System.TimeSpan.TicksPerMillisecond;
@@ -147,7 +178,7 @@ public class VRTrackerTag : MonoBehaviour {
 			}  
 
 		} else {
-			//Debug.LogWarning("Position Length != 0 : " + positions.Count.ToString());
+//			Debug.LogWarning("Position Length != 0 : " + positions.Count.ToString());
 		}
 
         lastFramePosition = positionReceived;
@@ -183,9 +214,11 @@ public class VRTrackerTag : MonoBehaviour {
 
 		Vector3 calcOffset = new Vector3(0f,0f,0f); // Position offset due to distance between eyes and tag position
 
-		// Setting Orientation for Tag
-		tagRotation = orientation_ + orientationOffset - orientationBegin;
-		tagRotation.y -= magneticNorthOffset;
+        // Setting Orientation for Tag
+        //tagRotation = orientation_ + orientationOffset - orientationBegin;
+        tagRotation = orientation_;// - orientationBegin;
+		tagRotation.y -= VRTracker.instance.RoomNorthOffset;
+		//Debug.Log (VRTracker.instance.RoomNorthOffset);
 
 		// SMOOTH ORIENTATION
 
@@ -281,51 +314,69 @@ public class VRTrackerTag : MonoBehaviour {
 
 		lastFrameOrientationReceived = tagRotation;
 
-
-		// Calculated the offset between the Tag and the user's eyes
-		if(enableOrientationSmoothing)
-			calcOffset = Quaternion.Euler(predictedOrientation)* EyeTagOffset;
-		else
-			calcOffset = Quaternion.Euler(tagRotation)* EyeTagOffset;
-
-
 		// Assign tag orientation if enabled only. By default it's disabled for Camera, to use the VR Headset orientation instead
 		if (orientationEnabled) {
-				//Apply uniformely the rotation
-			if (enableOrientationSmoothing)
+			//Apply uniformely the rotation
+			if (enableOrientationSmoothing) {
 				this.transform.rotation = Quaternion.Euler (predictedOrientation);
+			//	Debug.Log (predictedOrientation.ToString());
+			}
 			else {
 				this.transform.rotation = Quaternion.Euler (tagRotation);
 			}
 		}
 
-		if(enablePositionSmoothing && positions.Count == 7)
-			this.transform.position = this.predictedPosition+calcOffset;
+		if (enablePositionSmoothing && positions.Count == 7) {
+			this.transform.position = this.predictedPosition + calcOffset;
+//			Debug.Log (predictedPosition.ToString());
+		}
 		else
 			this.transform.position = this.positionReceived+calcOffset;
 		
 		if (commandReceived) {
 			commandReceived = false;
-			if (command.Contains("triggeron"))
-			{
-				OnTriggerDown ();
-			}
-			else if (command.Contains("triggeroff"))
-			{
-				OnTriggerUp(); 
-			}
-			else if (command.Contains("buttonon"))
-			{
-				if (displayLog)
-				{
-					Debug.Log("Update orentiation begin to : " + orientationBegin.y);
-				}
-				ResetOrientation();
-			}
-		}
+            if (command.Contains("triggeron"))
+            {
+                OnTriggerDown();
+                triggerPressed = true;
+                triggerDown = true; 
+				triggerUp = false;
+
+            }
+            else if (command.Contains("triggeroff"))
+            {
+                OnTriggerUp();
+                triggerPressed = false;
+                triggerUp = true;
+            }
+            else if (command.Contains("buttonon"))
+            {
+                buttonPressed = true;
+                buttonDown = true;
+				buttonUp = false;
+                if (displayLog)
+                {
+                    Debug.Log("Update orentiation begin to : " + orientationBegin.y);
+                }
+				if(transform.GetComponentInChildren<Camera>())
+	                ResetOrientation();
+            }
+            else if (command.Contains("buttonoff"))
+            {
+                buttonPressed = false;
+				buttonUp = true;
+            }
+         }
 
 		velocity = (transform.position - previousPosition) / Time.deltaTime;
 		previousPosition = transform.position;
+	}
+
+	public Vector3 getOrientation(){
+		if (enableOrientationSmoothing)
+			return predictedOrientation;
+		else
+			return tagRotation;
 	}
 
     public void updatePosition(Vector3 position_, int timestamp)
@@ -384,6 +435,19 @@ public class VRTrackerTag : MonoBehaviour {
 		orientationMessageSaved = false;
 	}
 
+	public void updateOrientationAndAcceleration(Vector3 neworientation, Vector3 newacceleration)
+	{
+		Vector3 flippedRotation = new Vector3(-neworientation.z, neworientation.x, neworientation.y);
+		Quaternion quattest = Quaternion.Euler (flippedRotation);
+		quattest = quattest*Quaternion.Euler(180f, 0, 0);
+		quattest = quattest*Quaternion.Euler(0, -90f, 0);
+		orientation_ = quattest.eulerAngles;
+		acceleration_ = newacceleration;
+		orientationUsesQuaternion = false;
+		orientationReceptionTime = (System.DateTime.Now.Ticks / System.TimeSpan.TicksPerMillisecond) - startTimestamp;
+		orientationMessageSaved = false;
+	}
+
 	// Update the Oriention from IMU For Tag V2
 	public void updateOrientationQuat(Quaternion neworientation)
 	{
@@ -405,6 +469,65 @@ public class VRTrackerTag : MonoBehaviour {
 			UID = tagID;
 			IDisAssigned = true;
 			waitingForID = false;
+		}
+	}
+
+	public void onTagData(string data){
+		//Debug.Log ("TAG: " + data);
+		string[] sensors = data.Split(new string[] {"&s="}, System.StringSplitOptions.RemoveEmptyEntries);
+		for (int i = 1; i < sensors.Length; i++) {
+			string[] parameters = sensors[i].Split ('&');
+			char[] sensorInfo = parameters[0].ToCharArray();
+			if (sensorInfo.Length != 2)
+				return;
+			Dictionary<string, string> values = new Dictionary<string, string>();
+			for (int j = 1; j < parameters.Length; j++) {
+				string[] dict = parameters [j].Split ('=');
+				values.Add (dict[0], dict[1]);
+			}
+
+			// IMU
+			if (sensorInfo [0] == '1') {
+				Vector3 rec_orientation;
+				Vector3 rec_acceleration;
+
+				float f;
+				float.TryParse(values ["ox"], System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out f);
+				rec_orientation.x = f;
+				float.TryParse(values ["oy"], System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out f);
+				rec_orientation.y = f;
+				float.TryParse(values ["oz"], System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out f);
+				rec_orientation.z = f;
+
+				float.TryParse(values ["ax"], System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out f);
+				rec_acceleration.x = f;
+				float.TryParse(values ["ay"], System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out f);
+				rec_acceleration.y = f;
+				float.TryParse(values ["az"], System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out f);
+				rec_acceleration.z = f;
+
+				updateOrientationAndAcceleration (rec_orientation, rec_acceleration);
+			}
+
+			// Trackpad
+			else if (sensorInfo [0] == '3') {
+				string press = values ["st"];
+				if (press == "2") {
+					trackpadTouch = false;
+					trackpadUp = true;
+				} else if (press == "1" || press == "3") {
+					trackpadTouch = true;
+					trackpadDown = true;
+				}
+				float a,b;
+				float.TryParse(values ["x"], System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out a);
+				trackpadXY.y = -(a - (Mathf.Abs(trackpadMaxLeft - trackpadMaxRight)/2))/Mathf.Abs(trackpadMaxLeft - trackpadMaxRight);
+				float.TryParse(values ["y"], System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out b);
+				trackpadXY.x = -(b - (Mathf.Abs(trackpadMaxUp - trackpadMaxDown)/2))/Mathf.Abs(trackpadMaxUp - trackpadMaxDown);
+				if (a == 0.0f && b == 0.0f)
+					trackpadXY = Vector2.zero;
+				//  Debug.Log ("Trackpad " + trackpadXY.x + "  " + trackpadXY.y);
+			}
 		}
 	}
 
@@ -438,7 +561,8 @@ public class VRTrackerTag : MonoBehaviour {
 
 	private void OnDestroy()
 	{
-		VRTracker.instance.RemoveTag(this);
+        if(VRTracker.instance)
+    		VRTracker.instance.RemoveTag(this);
 	}
 
 	public void assignTag(string tagID)
@@ -457,12 +581,14 @@ public class VRTrackerTag : MonoBehaviour {
 			if (netId != null) {
 				//If it's local identity, we assign the id
 				if (netId.isLocalPlayer) {
-					string tagID = VRTrackerTagAssociation.instance.getAssociatedTagID (gameObject.name);
-					if (tagID != "") {
-						assignTag (tagID);
-					}
-					else {
-						Debug.LogError ("ID not valid : " + tagID);
+					if(VRTrackerTagAssociation.instance != null){
+						string tagID = VRTrackerTagAssociation.instance.getAssociatedTagID (gameObject.name);
+						if (tagID != "") {
+							assignTag (tagID);
+						}
+						else {
+							Debug.LogError ("ID not valid : " + tagID);
+						}
 					}
 				}
 			}
@@ -471,3 +597,4 @@ public class VRTrackerTag : MonoBehaviour {
 
 
 }
+//			Debug.LogWarning("Position Length != 0 : " + positions.Count.ToString());

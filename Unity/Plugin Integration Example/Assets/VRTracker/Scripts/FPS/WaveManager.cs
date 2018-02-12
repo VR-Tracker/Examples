@@ -14,7 +14,7 @@ public class Wave
     public int quantity = 0;                        //Number of zombies spawned during the wave
     public int duration = 0;                        //Duration of the wave
     public float spawnRate = 0f;                    //Time between the aparition of zombies
-    public bool[] openDoors = new bool[5];          //Which doors should be opened during this wave
+    //public bool[] openDoors = new bool[5];          //Which doors should be opened during this wave
 }
 
 public class WaveManager : NetworkBehaviour
@@ -146,7 +146,7 @@ public class WaveManager : NetworkBehaviour
             yield return new WaitForSeconds(intermissionTime);
 
             //Open the adequate doors for the wave
-            OpenDoors();
+            //OpenDoors();
 
             //start the countdown
             StartCountdown(countdownTime);
@@ -266,7 +266,7 @@ public class WaveManager : NetworkBehaviour
     /// <summary>
     /// Opens the doors of the wave
     /// </summary>
-    private void OpenDoors()
+    /*private void OpenDoors()
     {
         for(int i = 0; i< waveList[currentWave].openDoors.Length; i++)
         {
@@ -276,7 +276,7 @@ public class WaveManager : NetworkBehaviour
                 ESpawner.EnableSpawnPoint(i);
             }
         }
-    }
+    }*/
 
     public void Restart()
     {
