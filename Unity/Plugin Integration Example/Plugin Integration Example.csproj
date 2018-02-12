@@ -317,6 +317,21 @@
     <Compile Include="Assets\VRTracker\Scripts\DisableRigidbodyOnClient.cs" />
     <Compile Include="Assets\VRTracker\Scripts\DoOnMainThread.cs" />
     <Compile Include="Assets\VRTracker\Scripts\EnableOnLoad.cs" />
+    <Compile Include="Assets\VRTracker\Scripts\FPS\Announcer.cs" />
+    <Compile Include="Assets\VRTracker\Scripts\FPS\EnemySpawner.cs" />
+    <Compile Include="Assets\VRTracker\Scripts\FPS\GameTimer.cs" />
+    <Compile Include="Assets\VRTracker\Scripts\FPS\GrayscaleEffect.cs" />
+    <Compile Include="Assets\VRTracker\Scripts\FPS\ImageEffectBase.cs" />
+    <Compile Include="Assets\VRTracker\Scripts\FPS\MusicManager.cs" />
+    <Compile Include="Assets\VRTracker\Scripts\FPS\myHUD.cs" />
+    <Compile Include="Assets\VRTracker\Scripts\FPS\MyRespawner.cs" />
+    <Compile Include="Assets\VRTracker\Scripts\FPS\Objective.cs" />
+    <Compile Include="Assets\VRTracker\Scripts\FPS\PickupSpawner.cs" />
+    <Compile Include="Assets\VRTracker\Scripts\FPS\Rotator.cs" />
+    <Compile Include="Assets\VRTracker\Scripts\FPS\ScoreScript.cs" />
+    <Compile Include="Assets\VRTracker\Scripts\FPS\ShadowFlasher.cs" />
+    <Compile Include="Assets\VRTracker\Scripts\FPS\TextFader.cs" />
+    <Compile Include="Assets\VRTracker\Scripts\FPS\WaveManager.cs" />
     <Compile Include="Assets\VRTracker\Scripts\MessageCounter.cs" />
     <Compile Include="Assets\VRTracker\Scripts\StartMenu\LevelLoader.cs" />
     <Compile Include="Assets\VRTracker\Scripts\StartMenu\SliderGroup.cs" />
@@ -386,6 +401,7 @@
     <None Include="Assets\PostProcessing\Resources\Shaders\Tonemapping.cginc" />
     <None Include="Assets\PostProcessing\Resources\Shaders\Uber.shader" />
     <None Include="Assets\PostProcessing\Resources\Shaders\UberSecondPass.cginc" />
+    <None Include="Assets\VRTracker\Shaders\Grayscale Effect.shader" />
     <None Include="Assets\VRTracker\VRSampleScenes\Shaders\UIOverlay.shader" />
     <None Include="Assets\VRTracker\VRSampleScenes\Shaders\UnlitTransparentParam.shader" />
   </ItemGroup>

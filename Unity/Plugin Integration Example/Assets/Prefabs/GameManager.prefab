@@ -1,0 +1,311 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1768024934211960}
+  m_IsPrefabParent: 1
+--- !u!1 &1768024934211960
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4879267373677596}
+  - component: {fileID: 114730421544382732}
+  - component: {fileID: 114740319591664502}
+  - component: {fileID: 114525291881750844}
+  - component: {fileID: 114825713020417666}
+  - component: {fileID: 114774333915418072}
+  - component: {fileID: 114054726854452344}
+  - component: {fileID: 114070699194214468}
+  - component: {fileID: 114010939711585222}
+  m_Layer: 30
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4879267373677596
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1768024934211960}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114010939711585222
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1768024934211960}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9eb11959ca127347ac131aeb908b6b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthPickupTemplate: {fileID: 1784052908005820, guid: 6257d0be4e5fdab41be5a6aafacaf32b,
+    type: 2}
+  spawnPositions:
+  - {x: 4.7, y: 0.5, z: 1.7}
+  - {x: 4.7, y: 0.5, z: 3.5}
+  - {x: 4.7, y: 0.5, z: 5.6}
+  - {x: 3.5, y: 0.5, z: 1.7}
+  - {x: 3.5, y: 0.5, z: 5.6}
+  - {x: 1.6, y: 0.5, z: 1.7}
+  - {x: 1.6, y: 0.5, z: 3.5}
+  - {x: 2.6, y: 0.5, z: 4.4}
+  limitMinX: 0
+  heightY: 0.5
+  limitMinZ: 0
+  limitMaxX: 2
+  limitMaxZ: 2
+--- !u!114 &114054726854452344
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1768024934211960}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db953da006b65d14c83908e86ef19b7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 15
+  doors:
+  - isOpening: 0
+    isClosing: 0
+    gObject: {fileID: 0}
+  - isOpening: 0
+    isClosing: 0
+    gObject: {fileID: 0}
+  - isOpening: 0
+    isClosing: 0
+    gObject: {fileID: 0}
+  - isOpening: 0
+    isClosing: 0
+    gObject: {fileID: 0}
+  - isOpening: 0
+    isClosing: 0
+    gObject: {fileID: 0}
+--- !u!114 &114070699194214468
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1768024934211960}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e95ca236c12c7a449dbade7f33beea4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  zombies: []
+--- !u!114 &114525291881750844
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1768024934211960}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c5e669398595814392fea6a85b4a665, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textTemplate: {fileID: 1346599713674502, guid: a9bb99381be411846831c787122fa224,
+    type: 2}
+  hasMessage: 0
+--- !u!114 &114730421544382732
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1768024934211960}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e6476adf29bb2b40a675d20f504f92c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: MachinegunFire
+    clip: {fileID: 8300000, guid: 5afc1e4e7999b844abd6b398674426bf, type: 3}
+    volume: 0.71
+    pitch: 1.01
+    RandomVolume: 0.237
+    RandomPitch: 0.232
+  - name: DryFire
+    clip: {fileID: 8300000, guid: 17a20244025722c4387359c88bd319a1, type: 3}
+    volume: 0.71
+    pitch: 1.01
+    RandomVolume: 0.237
+    RandomPitch: 0.232
+  - name: Bite
+    clip: {fileID: 8300000, guid: 3575884ed170f5a46bf7835e23aa70a0, type: 3}
+    volume: 0.71
+    pitch: 1.01
+    RandomVolume: 0.237
+    RandomPitch: 0.232
+  - name: ZombieSpawn
+    clip: {fileID: 8300000, guid: 53f6fffc56f1ac24ab498e38851fc052, type: 3}
+    volume: 1
+    pitch: 1.29
+    RandomVolume: 0.237
+    RandomPitch: 0.232
+  - name: ZombieMoan
+    clip: {fileID: 8300000, guid: 287aa6e3774d0524993f0702cc67c9eb, type: 3}
+    volume: 1
+    pitch: 0.62
+    RandomVolume: 0.237
+    RandomPitch: 0.5
+  - name: ZombieWalk
+    clip: {fileID: 8300000, guid: 0a9dc871f3fed4a428df7f5870cca80b, type: 3}
+    volume: 2
+    pitch: 0.88
+    RandomVolume: 0.044
+    RandomPitch: 0.201
+  - name: ZombieYell
+    clip: {fileID: 8300000, guid: 20b8462b05416194784785c2c25aef5a, type: 3}
+    volume: 1
+    pitch: 0.62
+    RandomVolume: 0.237
+    RandomPitch: 0.469
+  - name: ShadowlandsMachine
+    clip: {fileID: 8300000, guid: c8166884405e5834abfbcf49302620ea, type: 3}
+    volume: 0.2
+    pitch: 1
+    RandomVolume: 0
+    RandomPitch: 0
+  - name: ThunderStorm
+    clip: {fileID: 8300000, guid: 14c1da6836a468c4f8cd9dbee37d0f67, type: 3}
+    volume: 0.2
+    pitch: 1
+    RandomVolume: 0
+    RandomPitch: 0
+  - name: ControlledChaos
+    clip: {fileID: 8300000, guid: 3b85888f53d0a4d4b96059b42b457ec7, type: 3}
+    volume: 0.3
+    pitch: 1
+    RandomVolume: 0
+    RandomPitch: 0
+  - name: Mechanolith
+    clip: {fileID: 8300000, guid: d03359c1a22ba724e80969a7667182b7, type: 3}
+    volume: 0.3
+    pitch: 1
+    RandomVolume: 0
+    RandomPitch: 0
+  - name: Bell
+    clip: {fileID: 8300000, guid: ac5d56511e093454e85861f1bc19d8cc, type: 3}
+    volume: 0.51
+    pitch: 1
+    RandomVolume: 0
+    RandomPitch: 0
+  - name: Reload
+    clip: {fileID: 8300000, guid: 4e06e9d7cb985264fbd988f16ae47efc, type: 3}
+    volume: 0.72
+    pitch: 1
+    RandomVolume: 0.125
+    RandomPitch: 0.256
+  - name: DoorCreak
+    clip: {fileID: 8300000, guid: f7f95af1328ef3e4e8d92cb60f422004, type: 3}
+    volume: 0.72
+    pitch: 1
+    RandomVolume: 0.125
+    RandomPitch: 0.256
+  - name: DoorClose
+    clip: {fileID: 8300000, guid: fa216b0fd606cbe4188fffe8908c7497, type: 3}
+    volume: 0.72
+    pitch: 1
+    RandomVolume: 0.125
+    RandomPitch: 0.256
+--- !u!114 &114740319591664502
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1768024934211960}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 204312cab48b83140b33a4467c45a0c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  zombieTemplate: {fileID: 1995451342686242, guid: 588220e84f2f5af49ad3eb71fc4c62e3,
+    type: 2}
+  spawnPoints:
+  - enabled: 0
+    position: {x: -12, y: 0, z: 2}
+  - enabled: 0
+    position: {x: 13, y: 0, z: 6}
+  - enabled: 0
+    position: {x: 13, y: 0, z: -4}
+  - enabled: 0
+    position: {x: 13, y: 3.209999, z: 7.769255}
+  - enabled: 0
+    position: {x: 13, y: 3.209999, z: -1.02}
+  isSpawning: 0
+--- !u!114 &114774333915418072
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1768024934211960}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b4e7ae840566f142bc98cb231dd2bbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  state: 0
+--- !u!114 &114825713020417666
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1768024934211960}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5539f796d31dcfd4f873eb7f7c293dfd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waveList:
+  - quantity: 1
+    duration: 30
+    spawnRate: 5
+    openDoors: 0100000000
+  - quantity: 3
+    duration: 40
+    spawnRate: 5
+    openDoors: 0100000101
+  - quantity: 8
+    duration: 50
+    spawnRate: 3
+    openDoors: 0100000101
+  - quantity: 12
+    duration: 60
+    spawnRate: 1
+    openDoors: 0001010000
+  - quantity: 18
+    duration: 60
+    spawnRate: 1
+    openDoors: 0000000101
+  - quantity: 27
+    duration: 60
+    spawnRate: 0.75
+    openDoors: 0101010000
+  - quantity: 40
+    duration: 60
+    spawnRate: 0.5
+    openDoors: 0101010101
+  countdownTime: 5
+  intermissionTime: 10

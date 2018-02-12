@@ -9,10 +9,25 @@ namespace CompleteProject
         public GameObject enemyPrefab;                // The enemy prefab to be spawned.
         public float spawnTime = 3f;            // How long between each spawn.
         public Transform[] spawnPoints;         // An array of the spawn points this enemy can spawn from.
+        public EnemyManager instance;
 
+
+        private void Awake()
+        {
+            if (instance != null)
+            {
+                Debug.LogError("More than one TagsManager in the scene");
+            }
+            else
+            {
+                instance = this;
+            }
+        }
 
         void Start ()
         {
+
+
             // Call the Spawn function after a delay of the spawnTime and then continue to call after the same amount of time.
             InvokeRepeating ("Spawn", spawnTime, spawnTime);
             GameObject[] players = GameObject.FindGameObjectsWithTag("Player");

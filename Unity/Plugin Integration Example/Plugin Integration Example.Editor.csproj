@@ -370,6 +370,7 @@
     <None Include="Assets\PostProcessing\Resources\Shaders\Tonemapping.cginc" />
     <None Include="Assets\PostProcessing\Resources\Shaders\Uber.shader" />
     <None Include="Assets\PostProcessing\Resources\Shaders\UberSecondPass.cginc" />
+    <None Include="Assets\VRTracker\Shaders\Grayscale Effect.shader" />
     <None Include="Assets\VRTracker\VRSampleScenes\Shaders\UIOverlay.shader" />
     <None Include="Assets\VRTracker\VRSampleScenes\Shaders\UnlitTransparentParam.shader" />
   </ItemGroup>
