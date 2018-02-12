@@ -27,7 +27,7 @@ public class WaveManager : NetworkBehaviour
     public int intermissionTime = 10;               //The duration of the pause between waves
 
     private int currentWave;                        //The index of the current wave
-    private EnemySpawner ZSpawner;                 //The Zombie Spawner in charge of spawning the zombies
+    private EnemySpawner ESpawner;                 //The Zombie Spawner in charge of spawning the zombies
     private Announcer announcer;                    //The announcer in charge of showing messages to the player
     private MusicManager musicManager;              //The music manager in charge of the game music
     private AudioManager audioManager;              //The audio manager in charge of game sounds
@@ -40,7 +40,7 @@ public class WaveManager : NetworkBehaviour
     {
         if (instance != null)
         {
-            Debug.LogError("More than one MusicManager in the scene");
+            Debug.LogError("More than one Enemy Managewr in the scene");
         }
         else
         {
@@ -52,7 +52,7 @@ public class WaveManager : NetworkBehaviour
         //Adds itself to the observers list of the VRTracker instance
         //base.Start();
 
-        ZSpawner = GetComponent<EnemySpawner>();
+        ESpawner = GetComponent<EnemySpawner>();
         announcer = GetComponent<Announcer>();
 
         /*doorManager = DoorManager.instance;
@@ -103,7 +103,7 @@ public class WaveManager : NetworkBehaviour
         //doorManager.CloseAllDoors();
 
         //Disable all the spawn points
-        ZSpawner.DisableSpawnPoints();
+        ESpawner.DisableSpawnPoints();
 
         //Make the respawn point apear for dead players
         //TagsManager.instance.EnableSpawn();
@@ -192,9 +192,9 @@ public class WaveManager : NetworkBehaviour
         GameTimer.instance.StartTimer();
 
         //Set the spawnRate and quantity of the zombie spawner
-        ZSpawner.SetSpawnRate(waveList[currentWave].spawnRate);
-        ZSpawner.SpawnWave(waveList[currentWave].quantity);
-		ZSpawner.setWave (currentWave);
+        ESpawner.SetSpawnRate(waveList[currentWave].spawnRate);
+        ESpawner.SpawnWave(waveList[currentWave].quantity);
+		ESpawner.setWave (currentWave);
         //Increment the current wave index
         currentWave++;
 
@@ -208,7 +208,7 @@ public class WaveManager : NetworkBehaviour
     /// <returns></returns>
     private bool VerifyZombie()
     {
-        if (!ZSpawner.isSpawning && musicManager.state == MusicManager.States.Wave && GameObject.FindWithTag("Enemy") == null)
+        if (!ESpawner.isSpawning && musicManager.state == MusicManager.States.Wave && GameObject.FindWithTag("Enemy") == null)
         {
             return false;
         }
@@ -273,7 +273,7 @@ public class WaveManager : NetworkBehaviour
             if (waveList[currentWave].openDoors[i])
             {
                 //doorManager.SetOpenDoor(i);
-                ZSpawner.EnableSpawnPoint(i);
+                ESpawner.EnableSpawnPoint(i);
             }
         }
     }
@@ -293,7 +293,7 @@ public class WaveManager : NetworkBehaviour
         audioManager.playSound("Bell");
         musicManager.ChangeState(MusicManager.States.InterMission);
         //doorManager.CloseAllDoors();
-        ZSpawner.DisableSpawnPoints();
+        ESpawner.DisableSpawnPoints();
         //EnemyManager.instance.ClearZombies();
         GameTimer.instance.StopTimer();
     }

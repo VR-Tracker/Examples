@@ -9,7 +9,7 @@ namespace CompleteProject
         public GameObject enemyPrefab;                // The enemy prefab to be spawned.
         public float spawnTime = 3f;            // How long between each spawn.
         public Transform[] spawnPoints;         // An array of the spawn points this enemy can spawn from.
-        public EnemyManager instance;
+        public static EnemyManager instance;
 
 
         private void Awake()
