@@ -10,7 +10,6 @@ namespace CompleteProject
         Transform player;               // Reference to the player's position.
         PlayerHealth playerHealth;      // Reference to the player's health.
         EnemyHealth enemyHealth;        // Reference to this enemy's health.
-        [SyncVar]                          //Synchronize on the network the health bar
         UnityEngine.AI.NavMeshAgent nav;               // Reference to the nav mesh agent.
         public bool isAttacking = false;                        // If the zombie is currently attacking
 
