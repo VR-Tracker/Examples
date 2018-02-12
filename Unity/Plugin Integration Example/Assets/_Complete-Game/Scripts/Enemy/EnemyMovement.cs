@@ -1,20 +1,24 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Networking;
 
 namespace CompleteProject
 {
-    public class EnemyMovement : MonoBehaviour
+    public class EnemyMovement : NetworkBehaviour
     {
         Transform player;               // Reference to the player's position.
         PlayerHealth playerHealth;      // Reference to the player's health.
         EnemyHealth enemyHealth;        // Reference to this enemy's health.
+        [SyncVar]                          //Synchronize on the network the health bar
         UnityEngine.AI.NavMeshAgent nav;               // Reference to the nav mesh agent.
         public bool isAttacking = false;                        // If the zombie is currently attacking
 
         [SerializeField] private List<Transform> targets;       // The transform of the zombie's meal
         private float distance;                                 // The distance between the zombie and its target
         private int refreshCount = 0;
+        
+
         void Awake ()
         {
             // Set up the references.
@@ -23,8 +27,10 @@ namespace CompleteProject
             enemyHealth = GetComponent <EnemyHealth> ();
             nav = GetComponent <UnityEngine.AI.NavMeshAgent> ();
             //Added
-            SetAllTargets();
-
+            if (Network.isServer)
+            {
+                SetAllTargets();
+            }
         }
 
 
@@ -96,6 +102,11 @@ namespace CompleteProject
                 }
             }
             return chosenTransform;
+        }
+
+        void OnChangeTarget(Vector3 ChosenPosition)
+        {
+            nav.SetDestination(ChosenPosition);
         }
 
     }
