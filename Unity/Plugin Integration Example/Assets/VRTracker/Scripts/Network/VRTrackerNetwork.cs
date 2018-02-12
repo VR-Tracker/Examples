@@ -33,44 +33,30 @@ public class VRTrackerNetwork : NetworkManager
 
     public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)
     {
-        if (Network.isServer)
-        {
-            base.OnServerAddPlayer(conn, playerControllerId);
+        base.OnServerAddPlayer(conn, playerControllerId);
 
-            var newPlayer = conn.playerControllers[0].gameObject;
+        var newPlayer = conn.playerControllers[0].gameObject;
 
-            players.Add(newPlayer);
-        }
-
+        players.Add(newPlayer);
     }
 
     public override void OnServerRemovePlayer(NetworkConnection conn, PlayerController player)
     {
-        if (Network.isServer)
-        {
-            players.Remove(player.gameObject);
+        players.Remove(player.gameObject);
 
-            base.OnServerRemovePlayer(conn, player);
-        }
-
-
+        base.OnServerRemovePlayer(conn, player);
     }
 
     public override void OnServerDisconnect(NetworkConnection conn)
     {
-        if (Network.isServer)
+        foreach (var p in conn.playerControllers)
         {
-            foreach (var p in conn.playerControllers)
+            if (p != null && p.gameObject != null)
             {
-                if (p != null && p.gameObject != null)
-                {
-                    players.Remove(p.gameObject);
-                }
+                players.Remove(p.gameObject);
             }
-            base.OnServerDisconnect(conn);
         }
-
-           
+        base.OnServerDisconnect(conn);
     }
     // called when a client connects
     public override void OnServerConnect(NetworkConnection conn)
