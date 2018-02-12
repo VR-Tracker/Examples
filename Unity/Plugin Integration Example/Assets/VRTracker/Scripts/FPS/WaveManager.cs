@@ -29,8 +29,8 @@ public class WaveManager : NetworkBehaviour
     private int currentWave;                        //The index of the current wave
     private EnemySpawner ESpawner;                 //The Zombie Spawner in charge of spawning the zombies
     private Announcer announcer;                    //The announcer in charge of showing messages to the player
-    private MusicManager musicManager;              //The music manager in charge of the game music
-    private AudioManager audioManager;              //The audio manager in charge of game sounds
+    //private MusicManager musicManager;              //The music manager in charge of the game music
+    //private AudioManager audioManager;              //The audio manager in charge of game sounds
     //private DoorManager doorManager;                //The door manager in charge of opening and closing doors
     private DoOnMainThread mainThread;              //Calls functions on the main thread
 
@@ -54,32 +54,15 @@ public class WaveManager : NetworkBehaviour
 
         ESpawner = GetComponent<EnemySpawner>();
         announcer = GetComponent<Announcer>();
-
-        /*doorManager = DoorManager.instance;
-        if (doorManager == null)
-        {
-            Debug.LogWarning("Could not find the doorManager!");
-        }*/
-
-        musicManager = MusicManager.instance;
-        if(musicManager == null)
-        {
-            Debug.LogWarning("Could not find the musicManager!");
-        }
-
-        audioManager = AudioManager.instance;
-        if (audioManager == null)
-        {
-            Debug.LogError("no audioManager in the scene");
-        }
-        mainThread = DoOnMainThread.instance;
         currentWave = 0;
-	}
+        NextWave();
+
+    }
 
 
     private void Update()
     {
-        if(!VerifyTimer() || !VerifyZombie())
+        if(!VerifyTimer() || !VerifyEnemy())
         {
             ManageEndOfWave();
         }
@@ -91,19 +74,13 @@ public class WaveManager : NetworkBehaviour
     private void ManageEndOfWave()
     {
         //PLay the bell sound
-        audioManager.playSound("Bell");
-
-        //Change the gameState to "intermission"
-        musicManager.ChangeState(MusicManager.States.InterMission);
+        //audioManager.playSound("Bell");
 
         //Stop the game timer
         GameTimer.instance.StopTimer();
 
-        //Close all the doors
-        //doorManager.CloseAllDoors();
-
         //Disable all the spawn points
-        ESpawner.DisableSpawnPoints();
+        //ESpawner.DisableSpawnPoints();
 
         //Make the respawn point apear for dead players
         //TagsManager.instance.EnableSpawn();
@@ -144,9 +121,6 @@ public class WaveManager : NetworkBehaviour
 
             //Wait for "intermissionTime" seconds
             yield return new WaitForSeconds(intermissionTime);
-
-            //Open the adequate doors for the wave
-            //OpenDoors();
 
             //start the countdown
             StartCountdown(countdownTime);
@@ -194,21 +168,19 @@ public class WaveManager : NetworkBehaviour
         //Set the spawnRate and quantity of the zombie spawner
         ESpawner.SetSpawnRate(waveList[currentWave].spawnRate);
         ESpawner.SpawnWave(waveList[currentWave].quantity);
-		ESpawner.setWave (currentWave);
+		ESpawner.SetWave (currentWave);
         //Increment the current wave index
         currentWave++;
-
-        //Change the game state of the music manager to "wave"
-        musicManager.ChangeState(MusicManager.States.Wave);
+       
     }
 
     /// <summary>
-    /// Verifies if all the zombies have been killed by the player(s)
+    /// Verifies if all the enemies have been killed by the player(s)
     /// </summary>
     /// <returns></returns>
-    private bool VerifyZombie()
+    private bool VerifyEnemy()
     {
-        if (!ESpawner.isSpawning && musicManager.state == MusicManager.States.Wave && GameObject.FindWithTag("Enemy") == null)
+        if (!ESpawner.isSpawning && GameObject.FindWithTag("Enemy") == null)
         {
             return false;
         }
@@ -224,10 +196,10 @@ public class WaveManager : NetworkBehaviour
     /// <returns></returns>
     private bool VerifyTimer()
     {
-        if(musicManager.state == MusicManager.States.Wave && GameTimer.instance.time == 0)
+        if(GameTimer.instance.time == 0)
         {
             Debug.Log("Stahp");
-            //EnemyManager.instance.ClearZombies();
+            ESpawner.ClearEnemies();
             return false;
         }
         else
@@ -284,32 +256,13 @@ public class WaveManager : NetworkBehaviour
         NextWave();
     }
 
-    public void SendStopMessage(){
-        VRTracker.instance.SendMessageToGateway("cmd=specialdata&function=stopwave");
-    }
-
     public void Stop()
     {
-        audioManager.playSound("Bell");
-        musicManager.ChangeState(MusicManager.States.InterMission);
+        //audioManager.playSound("Bell");
         //doorManager.CloseAllDoors();
-        ESpawner.DisableSpawnPoints();
+        //ESpawner.DisableSpawnPoints();
         //EnemyManager.instance.ClearZombies();
         GameTimer.instance.StopTimer();
-    }
-
-    public void Notify(string message)
-    {
-        string[] datas = message.Split('&');
-        string[] infos = datas[1].Split('=');
-        if (infos[1] == "gamestart")
-        {
-            NextWave();
-        }
-        else if(infos[1] == "stopwave")
-        {
-            DoOnMainThread.ExecuteOnMainThread.Enqueue(() => { Stop(); });
-        }
     }
 
 }

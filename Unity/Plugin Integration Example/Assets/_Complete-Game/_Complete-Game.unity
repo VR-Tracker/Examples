@@ -126,6 +126,8 @@ GameObject:
   - component: {fileID: 14871709}
   - component: {fileID: 14871714}
   - component: {fileID: 14871713}
+  - component: {fileID: 14871715}
+  - component: {fileID: 14871716}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -139,7 +141,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 14871708}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8bf862ffeb7e74943a1729f1cff11eb4, type: 3}
   m_Name: 
@@ -154,7 +156,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 14871708}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8bf862ffeb7e74943a1729f1cff11eb4, type: 3}
   m_Name: 
@@ -169,7 +171,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 14871708}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8bf862ffeb7e74943a1729f1cff11eb4, type: 3}
   m_Name: 
@@ -234,8 +236,73 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c5e669398595814392fea6a85b4a665, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textTemplate: {fileID: 0}
+  textTemplate: {fileID: 1930157288123954, guid: 0c7c6a16895332a428c037f9005d7ce3,
+    type: 2}
   hasMessage: 0
+--- !u!114 &14871715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 14871708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc498e296ab6fef4ca739626142cc5b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemies:
+  - enemyPrefab: {fileID: 100000, guid: ea3c2728ef33e3a4d99527a86cda6465, type: 2}
+    level: 1
+    spawnTime: 3
+  - enemyPrefab: {fileID: 100002, guid: e5171f72421770240bd7c3989fe351e3, type: 2}
+    level: 2
+    spawnTime: 3
+  - enemyPrefab: {fileID: 153412, guid: 548c56f4bcf4db24b8aa057e9846a005, type: 2}
+    level: 3
+    spawnTime: 15
+  spawnPoints:
+  - enabled: 0
+    spawPoint: {fileID: 345275348}
+  - enabled: 0
+    spawPoint: {fileID: 1725468538}
+  - enabled: 0
+    spawPoint: {fileID: 933997769}
+  isSpawning: 0
+--- !u!114 &14871716
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 14871708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5539f796d31dcfd4f873eb7f7c293dfd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waveList:
+  - quantity: 1
+    duration: 30
+    spawnRate: 5
+  - quantity: 3
+    duration: 40
+    spawnRate: 5
+  - quantity: 8
+    duration: 50
+    spawnRate: 3
+  - quantity: 12
+    duration: 60
+    spawnRate: 1
+  - quantity: 18
+    duration: 60
+    spawnRate: 1
+  - quantity: 27
+    duration: 60
+    spawnRate: 0.75
+  - quantity: 30
+    duration: 60
+    spawnRate: 0.75
+  countdownTime: 5
+  intermissionTime: 10
 --- !u!1 &28357257
 GameObject:
   m_ObjectHideFlags: 0
