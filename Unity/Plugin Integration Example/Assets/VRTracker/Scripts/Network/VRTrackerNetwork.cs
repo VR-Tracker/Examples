@@ -33,8 +33,9 @@ public class VRTrackerNetwork : NetworkManager
 
     public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)
     {
-        base.OnServerAddPlayer(conn, playerControllerId);
+        Debug.LogWarning("Adding a new player " + playerControllerId);
 
+        base.OnServerAddPlayer(conn, playerControllerId);
         var newPlayer = conn.playerControllers[0].gameObject;
 
         players.Add(newPlayer);
@@ -58,13 +59,6 @@ public class VRTrackerNetwork : NetworkManager
         }
         base.OnServerDisconnect(conn);
     }
-    // called when a client connects
-    public override void OnServerConnect(NetworkConnection conn)
-    {
-        Debug.LogWarning("Receive client " + conn.address);
-        Debug.LogWarning("Receive client state " + conn.isReady);
 
-        base.OnServerConnect(conn);
-    }
 
 }
