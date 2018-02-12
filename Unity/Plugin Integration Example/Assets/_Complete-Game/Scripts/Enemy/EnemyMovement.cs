@@ -26,7 +26,7 @@ namespace CompleteProject
             enemyHealth = GetComponent <EnemyHealth> ();
             nav = GetComponent <UnityEngine.AI.NavMeshAgent> ();
             //Added
-            if (Network.isServer)
+            if (isServer)
             {
                 SetAllTargets();
             }
@@ -36,25 +36,28 @@ namespace CompleteProject
         void Update ()
         {
             // If the enemy and the player have health left...
-            if(enemyHealth.currentHealth > 0 && playerHealth.currentHealth > 0)
+            if (enemyHealth.currentHealth > 0 && playerHealth.currentHealth > 0)
             {
                 // ... set the destination of the nav mesh agent to the player.
                 // nav.SetDestination (player.position);
-                if(refreshCount == 10)
-                {
-                    Transform chosenTarget = FindClosestTarget();
-                    if (chosenTarget != null)
-                    {
-                        Vector3 ChosenPosition = new Vector3(chosenTarget.position.x, 0f, chosenTarget.position.z);
-                        nav.SetDestination(ChosenPosition);
-                    }
-                    refreshCount = 0;
-                }
-                else
-                {
-                    refreshCount++;
-                }
-                
+                if (isServer) { 
+
+                        if (refreshCount == 10)
+                        {
+                            Transform chosenTarget = FindClosestTarget();
+                            if (chosenTarget != null)
+                            {
+                                Vector3 ChosenPosition = new Vector3(chosenTarget.position.x, 0f, chosenTarget.position.z);
+                                nav.SetDestination(ChosenPosition);
+                            }
+                            refreshCount = 0;
+                        }
+                        else
+                        {
+                            refreshCount++;
+                        }
+
+                }                
             }
             // Otherwise...
             else
