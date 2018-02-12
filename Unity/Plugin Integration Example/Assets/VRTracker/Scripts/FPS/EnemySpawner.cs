@@ -49,7 +49,11 @@ public class EnemySpawner : NetworkBehaviour
     {
         if (this != null)
         {
-            if (enemyList.Count < WaveManager.instance.waveList.Count)
+            Debug.Log("enemylist " + enemyList.Count);
+            
+            Debug.Log("Wave number " + WaveManager.instance.waveList[currentWave].quantity);
+
+            if (enemyList.Count < WaveManager.instance.waveList[currentWave].quantity)
             {
                 // Find a random index between zero and one less than the number of spawn points.
                 int spawnPointIndex = Random.Range(0, spawnPoints.Count);
