@@ -26,12 +26,16 @@ namespace CompleteProject
             enemyHealth = GetComponent <EnemyHealth> ();
             nav = GetComponent <UnityEngine.AI.NavMeshAgent> ();
             //Added
+
+        }
+
+        private void Start()
+        {
             if (isServer)
             {
                 SetAllTargets();
             }
         }
-
 
         void Update ()
         {
